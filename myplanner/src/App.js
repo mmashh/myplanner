@@ -13,15 +13,13 @@ function App() {
   return (
     <>
         <Container id="app-container" fluid>
-            <Row md={2} id="app-header">
+            <Row md={3} id="app-header">
               <Col md={12}>
-                <div className="test">
-                  <h1>MyPlanner</h1>
-                </div>
+                <h1>MyPlanner</h1>
               </Col>
             </Row>
-            <Row md={10}>
-              <Notes className="test"></Notes>
+            <Row md={9}>
+              <Notes></Notes>
             </Row>
         </Container>
     </>

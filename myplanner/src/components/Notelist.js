@@ -3,15 +3,15 @@ import {
   Container,
   Row,
   Col,
-  Stack
+  Stack,
+  Form
 } from 'react-bootstrap';
 
 
 function Notelist(props) {
 
-  console.log(props.notes)
   return (
-    <Container>
+    <Container className="scrollable">
       <Col sm={12}>
         <Row id="notelist-header" xs={3}>
             <h2>Notes</h2>
@@ -24,13 +24,14 @@ function Notelist(props) {
                   <div className="notelist-item">
                     <Row xs={12}>
                       <Col xs={7} className="notelist-item-main">
+                        
                         <div className="notelist-item-mark-complete">
-                          <a href="javascript:alert('marked as complete')">mark</a>
+                          <Form.Check type="checkbox" />
                         </div>
-                        <div>{item.note_title}</div>
+                        <span className="notelist-item-title">{item.note_title}</span>
                       </Col>
                       <Col xs={4} className="notelist-item-desc">
-                        <div>{item.note_body}</div>
+                        <span className="notelist-item-body">{item.note_body}</span>
                       </Col>
                       <Col xs={1} className="notelist-item-actions">
                         Options

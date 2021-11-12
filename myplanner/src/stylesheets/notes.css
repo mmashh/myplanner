@@ -1,6 +1,12 @@
+.scrollable {
+  overflow-y: auto;
+  display: flex;
+  height: 55%;
+}
+
 .notelist-item {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   background-color: var(--secondary);
   border: 3px solid var(--ternary);
   border-radius: 1em;
@@ -12,7 +18,24 @@
   padding: 0.3em 0 0.3em 0;
 }
 
+.notelist-item-title {
+  font-weight: bold;
+  font-size:large;
+  color: var(--primary-font);
+  text-overflow:ellipsis;
+}
+.notelist-item-body {
+  font-size:small;
+  color: var(--secondary-font);
+  text-overflow: ellipsis;
+}
+
 .notelist-item-mark-complete {
   float: left;
-  padding: 0px 1em 0px 0.5em;
+  padding: 0px 1.5em 0px 1.5em;
+}
+
+.form-check-input {
+  background-color: var(--secondary-font);
+  border: 1px solid gray;
 }
