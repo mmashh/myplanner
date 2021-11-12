@@ -1,0 +1,50 @@
+:root {
+  --main: #18191a;
+  --secondary: #242526;
+  --ternary: #3a3b3c;
+  --primary-font: #ffffff;
+  --secondary-font: #bfbfbf;
+  --test: #1b7ced;
+  --test2: #f44336
+}
+
+body {
+  background-color: var(--main) !important;
+  color: var(--primary-font) !important;
+}
+
+#app-container {
+  max-height: 100vh;
+}
+
+#app-header {
+  text-align: center;
+}
+
+.notelist-item {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background-color: var(--secondary);
+  border: 3px solid var(--ternary);
+  border-radius: 1em;
+}
+
+.notelist-item-main, .notelist-item-desc, .notelist-item-actions {
+  display:flex;
+  align-items: center;
+  padding: 0.3em 0 0.3em 0;
+}
+
+.notelist-item-mark-complete {
+  float: left;
+  padding: 0px 1em 0px 0.5em;
+}
+
+/* For development purposes only */
+.test {
+  background-color: var(--test);
+}
+
+.test2 {
+  background-color: var(--test2);
+}
