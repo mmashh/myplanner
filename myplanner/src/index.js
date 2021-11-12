@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './style.css'
+import './stylesheets/style.css'
+import './stylesheets/notes.css'
 
 
 ReactDOM.render(
