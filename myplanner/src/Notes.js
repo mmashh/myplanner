@@ -49,11 +49,9 @@ let notes = getNotes(25);
 function Notes() {
   return (
     <Container fluid>
-      <Row md={2}>
-      </Row>
-      <Row md={10}>
+      <Row md={12}>
         <Col md={4}>
-            <div className="test" style={{backgroundColor:'#242526', height:"55%"}}>
+            <div className="test" style={{backgroundColor:'#242526', height:"85vh"}}>
               
             </div>
         </Col>

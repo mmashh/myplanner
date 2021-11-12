@@ -11,7 +11,7 @@ import {
 function Notelist(props) {
 
   return (
-    <Container className="scrollable">
+    <Container className="notelist">
       <Col sm={12}>
         <Row id="notelist-header" xs={3}>
             <h2>Notes</h2>
