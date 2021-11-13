@@ -6,11 +6,21 @@
 
 #notecreate {
   background-color: var(--secondary);
+  border-right: 5px solid var(--ternary);
 }
 
 #notelist-header, #notecreate-header {
   padding: 1em 0 1em 0;
 }
+
+#notecreate-form-body {
+  height: 30em;
+}
+
+#form-note-submit {
+  float:right;
+}
+
 
 /* Notelist Item */
 .notelist-item {
