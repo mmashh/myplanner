@@ -1,9 +1,18 @@
-.notelist {
+#notelist, #notecreate {
   overflow-y: auto;
   display: flex;
   height: 85vh;
 }
 
+#notecreate {
+  background-color: var(--secondary);
+}
+
+#notelist-header, #notecreate-header {
+  padding: 1em 0 1em 0;
+}
+
+/* Notelist Item */
 .notelist-item {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -12,7 +21,7 @@
   border-radius: 1em;
 }
 
-.notelist-item-main, .notelist-item-desc, .notelist-item-actions {
+.notelist-item-main, .notelist-item-desc, .notelist-item-actions, .notelist-item-time {
   display:flex;
   align-items: center;
   padding: 0.3em 0 0.3em 0;
@@ -24,7 +33,7 @@
   color: var(--primary-font);
   text-overflow:ellipsis;
 }
-.notelist-item-body {
+.notelist-item-body, .notelist-item-datecreated {
   font-size:small;
   color: var(--secondary-font);
   text-overflow: ellipsis;
@@ -35,7 +44,7 @@
   padding: 0px 1.5em 0px 1.5em;
 }
 
-.form-check-input {
+.notelist-item .form-check-input {
   background-color: var(--secondary-font);
   border: 1px solid gray;
 }
