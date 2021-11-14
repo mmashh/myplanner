@@ -1,0 +1,26 @@
+Get all stored information for all users 
+---
+tags:
+  - User
+
+responses:
+  200:
+    description:  Requested information for all users
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: int
+                example: 1
+              username:
+                type: string
+                example: user1234
+              password:
+                type: string
+                example: user1234
+              

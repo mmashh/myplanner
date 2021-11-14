@@ -28,6 +28,7 @@ class UserRegister(Resource):
 # user/delete/<int: id>
 class UserDelete(Resource):
 
+    @swag_from('../swagger_documentation/user-delete.yml')  
     def delete(self, id_of_user_to_delete):
         user_to_delete = UserModel.find_by_id(id_of_user_to_delete)
 
@@ -46,6 +47,7 @@ class UserLogin(Resource):
     parser.add_argument("username", type=str, required=True)
     parser.add_argument("password", type=str, required=True)
 
+    @swag_from('../swagger_documentation/user-login.yml')  
     def post(self):
 
         login_information = self.parser.parse_args()
@@ -71,7 +73,8 @@ class UserLogin(Resource):
 # /user/all
 class UserAll(Resource):
 
-    @jwt_required()
+    # @jwt_required()
+    @swag_from('../swagger_documentation/user-all.yml') 
     def get(self):
 
         all_users = {'users' : [

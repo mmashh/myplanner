@@ -1,0 +1,39 @@
+Register a new user in our DB 
+---
+tags:
+  - User
+parameters:
+  - in: body 
+    required: true
+    description: user information 
+    schema:
+      type: object
+      properties:
+        password:
+          type: string 
+          example: user1234
+        username:
+          type: string
+          example: user1234
+
+
+responses:
+  201:
+    description: User created
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: user created
+
+  
+  422:
+    description: This user already exists in the DB
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: This user already exists in the DB
+  
