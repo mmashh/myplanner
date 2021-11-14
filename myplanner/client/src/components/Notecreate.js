@@ -27,9 +27,19 @@ function  Notecreate(props){
     })
   }
 
+  function clearNote(shouldConfirm){
+    if (shouldConfirm && window.confirm("Are you sure you want to clear your current note?")){
+      setNewNote({
+        note_title:  "",
+        note_body: ""
+      });
+    }
+  }
+
   function createNote(){
     notesApi.new(newNote);
     props.createCallback(); // update parent state
+    clearNote(false);
   }
 
   return (
@@ -50,6 +60,7 @@ function  Notecreate(props){
             </Form.Group>
             <Form.Group controlId="form-note-actions">
                 <Button id="form-note-submit" variant="success" onClick={createNote}>Submit</Button>
+                <Button id="form-note-submit" className="mx-4" variant="danger" onClick={()=> clearNote(true)}>Clear</Button>
             </Form.Group>
           </Form>
         </Row>

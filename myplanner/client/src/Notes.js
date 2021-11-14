@@ -14,18 +14,25 @@ import notesApi from './utils/notesApi';
 
 function Notes() {
   let [notes, setNotes] = useState([]);
+
   useEffect(function(){
     setNotes(notesApi.all());
   },[])
+
+  // Ref: https://stackoverflow.com/a/54621059
+  function updateNoteState(){
+    var notes = notesApi.all();
+    setNotes([...notes]);
+  }
 
   return (
     <Container fluid>
       <Row md={12}>
         <Col md={4}>
-          <Notecreate createCallback={()=> {setNotes(notesApi.all());}}/>
+          <Notecreate createCallback={updateNoteState}/>
         </Col>
         <Col md={8}>
-          <Notelist notes={notes}>{notes}</Notelist>
+          <Notelist notes={notes}/>
         </Col>
       </Row>
     </Container>
