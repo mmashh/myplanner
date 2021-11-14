@@ -23,7 +23,7 @@ class UserModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def jsonify(self):
+    def convert_details_to_dict(self):
         user_summary_dict = {
             "id": self.id,
             "username": self.username,

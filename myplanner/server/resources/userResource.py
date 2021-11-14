@@ -20,4 +20,14 @@ class UserRegister(Resource):
 
 
 # /user/all
+class UserAll(Resource):
+
+    def get(self):
+
+        all_users = {'users' : [
+            user.convert_details_to_dict()
+        ] for user in UserModel.examine_table_contents()}
+
+        return all_users
+
         

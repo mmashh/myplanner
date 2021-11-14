@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 from flask_cors import CORS
 from db import db
-from resources.userResource import UserRegister
+from resources.userResource import UserRegister, UserAll
 
 
 def init_app():
@@ -24,6 +24,7 @@ def add_routes(app):
 
     api = Api(app)
     api.add_resource(UserRegister, "/user/register/")
+    api.add_resource(UserAll, "/user/all/")
 
     return app
 
