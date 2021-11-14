@@ -4,8 +4,7 @@ from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 from flask_cors import CORS
 from db import db
-from myplanner.myplanner.server.resources.userResource import UserLogin
-from resources.userResource import UserRegister, UserAll
+from resources.userResource import UserRegister, UserAll, UserLogin
 
 
 def init_app():

@@ -52,6 +52,7 @@ class UserLogin(Resource):
 # /user/all
 class UserAll(Resource):
 
+    @jwt_required()
     def get(self):
 
         all_users = {'users' : [
