@@ -32,7 +32,7 @@ function Notes() {
           <Notecreate createCallback={updateNoteState}/>
         </Col>
         <Col md={8}>
-          <Notelist notes={notes}/>
+          <Notelist notes={notes} callback={updateNoteState}/>
         </Col>
       </Row>
     </Container>

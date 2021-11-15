@@ -5,9 +5,14 @@ import {
   Col,
   Form
 } from 'react-bootstrap';
-
+import notesApi from '../utils/notesApi';
 
 function Notelist(props) {
+
+  function markCompleteHandler(e,note_id) {
+    notesApi.markComplete(note_id,e.target.checked) 
+    props.callback();
+  }
 
   return (
     <Container id="notelist">
@@ -22,7 +27,7 @@ function Notelist(props) {
                   <Row md={12}>
                     <Col md={6} className="notelist-item-main">
                       <div className="notelist-item-mark-complete">
-                        <Form.Check type="checkbox" />
+                        <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item.note_id)}/>
                       </div>
                       <span className="notelist-item-title">{item.note_title}</span>
                     </Col>
@@ -37,8 +42,7 @@ function Notelist(props) {
                     </Col>
                   </Row>
                 </div>
-            )
-            })}
+            )})}
         </Row>
       </Col>
     </Container>

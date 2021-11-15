@@ -38,10 +38,10 @@ function getAllNotes() {
   return sampleData.all_notes;
 }
 
-function getNote(item_id) {
+function getNote(note_id) {
   var note = null;
   sampleData.all_notes.forEach(function(currentNote){
-    if (currentNote.note_id == item_id) {
+    if (currentNote.note_id == note_id) {
       note = currentNote;
       return;
     }
@@ -60,6 +60,12 @@ function createNote(note) {
   }
 
   function markComplete(note_id,is_complete) {
+    sampleData.all_notes.forEach(function(currentNote){
+      if (currentNote.note_id == note_id) {
+        currentNote.is_complete=is_complete;
+        return;
+      }
+    });
   }
 
   var notesApi = {
