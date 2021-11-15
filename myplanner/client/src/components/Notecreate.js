@@ -8,9 +8,7 @@ import {
 } from 'react-bootstrap';
 import notesApi from '../utils/notesApi';
 
-
 function  Notecreate(props){
-
   let [newNote, setNewNote] = useState({
     note_title: "",
     note_body: ""
@@ -27,19 +25,23 @@ function  Notecreate(props){
     })
   }
 
-  function clearNote(shouldConfirm){
-    if (shouldConfirm && window.confirm("Are you sure you want to clear your current note?")){
+  function clearNewNote(){
       setNewNote({
         note_title:  "",
         note_body: ""
       });
+  }
+
+  function clearHandler(){
+    if (window.confirm("Are you sure you want to clear your current note?")){
+      clearNewNote();
     }
   }
 
   function createNote(){
     notesApi.new(newNote);
     props.createCallback(); // update parent state
-    clearNote(false);
+    clearNewNote();
   }
 
   return (
@@ -50,17 +52,17 @@ function  Notecreate(props){
         </Row>
         <Row md={10}>
           <Form>
-            <Form.Group controlId="form-note-title" className="mb-3">
+            <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter note title here..." name="note_title" value={newNote.note_title} onChange={handleChange}/>
+              <Form.Control id="note-title" name="note_title" type="text" placeholder="Enter note title here..."  value={newNote.note_title} onChange={handleChange}/>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Note</Form.Label>
-              <Form.Control id="notecreate-form-body" as="textarea" name="note_body" value={newNote.note_body} onChange={handleChange}/>
+              <Form.Control id="note-body" name="note_body" as="textarea" value={newNote.note_body} onChange={handleChange}/>
             </Form.Group>
             <Form.Group controlId="form-note-actions">
                 <Button id="form-note-submit" variant="success" onClick={createNote}>Submit</Button>
-                <Button id="form-note-submit" className="mx-4" variant="danger" onClick={()=> clearNote(true)}>Clear</Button>
+                <Button id="form-note-submit" className="mx-4" variant="danger" onClick={clearHandler}>Clear</Button>
             </Form.Group>
           </Form>
         </Row>
@@ -68,6 +70,5 @@ function  Notecreate(props){
     </Container>
   )
 }
-
 
 export default Notecreate;
