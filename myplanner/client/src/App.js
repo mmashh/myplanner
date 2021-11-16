@@ -1,5 +1,5 @@
 import React from 'react';
-import Notes from './Notes.js';
+import Items from './Items.js';
 import {
   Container,
   Row,
@@ -19,7 +19,7 @@ function App() {
               </Col>
             </Row>
             <Row md={9}>
-              <Notes></Notes>
+              <Items></Items>
             </Row>
         </Container>
     </>

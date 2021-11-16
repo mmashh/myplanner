@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/style.css'
-import './stylesheets/notes.css'
+import './stylesheets/items.css'
 
 
 ReactDOM.render(

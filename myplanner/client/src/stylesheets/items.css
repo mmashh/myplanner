@@ -1,29 +1,29 @@
-#notelist, #notecreate {
+#itemlist, #itemcreate {
   overflow-y: auto;
   display: flex;
   height: 85vh;
 }
 
-#notecreate {
+#itemcreate {
   background-color: var(--secondary);
   border-right: 5px solid var(--ternary);
 }
 
-#notelist-header, #notecreate-header {
+#itemlist-header, #itemcreate-header {
   padding: 1em 0 1em 0;
 }
 
-#note-body {
+#item-body {
   height: 30em;
 }
 
-#form-note-submit {
+#form-item-submit {
   float:right;
 }
 
 
-/* Notelist Item */
-.notelist-item {
+/* itemlist Item */
+.itemlist-item {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   background-color: var(--secondary);
@@ -31,30 +31,30 @@
   border-radius: 1em;
 }
 
-.notelist-item-main, .notelist-item-desc, .notelist-item-actions, .notelist-item-time {
+.itemlist-item-main, .itemlist-item-desc, .itemlist-item-actions, .itemlist-item-time {
   display:flex;
   align-items: center;
   padding: 0.3em 0 0.3em 0;
 }
 
-.notelist-item-title {
+.itemlist-item-title {
   font-weight: bold;
   font-size:large;
   color: var(--primary-font);
   text-overflow:ellipsis;
 }
-.notelist-item-body, .notelist-item-datecreated {
+.itemlist-item-body, .itemlist-item-datecreated {
   font-size:small;
   color: var(--secondary-font);
   text-overflow: ellipsis;
 }
 
-.notelist-item-mark-complete {
+.itemlist-item-mark-complete {
   float: left;
   padding: 0px 1.5em 0px 1.5em;
 }
 
-.notelist-item .form-check-input {
+.itemlist-item .form-check-input {
   background-color: var(--secondary-font);
   border: 1px solid gray;
 }
