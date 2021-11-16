@@ -1,37 +1,38 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useState
+} from 'react';
 import Notelist from './components/Notelist'; 
 import Notecreate from './components/Notecreate';
 import {
   Container,
   Row,
   Col,
-  Form
+  Button
 } from 'react-bootstrap';
-
-
-function getSampleData(n=3) {
-  var notes = [];
-  for (var i = 0; i < n; i++){
-    notes.push({
-      note_id: 1,
-      note_title: "Demo",
-      note_body: "lorem ipsum text",
-      date_created: "9/11/2021 14:25"
-    });
-  }
-  return notes
-}
-let notes = getSampleData(15);
+import notesApi from './utils/notesApi';
 
 function Notes() {
+  let [notes, setNotes] = useState([]);
+
+  useEffect(function(){
+    setNotes(notesApi.all());
+  },[])
+
+  // Ref: https://stackoverflow.com/a/54621059
+  function updateNoteState(){
+    var notes = notesApi.all();
+    setNotes([...notes]);
+  }
+
   return (
     <Container fluid>
       <Row md={12}>
         <Col md={4}>
-          <Notecreate/>
+          <Notecreate createCallback={updateNoteState}/>
         </Col>
         <Col md={8}>
-          <Notelist notes={notes}/>
+          <Notelist notes={notes} callback={updateNoteState}/>
         </Col>
       </Row>
     </Container>
