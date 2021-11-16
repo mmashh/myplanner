@@ -29,7 +29,18 @@ body {
 
 #app-navbar-header {
   font-size: xx-large;
+  font-weight:bold;
   padding: 0 1em 0 1em;
+}
+
+.app-navbar-link {
+  margin: 0 1em 0 1em;
+  color: var(--primary-font);
+  text-decoration: none;
+}
+
+.app-navbar-link:hover {
+  color: var(--secondary-font);
 }
 
 /* For development purposes only */

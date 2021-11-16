@@ -47,8 +47,8 @@ function Itemlist(props) {
   }
 
   return (
-    <Container id="itemlist">
-      <Col sm={12}>
+    <Container id="itemlist" className="vh-100">
+      <Col md={12}>
         <Row id="itemlist-header" md={3}>
             <h2>Items</h2>
         </Row>

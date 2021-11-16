@@ -1,8 +1,6 @@
 #itemlist, #itemcreate {
   overflow-y: auto;
   overflow-x:hidden;
-  display: flex;
-  height: 85vh;
 }
 
 #itemcreate {

@@ -25,7 +25,6 @@ function Items() {
   }
 
   return (
-    <Container fluid>
       <Row md={12}>
         <Col md={4}>
           <Itemcreate updateStateCallback={updateItemsState}/>
@@ -34,7 +33,6 @@ function Items() {
           <Itemlist items={items} updateStateCallback={updateItemsState}/>
         </Col>
       </Row>
-    </Container>
   )
 }
 

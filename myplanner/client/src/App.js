@@ -17,7 +17,7 @@ import {
 function App() {
   return (
     <Router>
-      <Container id="app-container" fluid>
+      <Container id="app-container">
           <Row md={3} id="app-navbar">
             <Col md={12}>
               <Navbar bg="dark" variant="dark" expand="md">
@@ -26,12 +26,12 @@ function App() {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="app-navbar-toggle" />
                 <Navbar.Collapse id="app-navbar-toggle">
-                  <Nav.Link>
-                    <Link to="/calendar">Calendar</Link>
-                  </Nav.Link>
-                  <Nav.Link>
-                    <Link to="/items">Items</Link>
-                  </Nav.Link>
+                  <Nav.Item>
+                    <Link to="/calendar" className="app-navbar-link">Calendar</Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Link to="/items" className="app-navbar-link">Items</Link>
+                  </Nav.Item>
                 </Navbar.Collapse>
               </Navbar>
             </Col>
