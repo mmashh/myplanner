@@ -47,16 +47,14 @@ class ItemModel(db.Model):
         return item_summary_dict
 
     @classmethod
-    def examine_table_contents(cls):
+    def get_all_items(cls):
         all_users = cls.query.all()
         return all_users
 
     @classmethod
     def find_by_id(cls, _id):
-        return cls.query.filter_by(id=_id).first()
+        return cls.query.filter_by(item_id=_id).first()
 
-    @classmethod
-    def find_by_username(cls, username):
-        return cls.query.filter_by(username=username).first()
+    
 
     

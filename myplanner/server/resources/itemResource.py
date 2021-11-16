@@ -48,17 +48,20 @@ class ItemAdd(Resource):
 
         return {'message' : 'item successfully created'}, 201
 
-        # preexisting_user_with_this_username = UserModel.find_by_username(new_user_details['username'])
+
+# /item/{item_id}
+class Item(Resource):
+
+    def get(self, item_id):
+
+        item_requested = ItemModel.find_by_id(item_id)
+        if item_requested is None:
+            return {'message' : 'this item does not exist'}, 422
+        else:
+            return item_requested.convert_details_to_dict(), 200
+
+
         
-        # if preexisting_user_with_this_username is None:
-        #     user_to_add = UserModel(new_user_details['username'], new_user_details['password'])
-        #     user_to_add.save_to_db()
-        #     return {'message': 'user created'}, 201
-        # else:
-        #     return {'message': 'this user already exists in the DB'}, 422
-
-
-
 # /item/all
 class ItemAll(Resource):
 
@@ -66,6 +69,6 @@ class ItemAll(Resource):
 
         all_items = {'items' : [
             item.convert_details_to_dict()
-        ] for item in ItemModel.examine_table_contents()}
+        ] for item in ItemModel.get_all_items()}
 
         return all_items
