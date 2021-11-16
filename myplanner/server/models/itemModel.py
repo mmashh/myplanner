@@ -7,6 +7,12 @@ class ItemTypeEnum(enum.Enum):
     note = "NOTE"
     task = "TASK"
 
+# Need to use because JSON true and false and python true and false are 
+# not compatible. Therefore must use specific strings
+class BooleanEnum(enum.Enum):
+    true = "TRUE"
+    false = "FALSE" 
+
 
 class ItemModel(db.Model):
 
@@ -17,7 +23,7 @@ class ItemModel(db.Model):
     body = db.Column(db.String(512))
     date_created = db.Column(db.String(80))
     item_type = db.Column(db.String(80))
-    is_complete = db.Column(db.Boolean())
+    is_complete = db.Column(db.String(10))
    
     def __init__(self, title, body, date_created, item_type, is_complete):
         self.title = title

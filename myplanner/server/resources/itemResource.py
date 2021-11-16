@@ -1,8 +1,10 @@
 from flask_restful import Resource, reqparse
-from models.itemModel import ItemModel, ItemTypeEnum
+from models.itemModel import ItemModel, ItemTypeEnum, BooleanEnum
 from werkzeug.security import safe_str_cmp
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flasgger import swag_from
+
+
 
 # /item/add
 class ItemAdd(Resource):
@@ -35,8 +37,8 @@ class ItemAdd(Resource):
         elif new_item_details['item_type'] == ItemTypeEnum.task.value:
             is_complete = new_item_details.get('is_complete', None)
         
-            if is_complete is None:
-                return {'error': 'Tasks should have a completion state'}, 422
+            if (is_complete is None) or (is_complete != BooleanEnum.true.value and is_complete != BooleanEnum.false.value) :
+                return {'error': 'Tasks should have a valid completion state: TRUE or FALSE'}, 422
         else:
             return {'error' : 'Item type incorrect'} , 422
 
@@ -59,6 +61,17 @@ class Item(Resource):
             return {'message' : 'this item does not exist'}, 422
         else:
             return item_requested.convert_details_to_dict(), 200
+
+    def delete(self, item_id):
+
+        item_to_delete = ItemModel.find_by_id(item_id)
+        if item_to_delete is None:
+            return {'message' : 'this item does not exist to begin with'}, 422
+        else:
+            item_to_delete.delete_from_db()
+
+            return {'message' : 'item deleted'}, 200
+
 
 
         
