@@ -86,10 +86,18 @@ function newItem(item) {
     });
   }
 
+  function deleteItem(item_id) {
+    sampleData.items = sampleData.items.filter(function(item){
+      return item.item_id !== item_id;
+    });
+    return { message: "item successfully deleted" }
+  }
+
   var itemsApi = {
     "getAllItems": getAllItems,
     "getItem": getItem,
     "newItem": newItem,
+    "deleteItem": deleteItem,
     "markComplete": markComplete
   };
 

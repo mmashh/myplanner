@@ -1,5 +1,6 @@
 #itemlist, #itemcreate {
   overflow-y: auto;
+  overflow-x:hidden;
   display: flex;
   height: 85vh;
 }
@@ -43,6 +44,7 @@
   color: var(--primary-font);
   text-overflow:ellipsis;
 }
+
 .itemlist-item-body, .itemlist-item-datecreated {
   font-size:small;
   color: var(--secondary-font);
@@ -57,4 +59,18 @@
 .itemlist-item .form-check-input {
   background-color: var(--secondary-font);
   border: 1px solid gray;
+}
+
+.itemlist-item-expand {
+  color: var(--primary-font);
+  font-size:1.5em;
+  cursor: pointer;
+}
+
+.itemlist-item-actions .dropdown-toggle::after {
+  display: none;
+}
+
+.itemlist-item-actions .dropdown-menu {
+  right: 0;
 }

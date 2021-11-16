@@ -27,13 +27,9 @@ body {
   height: 80vh;
 }
 
-#app-header {
-  text-align: center;
-  margin-bottom: 3em;
-}
-
-h1 {
-  font-weight: bold;
+#app-navbar-header {
+  font-size: xx-large;
+  padding: 0 1em 0 1em;
 }
 
 /* For development purposes only */

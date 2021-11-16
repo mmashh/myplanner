@@ -3,8 +3,10 @@ import {
   Container,
   Row,
   Col,
-  Form
+  Form,
+  Dropdown
 } from 'react-bootstrap';
+import { List } from 'react-bootstrap-icons';
 import itemsApi from '../utils/itemsApi';
 
 function Itemlist(props) {
@@ -14,12 +16,34 @@ function Itemlist(props) {
     props.updateStateCallback();
   }
 
+  function deleteItemHandler(item) { 
+    if (window.confirm(`Are you sure you want to delete this ${item.item_type.toLowerCase()}?`)) {
+      itemsApi.deleteItem(item.item_id);
+      props.updateStateCallback();
+    }
+  }
+
   function itemCheckbox(item) {
     if (item.item_type === "TASK") {
       return <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item.item_id)} checked={item.is_complete === "TRUE"}/>
     } else {
       return <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item.item_id)} checked={false} disabled={true}/>      
     }
+  }
+
+  function ItemOption(item) {
+    return (
+      <Dropdown align="start">
+        <Dropdown.Toggle as="a">
+          <List className="itemlist-item-expand mx-4"></List>
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item>View</Dropdown.Item>
+          <Dropdown.Item>Edit</Dropdown.Item>
+          <Dropdown.Item onClick={()=> deleteItemHandler(item)}>Delete</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
   }
 
   return (
@@ -46,7 +70,7 @@ function Itemlist(props) {
                       <span className="itemlist-item-datecreated">{item.date_created}</span>
                     </Col>
                     <Col md={1} className="itemlist-item-actions">
-                      Options
+                      {ItemOption(item)}
                     </Col>
                   </Row>
                 </div>
