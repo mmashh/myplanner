@@ -1,0 +1,47 @@
+Get information about a specific list item 
+---
+tags:
+  - List Item
+parameters:
+  - in: path
+    name: item_id
+    description: The id of the item we want information about
+    required: true
+    schema:
+      type: int
+
+
+responses:
+  200:
+    description: The information about the specified list item
+    schema:
+      type: object
+      properties:
+        item_id:
+          type: int
+          example: 1
+        title:
+          type: string 
+          example: Demo
+        body:
+          type: string
+          example: sample text
+        item_type:
+          type: string
+          example: TASK
+        is_complete:
+          type: string
+          example: "TRUE"
+        date_created: 
+          type: string
+          example: "15/11/2021 20:51"
+
+  
+  422:
+    description: The item_id that was given does not match the item_id of any item in the DB
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: this item does not exist

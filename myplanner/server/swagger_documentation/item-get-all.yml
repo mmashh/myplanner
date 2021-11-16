@@ -1,0 +1,34 @@
+Get information about all the list items 
+---
+tags:
+  - List Item
+
+responses:
+  200:
+    description:  Requested information for all list items
+    schema:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              item_id:
+                type: int
+                example: 1
+              title:
+                type: string 
+                example: Demo
+              body:
+                type: string
+                example: sample text
+              item_type:
+                type: string
+                example: TASK
+              is_complete:
+                type: string
+                example: "TRUE"
+              date_created: 
+                type: string
+                example: "15/11/2021 20:51"

@@ -1,0 +1,32 @@
+Delete a specific list item from the Database 
+---
+tags:
+  - List Item
+parameters:
+  - in: path
+    name: item_id
+    description: The id of the item we want to delete
+    required: true
+    schema:
+      type: int
+
+
+responses:
+  200:
+    description: The specified list item was deleted
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: item deleted
+
+  
+  422:
+    description: The item_id that was given does not match the item_id of any item in the DB
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: this item does not exist to begin with

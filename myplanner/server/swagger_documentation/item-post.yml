@@ -1,0 +1,45 @@
+Add a new list item to our DB 
+---
+tags:
+  - List Item
+parameters:
+  - in: body 
+    required: true
+    description: item information 
+    schema:
+      type: object
+      properties:
+        title:
+          type: string 
+          example: Demo
+        body:
+          type: string
+          example: sample text
+        item_type:
+          type: string
+          example: TASK
+        is_complete:
+          type: string
+          example: "TRUE"
+
+
+responses:
+  201:
+    description: Item created
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: item successfully created
+
+  422:
+    description: The list item was a TASK and is_completed field was not TRUE or FALSE
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Tasks should have a valid completion state: TRUE or FALSE"
+
+  

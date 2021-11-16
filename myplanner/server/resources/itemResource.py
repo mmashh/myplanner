@@ -1,6 +1,5 @@
 from flask_restful import Resource, reqparse
 from models.itemModel import ItemModel, ItemTypeEnum, BooleanEnum
-from werkzeug.security import safe_str_cmp
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flasgger import swag_from
 
@@ -34,7 +33,7 @@ class ItemAdd(Resource):
             return False
 
 
-    # @swag_from('../swagger_documentation/user-register.yml')    
+    @swag_from('../swagger_documentation/item-post.yml')    
     def post(self):
 
         new_item_details = self.parser.parse_args()
@@ -63,6 +62,7 @@ class ItemAdd(Resource):
 # /item/{item_id}
 class Item(Resource):
 
+    @swag_from('../swagger_documentation/item-get.yml')
     def get(self, item_id):
 
         item_requested = ItemModel.find_by_id(item_id)
@@ -71,6 +71,7 @@ class Item(Resource):
         else:
             return item_requested.convert_details_to_dict(), 200
 
+    @swag_from('../swagger_documentation/item-delete.yml')
     def delete(self, item_id):
 
         item_to_delete = ItemModel.find_by_id(item_id)
@@ -87,18 +88,16 @@ class Item(Resource):
 # /item/all
 class ItemAll(Resource):
 
+    @swag_from('../swagger_documentation/item-get-all.yml')
     def get(self):
-
-        # all_items = {'items' : [
-        #     item.convert_details_to_dict()
-        # ] for item in ItemModel.get_all_items()}
 
         all_items = []
         for item in ItemModel.get_all_items():
             all_items.append(item.convert_details_to_dict())
             
-        return all_items, 200
+        return {'items':all_items}, 200
 
+    @swag_from('../swagger_documentation/item-delete-all.yml')
     def delete(self):
         ItemModel.delete_all_items()
         return {'message' : 'all items deleted'}, 200
