@@ -1,0 +1,15 @@
+Delete all the list items 
+---
+tags:
+  - List Item
+
+responses:
+  200:
+    description: All list items deleted
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: all items deleted
+          
