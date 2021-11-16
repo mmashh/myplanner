@@ -97,4 +97,8 @@ class ItemAll(Resource):
         for item in ItemModel.get_all_items():
             all_items.append(item.convert_details_to_dict())
             
-        return all_items
+        return all_items, 200
+
+    def delete(self):
+        ItemModel.delete_all_items()
+        return {'message' : 'all items deleted'}, 200

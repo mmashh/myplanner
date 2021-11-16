@@ -58,6 +58,12 @@ class ItemModel(db.Model):
         return all_items
 
     @classmethod
+    def delete_all_items(cls):
+        all_items = cls.query.all()
+        for item in all_items:
+            item.delete_from_db()
+    
+    @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(item_id=_id).first()
 
