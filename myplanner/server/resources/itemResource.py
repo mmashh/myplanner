@@ -24,6 +24,15 @@ class ItemAdd(Resource):
 
         return desired_format_date_and_time
 
+    def not_valid_boolean(self, is_complete):
+
+        if (is_complete is None):  
+            return True
+        elif (is_complete != BooleanEnum.true.value and is_complete != BooleanEnum.false.value):
+            return True
+        else:
+            return False
+
 
     # @swag_from('../swagger_documentation/user-register.yml')    
     def post(self):
@@ -37,7 +46,7 @@ class ItemAdd(Resource):
         elif new_item_details['item_type'] == ItemTypeEnum.task.value:
             is_complete = new_item_details.get('is_complete', None)
         
-            if (is_complete is None) or (is_complete != BooleanEnum.true.value and is_complete != BooleanEnum.false.value) :
+            if self.not_valid_boolean(is_complete):
                 return {'error': 'Tasks should have a valid completion state: TRUE or FALSE'}, 422
         else:
             return {'error' : 'Item type incorrect'} , 422
@@ -80,8 +89,12 @@ class ItemAll(Resource):
 
     def get(self):
 
-        all_items = {'items' : [
-            item.convert_details_to_dict()
-        ] for item in ItemModel.get_all_items()}
+        # all_items = {'items' : [
+        #     item.convert_details_to_dict()
+        # ] for item in ItemModel.get_all_items()}
 
+        all_items = []
+        for item in ItemModel.get_all_items():
+            all_items.append(item.convert_details_to_dict())
+            
         return all_items

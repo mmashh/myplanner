@@ -54,8 +54,8 @@ class ItemModel(db.Model):
 
     @classmethod
     def get_all_items(cls):
-        all_users = cls.query.all()
-        return all_users
+        all_items = cls.query.all()
+        return all_items
 
     @classmethod
     def find_by_id(cls, _id):
