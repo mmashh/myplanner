@@ -19,9 +19,9 @@ def init_app():
     jwt = JWTManager(app)
     
     CORS_CFG = {"origins": r".*(localhost).*)",
-        "methods": ['GET', 'OPTIONS'],
+        "methods": ['GET', 'OPTIONS', 'POST', 'DELETE', 'POST'],
         "max_age": 3600}
-    cors = CORS(app, resources={r".*/all/.*": CORS_CFG})
+    cors = CORS(app, resources={r".*": CORS_CFG})
 
     return app
 
