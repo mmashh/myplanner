@@ -12,6 +12,8 @@ Flask-Cors = "==3.0.10"
 Flask-SQLAlchemy = "==2.5.1"
 
 [dev-packages]
+black = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.9"
