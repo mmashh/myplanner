@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import usersApi from './utils/usersApi';
 import {
   Container,
   Row,
@@ -6,9 +7,8 @@ import {
   Form,
   Button
 } from 'react-bootstrap';
-import createUtilityClassName from 'react-bootstrap/esm/createUtilityClasses';
 
-function Login() {
+function Login(props) {
 
   let [user,setUser] = useState({
     username: '',
@@ -26,6 +26,10 @@ function Login() {
     });
   }
   
+  const loginUser = function(){
+    var accessKey = usersApi.login(user);
+    props.loginCallback(accessKey);
+  }
 
   return (
     <Container fluid>
@@ -53,7 +57,7 @@ function Login() {
                 onChange={handleFormChange}/>
             </Form.Group>
             <Form.Group className="d-grid gap-3 mb-4">
-              <Button variant="primary">Log In</Button>
+              <Button variant="primary" onClick={loginUser}>Log In</Button>
               <Button variant="secondary">Register</Button>
             </Form.Group>
           </Form>

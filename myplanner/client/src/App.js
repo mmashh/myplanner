@@ -6,7 +6,8 @@ import {
   Route,
   Routes,
   Link,
-  Navigate
+  Navigate,
+  useNavigate,
 } from 'react-router-dom';
 import {
   Container,
@@ -19,10 +20,16 @@ import {
 function App() {
 
   let [accessKey,setAccessKey] = useState();
+  let navigate = useNavigate();
 
   const isLoggedIn = function() {
     return true;
     // return accessKey !== undefined
+  }
+
+  const loginCallback = function(key) {
+    setAccessKey(key);
+    navigate('/calendar');
   }
 
   const NavbarOptions = function() {
@@ -51,7 +58,6 @@ function App() {
   }
 
   return (
-    <Router>
       <Container id="app-container">
           <Row md={3} id="app-navbar">
             <Col md={12}>
@@ -70,14 +76,13 @@ function App() {
             <Routes>
               <Route exact path="/" element={redirectIfNoUser(<div>Calendar - WIP</div>)}/>
               {/* <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/> */}
-              <Route path="/login" element={<Login/>}/>
+              <Route path="/login" element={<Login loginCallback={loginCallback}/>}/>
               <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
               <Route path="/calendar" element={redirectIfNoUser(<div>calendar</div>)}/>
               <Route path="/*" element={redirectIfNoUser(<div>calendar</div>)}/>
             </Routes>
           </Row>
       </Container>
-    </Router>
   );
 }
 
