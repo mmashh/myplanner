@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Items from './Items.js';
+import Login from './Login.js';
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Link
+  Link,
+  Navigate
 } from 'react-router-dom';
 import {
   Container,
@@ -15,6 +17,39 @@ import {
 } from 'react-bootstrap';
 
 function App() {
+
+  let [accessKey,setAccessKey] = useState();
+
+  const isLoggedIn = function() {
+    return true;
+    // return accessKey !== undefined
+  }
+
+  const NavbarOptions = function() {
+    if (isLoggedIn()) {
+      return (
+        <>
+          <Nav.Item>
+            <Link to="/calendar" className="app-navbar-link">Calendar</Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link to="/items" className="app-navbar-link">Items</Link>
+          </Nav.Item>
+        </>
+      );
+    } else {
+      return (
+        <Nav.Item>
+          <Link to="/login" className="app-navbar-link">Log In</Link>
+        </Nav.Item>
+      )
+    }
+  }
+
+  const redirectIfNoUser = function(element) {
+    return (!isLoggedIn()) ? <Navigate to="/login"/> :  element;
+  }
+
   return (
     <Router>
       <Container id="app-container">
@@ -26,20 +61,19 @@ function App() {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="app-navbar-toggle" />
                 <Navbar.Collapse id="app-navbar-toggle">
-                  <Nav.Item>
-                    <Link to="/calendar" className="app-navbar-link">Calendar</Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Link to="/items" className="app-navbar-link">Items</Link>
-                  </Nav.Item>
+                  {NavbarOptions()}
                 </Navbar.Collapse>
               </Navbar>
             </Col>
           </Row>
           <Row md={9}>
             <Routes>
-              <Route path="/items" element={<Items/>}/>
-              <Route path="/calendar" element={<div>calendar</div>}/> {/* TODO */} 
+              <Route exact path="/" element={redirectIfNoUser(<div>Calendar - WIP</div>)}/>
+              {/* <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/> */}
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
+              <Route path="/calendar" element={redirectIfNoUser(<div>calendar</div>)}/>
+              <Route path="/*" element={redirectIfNoUser(<div>calendar</div>)}/>
             </Routes>
           </Row>
       </Container>
