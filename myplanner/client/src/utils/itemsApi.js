@@ -1,52 +1,16 @@
 import $ from "jquery";
 
-var sampleData = {
-  items:  [
-    {
-      item_id: 1,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "TRUE",
-      item_type: 'TASK',
-      date_created: "9/11/2021 14:25"
-    },
-    {
-      item_id: 2,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "TRUE",
-      item_type: 'TASK',
-      date_created: "9/11/2021 14:25"
-    },
-    {
-      item_id: 3,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "TRUE",
-      item_type: 'TASK',
-      date_created: "9/11/2021 14:25"
-    },
-    {
-      item_id: 4,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "FALSE",
-      item_type: 'TASK',
-      date_created: "9/11/2021 14:25"
-    },
-    {
-      item_id: 5,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "TRUE",
-      item_type: 'NOTE',
-      date_created: "9/11/2021 14:25"
-    },
-  ]
-}
+const base_url = 'http://localhost:5000';
 
-function getAllItems() {
-  return sampleData.items;
+function getUrl(path) {
+  return base_url + path;
+} 
+
+var sampleData = [];
+
+async function getAllItems() {
+  var response = await fetch(getUrl("/item/all"));
+  var responseJson = await response.json()
 }
 
 function getItem(item_id) {

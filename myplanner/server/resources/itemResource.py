@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from models.itemModel import ItemModel, ItemTypeEnum, BooleanEnum
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flasgger import swag_from
+from flask_cors import cross_origin
 
 
 
@@ -32,7 +33,7 @@ class ItemAdd(Resource):
         else:
             return False
 
-
+    @cross_origin()
     @swag_from('../swagger_documentation/item-post.yml')    
     def post(self):
 
@@ -87,7 +88,7 @@ class Item(Resource):
         
 # /item/all
 class ItemAll(Resource):
-
+    @cross_origin()
     @swag_from('../swagger_documentation/item-get-all.yml')
     def get(self):
 

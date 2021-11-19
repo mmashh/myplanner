@@ -14,23 +14,22 @@ import itemsApi from './utils/itemsApi';
 function Items() {
   let [items, setItems] = useState([]);
 
-  useEffect(function(){
-    setItems(itemsApi.getAllItems());
-  },[])  
 
   // Ref: https://stackoverflow.com/a/54621059
-  function updateItemsState(){
-    var items = itemsApi.getAllItems();
+  const updateItems = async function(){
+    var items = await itemsApi.getAllItems()
     setItems([...items]);
   }
+
+  useEffect(() => updateItems(),[]);
 
   return (
       <Row md={12}>
         <Col md={4}>
-          <Itemcreate updateStateCallback={updateItemsState}/>
+          <Itemcreate updateStateCallback={updateItems}/>
         </Col>
         <Col md={8}>
-          <Itemlist items={items} updateStateCallback={updateItemsState}/>
+          <Itemlist items={items} updateStateCallback={updateItems}/>
         </Col>
       </Row>
   )
