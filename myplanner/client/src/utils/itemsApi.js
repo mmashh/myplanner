@@ -1,16 +1,10 @@
-import $ from "jquery";
-
-const base_url = 'http://localhost:5000';
-
-function getUrl(path) {
-  return base_url + path;
-} 
+import apiHelpers from "./apiHelpers";
 
 var sampleData = [];
 
 async function getAllItems() {
-  var response = await fetch(getUrl("/item/all"));
-  var responseJson = await response.json()
+  var data = await apiHelpers.httpGet("/item/all");
+  return data.items;
 }
 
 function getItem(item_id) {
@@ -24,24 +18,22 @@ function getItem(item_id) {
   return item;
 }
 
-function newItem(item) {
-  sampleData.items.push({
-    item_id: sampleData.items.length + 1,
+async function newItem(item) {
+  var newItem = {
     title: item.title,
     body: item.body,
     item_type: item.item_type,
-    is_complete: false,
-    date_created: "9/11/2021 14:25",
-    });
-    return { message: "item successfully created" }
-  }
+    is_complete: (item.item_type === "TASK") ? "FALSE": null,
+  };
+  return await apiHelpers.httpPost("/item/add",newItem);
+}
 
   function markComplete(item_id,is_complete) {
 
     sampleData.items.forEach(function(currentItem){
-      if (currentItem.item_id == item_id) {
+      if (currentItem.item_id === item_id) {
         if (currentItem.item_type === "TASK"){
-          currentItem.is_complete= (is_complete) ? "TRUE" : "FALSE";
+          currentItem.is_complete = (is_complete) ? "TRUE" : "FALSE";
         } else {
           currentItem.is_complete = null;
         }

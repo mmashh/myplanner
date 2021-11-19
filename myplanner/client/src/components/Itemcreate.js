@@ -41,8 +41,8 @@ function  Itemcreate(props){
     }
   }
 
-  function createItem(){
-    itemsApi.newItem(newItem);
+  async function createItem(){
+    await itemsApi.newItem(newItem);
     props.updateStateCallback(); // update parent state
     clearNewItem();
   }
