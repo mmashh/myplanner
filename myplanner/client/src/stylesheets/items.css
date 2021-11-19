@@ -16,6 +16,10 @@
   height: 30em;
 }
 
+#item-modal {
+  color: black;
+}
+
 #form-item-submit {
   float:right;
 }
@@ -47,6 +51,10 @@
   font-size:small;
   color: var(--secondary-font);
   text-overflow: ellipsis;
+}
+
+#item-modal-content {
+  white-space: pre-line;
 }
 
 .itemlist-item-mark-complete {

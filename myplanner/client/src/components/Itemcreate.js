@@ -24,7 +24,6 @@ function  Itemcreate(props){
         [name]: value
       }
     });
-    console.log(newItem);
   }
 
   function clearNewItem(){

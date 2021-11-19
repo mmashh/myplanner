@@ -18,7 +18,6 @@ function Itemlist(props) {
 
   async function deleteItemHandler(item) { 
     if (window.confirm(`Are you sure you want to delete this ${item.item_type.toLowerCase()}?`)) {
-      console.log('request sent');
       await itemsApi.deleteItem(item.item_id);
       props.updateStateCallback();
     }
@@ -39,12 +38,18 @@ function Itemlist(props) {
           <List className="itemlist-item-expand mx-4"></List>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item>View</Dropdown.Item>
+          <Dropdown.Item onClick={()=> props.viewItemHandler(item)}>View</Dropdown.Item>
           <Dropdown.Item>Edit</Dropdown.Item>
           <Dropdown.Item onClick={()=> deleteItemHandler(item)}>Delete</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
+  }
+
+  function trimItemBody(body) {
+    return (body.length > 16) 
+      ? body.substring(0,13) + "..."
+      : body;
   }
 
   return (
@@ -65,7 +70,7 @@ function Itemlist(props) {
                       <span className="itemlist-item-title">{item.title}</span>
                     </Col>
                     <Col md={4} className="itemlist-item-desc">
-                      <span className="itemlist-item-body">{item.body}</span>
+                      <span className="itemlist-item-body">{trimItemBody(item.body)}</span>
                     </Col>
                     <Col md={1} className="itemlist-item-time">
                       <span className="itemlist-item-datecreated">{item.date_created}</span>
