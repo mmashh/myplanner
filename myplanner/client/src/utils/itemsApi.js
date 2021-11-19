@@ -1,21 +1,13 @@
 import apiHelpers from "./apiHelpers";
 
-var sampleData = [];
-
 async function getAllItems() {
   var data = await apiHelpers.httpGet("/item/all");
   return data.items;
 }
 
-function getItem(item_id) {
-  var item = null;
-  sampleData.items.forEach(function(currentItem){
-    if (currentItem.item_id == item_id) {
-      item = currentItem;
-      return;
-    }
-  });
-  return item;
+async function getItem(item_id) {
+  var data = await apiHelpers.httpGet(`/item/${item_id}`)
+  return data;
 }
 
 async function newItem(item) {
@@ -28,26 +20,14 @@ async function newItem(item) {
   return await apiHelpers.httpPost("/item/add",newItem);
 }
 
-  function markComplete(item_id,is_complete) {
+function markComplete(item_id,is_complete) {
+  // TODO
+}
 
-    sampleData.items.forEach(function(currentItem){
-      if (currentItem.item_id === item_id) {
-        if (currentItem.item_type === "TASK"){
-          currentItem.is_complete = (is_complete) ? "TRUE" : "FALSE";
-        } else {
-          currentItem.is_complete = null;
-        }
-        return;
-      }
-    });
-  }
-
-  function deleteItem(item_id) {
-    sampleData.items = sampleData.items.filter(function(item){
-      return item.item_id !== item_id;
-    });
-    return { message: "item successfully deleted" }
-  }
+async function deleteItem(item_id) {
+  var response = await apiHelpers.httpDelete(`/item/${item_id}`);
+  return response.data;
+}
 
   var itemsApi = {
     "getAllItems": getAllItems,

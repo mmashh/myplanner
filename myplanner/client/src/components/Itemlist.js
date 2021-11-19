@@ -16,9 +16,10 @@ function Itemlist(props) {
     props.updateStateCallback();
   }
 
-  function deleteItemHandler(item) { 
+  async function deleteItemHandler(item) { 
     if (window.confirm(`Are you sure you want to delete this ${item.item_type.toLowerCase()}?`)) {
-      itemsApi.deleteItem(item.item_id);
+      console.log('request sent');
+      await itemsApi.deleteItem(item.item_id);
       props.updateStateCallback();
     }
   }

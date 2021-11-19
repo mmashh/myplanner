@@ -14,11 +14,15 @@ const httpGet = async function(url){
 // Invokes an HTTP GET request to url; returns a promise containing the json data returned by the server.
 const httpPost = async function(url,data){
   var response = await axios.post(getUrl(url),data)
+  return response.data;
 }
 
 const httpPut = async function(url,id,data){}
 
-const httpDelete = async function(url){}
+const httpDelete = async function(url){
+  var response = await axios.delete(getUrl(url));
+  return response.data;
+}
 
 const apiHelpers = {
   httpGet: httpGet,
