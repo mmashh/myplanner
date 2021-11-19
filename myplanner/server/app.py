@@ -18,8 +18,8 @@ def init_app():
     swagger = Swagger(app)
     jwt = JWTManager(app)
     
-    CORS_CFG = {"origins": r".*(localhost).*)",
-        "methods": ['GET', 'OPTIONS', 'POST', 'DELETE', 'POST'],
+    CORS_CFG = {"origins": r".*(localhost).*",
+        "methods": ['GET', 'OPTIONS', 'POST', 'DELETE'],
         "max_age": 3600}
     cors = CORS(app, resources={r".*": CORS_CFG})
 
