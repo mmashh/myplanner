@@ -26,8 +26,8 @@ function Login(props) {
     });
   }
   
-  const loginUser = function(){
-    var accessKey = usersApi.login(user);
+  const loginUser = async function(){
+    var accessKey = await usersApi.login(user);
     props.loginCallback(accessKey);
   }
 

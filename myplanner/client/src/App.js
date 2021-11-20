@@ -24,11 +24,10 @@ function App() {
 
   const isLoggedIn = function() {
     return true;
-    // return accessKey !== undefined
   }
 
   const loginCallback = function(key) {
-    setAccessKey(key);
+    setAccessKey(key); //TODO: move login to Cookie, (Session Prediction/Hijacking)
     navigate('/calendar');
   }
 
