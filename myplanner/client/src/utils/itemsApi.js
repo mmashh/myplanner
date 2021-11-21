@@ -27,11 +27,17 @@ async function editItem(item_id,item) {
     item_type: item.item_type,
     is_complete: (item.item_type === "TASK") ? item.is_complete: null
   };
-  return await apiHelpers.httpPost(`/item/${item_id}/edit`,itemToEdit);
+  return await apiHelpers.put(`/item/${item_id}`,itemToEdit);
 }
 
-function markComplete(item_id,is_complete) {
-  // TODO
+function markComplete(item,is_complete) {
+  var itemToEdit = {
+    title: item.title,
+    body: item.body,
+    item_type: item.item_type,
+    is_complete: (item.item_type === "TASK") ? is_complete : null
+  };
+  return await apiHelpers.put(`/item/${item_id}`,itemToEdit);
 }
 
 async function deleteItem(item_id) {

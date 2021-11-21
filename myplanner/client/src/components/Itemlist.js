@@ -47,9 +47,9 @@ function Itemlist({items, updateStateCallback}) {
 
   const ItemCheckbox = function(item) {
     if (item.item_type === "TASK") {
-      return <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item.item_id)} checked={item.is_complete === "TRUE"}/>
+      return <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item)} checked={item.is_complete === "TRUE"}/>
     } else {
-      return <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item.item_id)} checked={false} disabled={true}/>      
+      return <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item)} checked={false} disabled={true}/>      
     }
   }
 
