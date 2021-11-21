@@ -4,8 +4,7 @@ import {
   Row,
   Col,
   Form,
-  Button,
-  ButtonGroup
+  Button
 } from 'react-bootstrap';
 import itemsApi from '../utils/itemsApi';
 
@@ -27,7 +26,8 @@ function  Itemcreate({updateStateCallback}){
     });
   }
 
-  async function createItem(){
+  async function createItem(e){
+    e.preventDefault()
     await itemsApi.newItem(newItem);
     updateStateCallback(); // update parent state
     clearNewItem();

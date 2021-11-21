@@ -30,14 +30,14 @@ async function editItem(item_id,item) {
   return await apiHelpers.put(`/item/${item_id}`,itemToEdit);
 }
 
-function markComplete(item,is_complete) {
+async function markComplete(item,is_complete) {
   var itemToEdit = {
     title: item.title,
     body: item.body,
     item_type: item.item_type,
     is_complete: (item.item_type === "TASK") ? is_complete : null
   };
-  return await apiHelpers.put(`/item/${item_id}`,itemToEdit);
+  return await apiHelpers.put(`/item/${item.item_id}`,itemToEdit);
 }
 
 async function deleteItem(item_id) {
