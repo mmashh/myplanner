@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap'
 
 
-function ItemModal({activeItem,modalType,show,toggle}){
+function ItemModal({activeItem,modalType,show,toggle, updateStateCallback}){
   
   let [itemToEdit, setItemToEdit] = useState();
 
@@ -34,6 +34,8 @@ function ItemModal({activeItem,modalType,show,toggle}){
   const handleEditForm = function(e) {
     e.preventDefault();
     itemsApi.editItem(itemToEdit.item_id,itemToEdit);
+    updateStateCallback()
+    toggle(false);
   }
 
   const handleCancel = function(e) {

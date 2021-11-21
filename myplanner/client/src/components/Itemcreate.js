@@ -4,7 +4,8 @@ import {
   Row,
   Col,
   Form,
-  Button
+  Button,
+  ButtonGroup
 } from 'react-bootstrap';
 import itemsApi from '../utils/itemsApi';
 
@@ -53,29 +54,33 @@ function  Itemcreate({updateStateCallback}){
           <h2>Create Item</h2>
         </Row>
         <Row md={10}>
-          <Form>
-            <Form.Group className="mb-3">
-              <Row md>
-                <Col md={8}>
+          <Form onSubmit={createItem}>
+            <Row md className="mb-3">
+              <Col md={8}>
+                <Form.Group controlId="item-title">
                   <Form.Label>Title</Form.Label>
-                  <Form.Control id="item-title" name="title" type="text" placeholder="Enter item title..."  value={newItem.title} onChange={handleFormChange}/>
-                </Col>
-                <Col md={4}>
+                  <Form.Control name="title" type="text" placeholder="Enter item title..."  value={newItem.title} onChange={handleFormChange}/>
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group controlId="item-item-type">
                   <Form.Label>Item Type</Form.Label>
-                  <Form.Select id="item-item-type" name="item_type" type="text" value={newItem.item_type} onChange={handleFormChange}>
+                  <Form.Select name="item_type" type="text" value={newItem.item_type} onChange={handleFormChange}>
                     <option value="TASK">Task</option>
                     <option value="NOTE">Note</option>
                   </Form.Select>
-                </Col>
-              </Row>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Content</Form.Label>
-              <Form.Control id="item-body" name="body" as="textarea" value={newItem.body} onChange={handleFormChange}/>
-            </Form.Group>
-            <Form.Group controlId="form-item-actions">
-                <Button id="form-item-submit" variant="success" type="submit" onClick={createItem}>Submit</Button>
-                <Button id="form-item-submit" className="mx-4" variant="danger" onClick={clearHandler}>Clear</Button>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row md>
+              <Form.Group controlId="item-body" className="mb-3">
+                <Form.Label>Content</Form.Label>
+                <Form.Control name="body" as="textarea" value={newItem.body} onChange={handleFormChange}/>
+              </Form.Group>
+            </Row>
+            <Form.Group id="item-actions">
+                <Button id="item-clear" className="mx-4" variant="danger" onClick={clearHandler}>Clear</Button>
+                <Button id="item-submit" variant="success" type="submit" type="submit">Submit</Button>
             </Form.Group>
           </Form>
         </Row>
