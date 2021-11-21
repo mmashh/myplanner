@@ -32,7 +32,6 @@ class ItemAdd(Resource):
         else:
             return False
 
-
     @swag_from('../swagger_documentation/item-post.yml')    
     def post(self):
 
@@ -87,7 +86,6 @@ class Item(Resource):
         
 # /item/all
 class ItemAll(Resource):
-
     @swag_from('../swagger_documentation/item-get-all.yml')
     def get(self):
 

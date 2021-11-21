@@ -12,14 +12,17 @@
   padding: 1em 0 1em 0;
 }
 
-#item-body {
+#item-body, #modal-item-body {
   height: 30em;
 }
 
-#form-item-submit {
+#item-actions {
   float:right;
 }
 
+.item-modal {
+  color: black;
+}
 
 /* itemlist Item */
 .itemlist-item {
@@ -47,6 +50,10 @@
   font-size:small;
   color: var(--secondary-font);
   text-overflow: ellipsis;
+}
+
+#item-modal-content {
+  white-space: pre-line;
 }
 
 .itemlist-item-mark-complete {
