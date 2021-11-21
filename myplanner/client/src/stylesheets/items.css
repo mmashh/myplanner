@@ -12,7 +12,7 @@
   padding: 1em 0 1em 0;
 }
 
-#item-body {
+#item-body, #modal-item-body {
   height: 30em;
 }
 

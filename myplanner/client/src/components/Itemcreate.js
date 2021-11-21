@@ -62,7 +62,7 @@ function  Itemcreate({updateStateCallback}){
                 </Col>
                 <Col md={4}>
                   <Form.Label>Item Type</Form.Label>
-                  <Form.Select id="item-title" name="item_type" type="text" value={newItem.item_type} onChange={handleFormChange}>
+                  <Form.Select id="item-item-type" name="item_type" type="text" value={newItem.item_type} onChange={handleFormChange}>
                     <option value="TASK">Task</option>
                     <option value="NOTE">Note</option>
                   </Form.Select>
@@ -74,7 +74,7 @@ function  Itemcreate({updateStateCallback}){
               <Form.Control id="item-body" name="body" as="textarea" value={newItem.body} onChange={handleFormChange}/>
             </Form.Group>
             <Form.Group controlId="form-item-actions">
-                <Button id="form-item-submit" variant="success" onClick={createItem}>Submit</Button>
+                <Button id="form-item-submit" variant="success" type="submit" onClick={createItem}>Submit</Button>
                 <Button id="form-item-submit" className="mx-4" variant="danger" onClick={clearHandler}>Clear</Button>
             </Form.Group>
           </Form>

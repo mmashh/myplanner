@@ -12,7 +12,11 @@ import itemsApi from '../utils/itemsApi';
 
 function Itemlist({items, updateStateCallback}) {
 
-  let [activeItem, setActiveItem] = useState({});
+  let [activeItem, setActiveItem] = useState({
+    title: "",
+    body: "",
+    item_type: "",
+  });
   let [showItemModal, setShowItemModal] = useState(false);
   let [modalType, setModalType] = useState('view');
 
@@ -97,7 +101,8 @@ function Itemlist({items, updateStateCallback}) {
               activeItem={activeItem}
               show={showItemModal}
               modalType={modalType}
-              toggle={setShowItemModal}/>
+              toggle={setShowItemModal}
+              updateStateCallback={updateStateCallback}/>
         </Row>
       </Col>
     </Container>
