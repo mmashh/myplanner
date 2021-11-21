@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ItemViewModal from './ItemViewModal';
+import ItemEditModal from './ItemEditModal';
 import {
   Container,
   Row,
@@ -14,6 +15,7 @@ function Itemlist({items, updateStateCallback}) {
 
   let [activeItem, setActiveItem] = useState({});
   let [showViewModal, setShowViewModal] = useState(false);
+  let [showEditModal, setShowEditModal] = useState(false);
 
   const markCompleteHandler = function(e,item_id) {
     itemsApi.markComplete(item_id,e.target.checked) 
@@ -22,14 +24,18 @@ function Itemlist({items, updateStateCallback}) {
 
   const viewItemHandler = function(item){
     var itemToView = {...item};
-    console.log(itemToView);
     setActiveItem(itemToView);
     setShowViewModal(true);
   }
 
-  const toggleViewModal = function(show) {
-    setShowViewModal(show);
+  const editItemHandler = function(item){
+    var itemToView = {...item};
+    setActiveItem(itemToView);
+    setShowEditModal(true);
   }
+
+  const toggleViewModal = (show) => setShowViewModal(show);
+  const toggleEditModal = (show) => setShowEditModal(show);
 
   const deleteItemHandler = async function (item) { 
     if (window.confirm(`Are you sure you want to delete this ${item.item_type.toLowerCase()}?`)) {
@@ -54,7 +60,7 @@ function Itemlist({items, updateStateCallback}) {
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item onClick={()=> viewItemHandler(item)}>View</Dropdown.Item>
-          <Dropdown.Item>Edit</Dropdown.Item>
+          <Dropdown.Item onClick={()=> editItemHandler(item)}>Edit</Dropdown.Item>
           <Dropdown.Item onClick={()=> deleteItemHandler(item)}>Delete</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
@@ -99,7 +105,13 @@ function Itemlist({items, updateStateCallback}) {
             <ItemViewModal 
               activeItem={activeItem}
               show={showViewModal}
-              toggle={toggleViewModal} />
+              type="view"
+              toggle={toggleViewModal}/>
+            <ItemEditModal 
+              activeItem={activeItem}
+              show={showEditModal}
+              toggle={toggleEditModal}
+              updateStateCallback={updateStateCallback}/>
         </Row>
       </Col>
     </Container>

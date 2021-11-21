@@ -21,7 +21,6 @@ function Items() {
 
   useEffect(() => updateItems(),[]);
 
-
   return (
       <Row md={12}>
         <Col md={4}>

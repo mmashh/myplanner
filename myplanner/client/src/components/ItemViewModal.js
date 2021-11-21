@@ -12,12 +12,11 @@ function ItemViewModal({activeItem, show, toggle}){
 
   return (
     <Modal
-      id="item-modal"
+      className="item-modal"
       show={show}
       onHide={() => toggle(false)}
       backdrop="static"
-      size="lg"
-    >
+      size="lg">
       <Modal.Header closeButton>
         <Modal.Title>{activeItem.title} {headerSuffix}</Modal.Title>
       </Modal.Header>
