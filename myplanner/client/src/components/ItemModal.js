@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap'
 
 
-function ItemViewModal({activeItem, show, toggle}){
+function ItemModal({activeItem,modalType, show, toggle}){
 
   const headerSuffix = (activeItem.item_type === "TASK"  && activeItem.is_complete === "TRUE") 
     ? "-  Completed"
@@ -29,4 +29,4 @@ function ItemViewModal({activeItem, show, toggle}){
   );
 }
 
-export default ItemViewModal;
+export default ItemModal;
