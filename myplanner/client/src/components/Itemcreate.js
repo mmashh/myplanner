@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap';
 import itemsApi from '../utils/itemsApi';
 
-function  Itemcreate(props){
+function  Itemcreate({updateStateCallback}){
   let [newItem, setNewItem] = useState({
     title: "",
     body: "",
@@ -42,7 +42,7 @@ function  Itemcreate(props){
 
   async function createItem(){
     await itemsApi.newItem(newItem);
-    props.updateStateCallback(); // update parent state
+    updateStateCallback(); // update parent state
     clearNewItem();
   }
 

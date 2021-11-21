@@ -1,4 +1,5 @@
-import React, { useEffect,useState } from 'react';
+import React, { useState } from 'react';
+import ItemViewModal from './ItemViewModal';
 import {
   Container,
   Row,
@@ -9,17 +10,31 @@ import {
 import { List } from 'react-bootstrap-icons';
 import itemsApi from '../utils/itemsApi';
 
-function Itemlist(props) {
+function Itemlist({items, updateStateCallback}) {
 
-  function markCompleteHandler(e,item_id) {
+  let [activeItem, setActiveItem] = useState({});
+  let [showViewModal, setShowViewModal] = useState(false);
+
+  const markCompleteHandler = function(e,item_id) {
     itemsApi.markComplete(item_id,e.target.checked) 
-    props.updateStateCallback();
+    updateStateCallback();
   }
 
-  async function deleteItemHandler(item) { 
+  const viewItemHandler = function(item){
+    var itemToView = {...item};
+    console.log(itemToView);
+    setActiveItem(itemToView);
+    setShowViewModal(true);
+  }
+
+  const toggleViewModal = function(show) {
+    setShowViewModal(show);
+  }
+
+  const deleteItemHandler = async function (item) { 
     if (window.confirm(`Are you sure you want to delete this ${item.item_type.toLowerCase()}?`)) {
       await itemsApi.deleteItem(item.item_id);
-      props.updateStateCallback();
+      updateStateCallback();
     }
   }
 
@@ -38,7 +53,7 @@ function Itemlist(props) {
           <List className="itemlist-item-expand mx-4"></List>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item onClick={()=> props.viewItemHandler(item)}>View</Dropdown.Item>
+          <Dropdown.Item onClick={()=> viewItemHandler(item)}>View</Dropdown.Item>
           <Dropdown.Item>Edit</Dropdown.Item>
           <Dropdown.Item onClick={()=> deleteItemHandler(item)}>Delete</Dropdown.Item>
         </Dropdown.Menu>
@@ -59,7 +74,7 @@ function Itemlist(props) {
             <h2>Items</h2>
         </Row>
         <Row id="itemlist-content" md={9}>
-            {props.items.map(function(item){
+            {items.map(function(item){
               return (
                 <div key={item.item_id} className="itemlist-item">
                   <Row md={12}>
@@ -81,6 +96,10 @@ function Itemlist(props) {
                   </Row>
                 </div>
             )})}
+            <ItemViewModal 
+              activeItem={activeItem}
+              show={showViewModal}
+              toggle={toggleViewModal} />
         </Row>
       </Col>
     </Container>
