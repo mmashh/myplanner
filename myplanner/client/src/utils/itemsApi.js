@@ -1,102 +1,55 @@
-import $ from "jquery";
+import apiHelpers from "./apiHelpers";
 
-var sampleData = {
-  items:  [
-    {
-      item_id: 1,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "TRUE",
-      item_type: 'TASK',
-      date_created: "9/11/2021 14:25"
-    },
-    {
-      item_id: 2,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "TRUE",
-      item_type: 'TASK',
-      date_created: "9/11/2021 14:25"
-    },
-    {
-      item_id: 3,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "TRUE",
-      item_type: 'TASK',
-      date_created: "9/11/2021 14:25"
-    },
-    {
-      item_id: 4,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "FALSE",
-      item_type: 'TASK',
-      date_created: "9/11/2021 14:25"
-    },
-    {
-      item_id: 5,
-      title: "Demo",
-      body: "lorem ipsum text",
-      is_complete: "TRUE",
-      item_type: 'NOTE',
-      date_created: "9/11/2021 14:25"
-    },
-  ]
+async function getAllItems() {
+  var data = await apiHelpers.httpGet("/item/all");
+  return data.items;
 }
 
-function getAllItems() {
-  return sampleData.items;
+async function getItem(item_id) {
+  var data = await apiHelpers.httpGet(`/item/${item_id}`)
+  return data;
 }
 
-function getItem(item_id) {
-  var item = null;
-  sampleData.items.forEach(function(currentItem){
-    if (currentItem.item_id == item_id) {
-      item = currentItem;
-      return;
-    }
-  });
-  return item;
-}
-
-function newItem(item) {
-  sampleData.items.push({
-    item_id: sampleData.items.length + 1,
+async function newItem(item) {
+  var newItem = {
     title: item.title,
     body: item.body,
     item_type: item.item_type,
-    is_complete: false,
-    date_created: "9/11/2021 14:25",
-    });
-    return { message: "item successfully created" }
-  }
+    is_complete: (item.item_type === "TASK") ? "FALSE": null
+  };
+  return await apiHelpers.httpPost("/item/add",newItem);
+}
 
-  function markComplete(item_id,is_complete) {
+async function editItem(item_id,item) {
+  var itemToEdit = {
+    title: item.title,
+    body: item.body,
+    item_type: item.item_type,
+    is_complete: (item.item_type === "TASK") ? item.is_complete: null
+  };
+  return await apiHelpers.put(`/item/${item_id}`,itemToEdit);
+}
 
-    sampleData.items.forEach(function(currentItem){
-      if (currentItem.item_id == item_id) {
-        if (currentItem.item_type === "TASK"){
-          currentItem.is_complete= (is_complete) ? "TRUE" : "FALSE";
-        } else {
-          currentItem.is_complete = null;
-        }
-        return;
-      }
-    });
-  }
+async function markComplete(item,is_complete) {
+  var itemToEdit = {
+    title: item.title,
+    body: item.body,
+    item_type: item.item_type,
+    is_complete: (item.item_type === "TASK") ? is_complete : null
+  };
+  return await apiHelpers.put(`/item/${item.item_id}`,itemToEdit);
+}
 
-  function deleteItem(item_id) {
-    sampleData.items = sampleData.items.filter(function(item){
-      return item.item_id !== item_id;
-    });
-    return { message: "item successfully deleted" }
-  }
+async function deleteItem(item_id) {
+  var response = await apiHelpers.httpDelete(`/item/${item_id}`);
+  return response.data;
+}
 
   var itemsApi = {
     "getAllItems": getAllItems,
     "getItem": getItem,
     "newItem": newItem,
+    "editItem": editItem,
     "deleteItem": deleteItem,
     "markComplete": markComplete
   };

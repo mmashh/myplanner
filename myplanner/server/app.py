@@ -17,8 +17,9 @@ def init_app():
 
     swagger = Swagger(app)
     jwt = JWTManager(app)
-    cors = CORS(app)
     
+    cors = CORS(app)
+
     return app
 
 def add_routes(app):
