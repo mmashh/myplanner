@@ -27,6 +27,12 @@ function  Itemcreate({updateStateCallback}){
     });
   }
 
+  async function createItem(){
+    await itemsApi.newItem(newItem);
+    updateStateCallback(); // update parent state
+    clearNewItem();
+  }
+
   function clearNewItem(){
       setNewItem({
         title:  "",
@@ -39,12 +45,6 @@ function  Itemcreate({updateStateCallback}){
     if (window.confirm(`Are you sure you want to clear your current ${newItem.item_type.toLowerCase()}?`)){
       clearNewItem();
     }
-  }
-
-  async function createItem(){
-    await itemsApi.newItem(newItem);
-    updateStateCallback(); // update parent state
-    clearNewItem();
   }
 
   return (

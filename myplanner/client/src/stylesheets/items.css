@@ -16,14 +16,13 @@
   height: 30em;
 }
 
-.item-modal {
-  color: black;
-}
-
 #item-actions {
   float:right;
 }
 
+.item-modal {
+  color: black;
+}
 
 /* itemlist Item */
 .itemlist-item {
