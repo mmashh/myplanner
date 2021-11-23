@@ -11,7 +11,7 @@ import {
   useNavigate
 } from 'react-router-dom';
 
-function Login() {
+function Register() {
   let navigate = useNavigate();
   let [user,setUser] = useState({
     username: '',
@@ -29,18 +29,18 @@ function Login() {
     });
   }
   
-  const loginUser = async function(e){
+  const registerUser = async function(e){
     e.preventDefault();
-    await usersApi.login(user);
-    navigate('/calendar');
+    await usersApi.register(user);
+    navigate('/login');
   }
 
   return (
     <Container fluid>
       <Row md={12} className="vh-100">
         <Col md={4} className="mx-auto my-5">
-          <h1 className="mb-4">Log In</h1>          
-          <Form onSubmit={loginUser}>
+          <h1 className="mb-4">Register</h1>
+          <Form onSubmit={registerUser}>
             <Form.Group className="mb-4">
               <Form.Label>Username</Form.Label>
               <Form.Control 
@@ -62,8 +62,8 @@ function Login() {
                 onChange={handleFormChange}/>
             </Form.Group>
             <Form.Group className="d-grid gap-3 mb-4">
-              <Button variant="primary" type="submit">Log In</Button>
-              <Button variant="secondary" onClick={()=>navigate('/register')}>Register</Button>
+              <Button variant="primary" type="submit">Register</Button>
+              <Button variant="secondary" onClick={()=>navigate('/login')}>Back to Login</Button>
             </Form.Group>
           </Form>
         </Col>
@@ -75,4 +75,4 @@ function Login() {
 
 
 
-export default Login;
+export default Register;

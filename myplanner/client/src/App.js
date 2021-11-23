@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Items from './Items.js';
 import Login from './Login.js';
+import Register from './Register.js';
 import {
   BrowserRouter as Router,
   Route,
@@ -92,7 +93,7 @@ function App() {
         <Routes>
           <Route path="/" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Navigate to="/login"/>}/>
           <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/>
-          <Route path="/register" element={<div>Register</div>}/>
+          <Route path="/register" element={<Register/>}/>
           <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
           <Route path="/calendar" element={redirectIfNoUser(<div>calendar</div>)}/>
           <Route path="/*" element={redirectIfNoUser(<div>calendar</div>)}/>
