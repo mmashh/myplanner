@@ -74,9 +74,8 @@ function App() {
           </Row>
           <Row md={9}>
             <Routes>
-              <Route exact path="/" element={redirectIfNoUser(<div>Calendar - WIP</div>)}/>
-              {/* <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/> */}
-              <Route path="/login" element={<Login loginCallback={loginCallback}/>}/>
+              <Route path="/" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Navigate to="/login"/>}/>
+              <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login loginCallback={loginCallback}/>}/>
               <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
               <Route path="/calendar" element={redirectIfNoUser(<div>calendar</div>)}/>
               <Route path="/*" element={redirectIfNoUser(<div>calendar</div>)}/>

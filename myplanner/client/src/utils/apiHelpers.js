@@ -1,6 +1,7 @@
 // IMPORTANT: DO NOT USE DIRECTLY IN APPLICATION. CREATE MODEL API TO HANDLE LOGIC (e.g. itemsApi.js)
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+
 const base_url = "http://localhost:5000"
 
 const cookies = new Cookies();
