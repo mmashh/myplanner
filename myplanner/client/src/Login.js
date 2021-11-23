@@ -7,8 +7,11 @@ import {
   Form,
   Button
 } from 'react-bootstrap';
+import Cookies from 'universal-cookie'
 
 function Login(props) {
+
+  const cookies = new Cookies();
 
   let [user,setUser] = useState({
     username: '',
@@ -27,8 +30,8 @@ function Login(props) {
   }
   
   const loginUser = async function(){
-    var accessKey = await usersApi.login(user);
-    props.loginCallback(accessKey);
+    await usersApi.login(user);
+    props.loginCallback();
   }
 
   return (

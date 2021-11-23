@@ -1,5 +1,6 @@
 import apiHelpers from "./apiHelpers";
 
+
 async function getAllItems() {
   var data = await apiHelpers.httpGet("/item/all");
   return data.items;

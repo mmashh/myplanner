@@ -1,10 +1,11 @@
 import apiHelpers from "./apiHelpers";
+import Cookies from "universal-cookie";
 
-
+const cookies = new Cookies();
 
 const login = async function(user){
   var response = await apiHelpers.httpPost('/user/login',user);
-  return response.access_token;
+  cookies.set("Authorization", `Bearer ${response.access_token}`);
 }
 
 const register = async function(user){

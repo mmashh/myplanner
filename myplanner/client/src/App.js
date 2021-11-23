@@ -16,18 +16,19 @@ import {
   Navbar,
   Nav
 } from 'react-bootstrap';
+import Cookies from 'universal-cookie';
 
 function App() {
 
-  let [accessKey,setAccessKey] = useState();
+  const cookies = new Cookies();
+
   let navigate = useNavigate();
 
   const isLoggedIn = function() {
-    return true;
+    return cookies.get('Authorization') !== undefined;
   }
 
   const loginCallback = function(key) {
-    setAccessKey(key); //TODO: move login to Cookie, (Session Prediction/Hijacking)
     navigate('/calendar');
   }
 
