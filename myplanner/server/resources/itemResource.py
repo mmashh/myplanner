@@ -24,10 +24,11 @@ class ItemAdd(Resource):
 
         return desired_format_date_and_time
 
-   
+    @jwt_required()
     @swag_from('../swagger_documentation/item-post.yml')    
     def post(self):
-
+        
+        jwt = get_jwt_identity()
         new_item_details = self.parser.parse_args()
         date_and_time = self.get_current_date_and_time()
 
@@ -36,7 +37,7 @@ class ItemAdd(Resource):
             return error, 422
 
         item_to_add = ItemModel(new_item_details['title'], new_item_details['body'], date_and_time, 
-                                new_item_details['item_type'], is_complete)
+                                new_item_details['item_type'], is_complete, jwt['id'] )
         
         item_to_add.save_to_db()
 
@@ -100,7 +101,7 @@ class Item(Resource):
 class ItemAllSpecificUser(Resource):
 
     @jwt_required()
-    def get(self, id):
+    def get(self):
 
         jwt = get_jwt_identity()
         id = jwt['id']
