@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from models.itemModel import ItemModel, ItemTypeEnum, BooleanEnum
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flasgger import swag_from
-
+import modules.itemModule as item_auxiliary_functions
 
 
 # /item/add
@@ -23,15 +23,7 @@ class ItemAdd(Resource):
 
         return desired_format_date_and_time
 
-    def not_valid_boolean(self, is_complete):
-
-        if (is_complete is None):  
-            return True
-        elif (is_complete != BooleanEnum.true.value and is_complete != BooleanEnum.false.value):
-            return True
-        else:
-            return False
-
+   
     @swag_from('../swagger_documentation/item-post.yml')    
     def post(self):
 
@@ -43,9 +35,10 @@ class ItemAdd(Resource):
             is_complete = None
         elif new_item_details['item_type'] == ItemTypeEnum.task.value:
             is_complete = new_item_details.get('is_complete', None)
-        
-            if self.not_valid_boolean(is_complete):
+
+            if item_auxiliary_functions.not_valid_complete_state(is_complete):
                 return {'error': 'Tasks should have a valid completion state: TRUE or FALSE'}, 422
+
         else:
             return {'error' : 'Item type incorrect'} , 422
 
@@ -60,6 +53,12 @@ class ItemAdd(Resource):
 
 # /item/{item_id}
 class Item(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument("title", type=str, required=True)
+    parser.add_argument("body", type=str, required=True)
+    parser.add_argument("item_type", type=str, required=True)
+    parser.add_argument("is_complete", type=str)
 
     @swag_from('../swagger_documentation/item-get.yml')
     def get(self, item_id):
@@ -81,6 +80,29 @@ class Item(Resource):
 
             return {'message' : 'item deleted'}, 200
 
+    def put(self, item_id):
+        item_to_update = ItemModel.find_by_id(item_id)
+        if item_to_update is None:
+            return {'message' : 'this item does not exist'}, 422
+
+        given_data_to_update_with = self.parser.parse_args()
+
+        item_to_update.title = given_data_to_update_with['title']
+        item_to_update.body = given_data_to_update_with['body']
+        item_to_update.item_type = given_data_to_update_with['item_type']
+
+        if item_to_update.item_type == ItemTypeEnum.note.value:
+            is_complete = None
+        
+
+
+
+        
+
+        
+
+        
+
 
 
         
@@ -99,3 +121,5 @@ class ItemAll(Resource):
     def delete(self):
         ItemModel.delete_all_items()
         return {'message' : 'all items deleted'}, 200
+
+    
