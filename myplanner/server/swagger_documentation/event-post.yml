@@ -1,0 +1,26 @@
+Add a new calendar event to our DB
+---
+tags:
+  - Calendar event
+parameters:
+  - description: Event attributes
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Sample event name
+        body:
+          type: string
+          example: Some notes about the event
+responses:
+  201:
+    description: Event created
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Event successfully created
