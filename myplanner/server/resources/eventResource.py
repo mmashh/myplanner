@@ -1,39 +1,56 @@
 from flask_restful import Resource, reqparse
-from myplanner.server.models.eventModel import EventModel
+from models.eventModel import EventModel
 from flasgger import swag_from
 
-# POST /event/add
-class Eventadd(Resource):
-    pass
+
+class Event(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("title", type=str, required=True)
+    parser.add_argument("body", type=str, required=True)
+    parser.add_argument("date", type=str, required=False)
+
+    # POST /event/
+    @swag_from("../swagger_documentation/event-post.yml")
+    def post(self):
+        new_event_attributes = self.parser.parse_args()
+
+        event_to_add = EventModel(
+            new_event_attributes["title"], new_event_attributes["body"]
+        )
+        event_to_add.save_to_db()
+
+        return {"message": "Event successfully created"}, 201
+
+    # PUT /event/
+    @swag_from("../swagger_documentation/event-put.yml")
+    def put(self):
+        pass
+
+    # DELETE /event/
+    @swag_from("../swagger_documentation/event-delete.yml")
+    def delete(self):
+        pass
 
 
-# PUT /event/update
+class EventUnassigned(Resource):
+    # TODO: extract query method
 
-
-# DELETE /event/delete
-
-
-# GET /event/all/{status}
-class EventAll(Resource):
-    def _get_all_unassigned(self):
+    # GET /event/all/unassigned
+    @swag_from("../swagger_documentation/event-get-unassigned.yml")
+    def get(self):
         unassigned_events = []
         for event in EventModel.filter_by(EventModel.day.is_(None)).all():
             unassigned_events.append(event)
 
         return {"unassigned_events": unassigned_events}, 200
 
-    def _get_all_assigned(self):
+
+class EventAssigned(Resource):
+    # GET /event/all/assigned
+    @swag_from("../swagger_documentation/event-get-assigned.yml")
+    def get(self):
         assigned_events = []
         for event in EventModel.filter_by(EventModel.day.is_not(None)).all():
             assigned_events.append(event)
 
         return {"assigned_events": assigned_events}, 200
-
-    @swag_from("../swagger_documentation/event-get-all.yaml")
-    def get_all(self, status):
-        if status == "unassigned":
-            return self._get_all_unassigned()
-        elif status == "assigned":
-            return self._get_all_assigned()
-        else:
-            return {"message": "invalid event status requested"}, 400
