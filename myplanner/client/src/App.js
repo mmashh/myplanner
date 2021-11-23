@@ -6,8 +6,7 @@ import {
   Route,
   Routes,
   Link,
-  Navigate,
-  useNavigate,
+  Navigate
 } from 'react-router-dom';
 import {
   Container,
@@ -22,14 +21,9 @@ function App() {
 
   const cookies = new Cookies();
 
-  let navigate = useNavigate();
 
   const isLoggedIn = function() {
     return cookies.get('Authorization') !== undefined;
-  }
-
-  const loginCallback = function(key) {
-    navigate('/calendar');
   }
 
   const NavbarOptions = function() {
@@ -75,7 +69,8 @@ function App() {
           <Row md={9}>
             <Routes>
               <Route path="/" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Navigate to="/login"/>}/>
-              <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login loginCallback={loginCallback}/>}/>
+              <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/>
+              <Route path="/register" element={<div>Register</div>}/>
               <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
               <Route path="/calendar" element={redirectIfNoUser(<div>calendar</div>)}/>
               <Route path="/*" element={redirectIfNoUser(<div>calendar</div>)}/>

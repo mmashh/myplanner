@@ -7,12 +7,12 @@ import {
   Form,
   Button
 } from 'react-bootstrap';
-import Cookies from 'universal-cookie'
+import {
+  useNavigate
+} from 'react-router-dom';
 
-function Login(props) {
-
-  const cookies = new Cookies();
-
+function Login() {
+  let navigate = useNavigate();
   let [user,setUser] = useState({
     username: '',
     password: ''
@@ -29,16 +29,17 @@ function Login(props) {
     });
   }
   
-  const loginUser = async function(){
+  const loginUser = async function(e){
+    e.preventDefault();
     await usersApi.login(user);
-    props.loginCallback();
+    navigate('/calendar');
   }
 
   return (
     <Container fluid>
       <Row md={12} className="vh-100">
         <Col md={4} className="mx-auto my-5">
-          <Form>
+          <Form onSubmit={loginUser}>
             <Form.Group className="mb-4">
               <Form.Label>Login</Form.Label>
               <Form.Control 
@@ -60,8 +61,8 @@ function Login(props) {
                 onChange={handleFormChange}/>
             </Form.Group>
             <Form.Group className="d-grid gap-3 mb-4">
-              <Button variant="primary" onClick={loginUser}>Log In</Button>
-              <Button variant="secondary">Register</Button>
+              <Button variant="primary" type="submit">Log In</Button>
+              <Button variant="secondary" onClick={()=>navigate('/register')}>Register</Button>
             </Form.Group>
           </Form>
         </Col>
