@@ -15,13 +15,29 @@ async function newItem(item) {
     title: item.title,
     body: item.body,
     item_type: item.item_type,
-    is_complete: (item.item_type === "TASK") ? "FALSE": null,
+    is_complete: (item.item_type === "TASK") ? "FALSE": null
   };
   return await apiHelpers.httpPost("/item/add",newItem);
 }
 
-function markComplete(item_id,is_complete) {
-  // TODO
+async function editItem(item_id,item) {
+  var itemToEdit = {
+    title: item.title,
+    body: item.body,
+    item_type: item.item_type,
+    is_complete: (item.item_type === "TASK") ? item.is_complete: null
+  };
+  return await apiHelpers.put(`/item/${item_id}`,itemToEdit);
+}
+
+async function markComplete(item,is_complete) {
+  var itemToEdit = {
+    title: item.title,
+    body: item.body,
+    item_type: item.item_type,
+    is_complete: (item.item_type === "TASK") ? is_complete : null
+  };
+  return await apiHelpers.put(`/item/${item.item_id}`,itemToEdit);
 }
 
 async function deleteItem(item_id) {
@@ -33,6 +49,7 @@ async function deleteItem(item_id) {
     "getAllItems": getAllItems,
     "getItem": getItem,
     "newItem": newItem,
+    "editItem": editItem,
     "deleteItem": deleteItem,
     "markComplete": markComplete
   };
