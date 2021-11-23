@@ -6,21 +6,23 @@ import {
   Route,
   Routes,
   Link,
-  Navigate
+  Navigate,
+  useNavigate
 } from 'react-router-dom';
 import {
   Container,
   Row,
   Col,
+  Button,
   Navbar,
-  Nav
+  Nav,
 } from 'react-bootstrap';
 import Cookies from 'universal-cookie';
 
 function App() {
 
   const cookies = new Cookies();
-
+  const navigate = useNavigate();
 
   const isLoggedIn = function() {
     return cookies.get('Authorization') !== undefined;
@@ -47,36 +49,56 @@ function App() {
     }
   }
 
+  const logout = function() { 
+    cookies.remove('Authorization');
+    navigate('/');
+  }
+
   const redirectIfNoUser = function(element) {
     return (!isLoggedIn()) ? <Navigate to="/login"/> :  element;
   }
 
+  const NavbarSignOutButton = function(){
+    if (isLoggedIn()){
+      return (
+        <Nav.Item className="me-4">
+          <Button variant="secondary" onClick={logout}>Log Out</Button>
+        </Nav.Item>
+      )
+    }
+  }
+
   return (
-      <Container id="app-container">
-          <Row md={3} id="app-navbar">
-            <Col md={12}>
-              <Navbar bg="dark" variant="dark" expand="md">
-                <Navbar.Brand>
-                  <span id="app-navbar-header">MyPlanner</span>
-                </Navbar.Brand>
-                <Navbar.Toggle aria-controls="app-navbar-toggle" />
-                <Navbar.Collapse id="app-navbar-toggle">
-                  {NavbarOptions()}
-                </Navbar.Collapse>
-              </Navbar>
-            </Col>
-          </Row>
-          <Row md={9}>
-            <Routes>
-              <Route path="/" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Navigate to="/login"/>}/>
-              <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/>
-              <Route path="/register" element={<div>Register</div>}/>
-              <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
-              <Route path="/calendar" element={redirectIfNoUser(<div>calendar</div>)}/>
-              <Route path="/*" element={redirectIfNoUser(<div>calendar</div>)}/>
-            </Routes>
-          </Row>
-      </Container>
+    <Container id="app-container">
+      <Row md={3} id="app-navbar">
+        <Col md={12}>
+          <Navbar bg="dark" variant="dark" expand="md">
+            <Navbar.Brand>
+              <span id="app-navbar-header">MyPlanner</span>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="app-navbar-toggle" />
+            <Navbar.Collapse id="app-navbar-toggle">
+              <Nav className="me-auto">
+                {NavbarOptions()}
+              </Nav>
+              <Nav>
+                {NavbarSignOutButton()}
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </Col>
+      </Row>
+      <Row md={9}>
+        <Routes>
+          <Route path="/" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Navigate to="/login"/>}/>
+          <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/>
+          <Route path="/register" element={<div>Register</div>}/>
+          <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
+          <Route path="/calendar" element={redirectIfNoUser(<div>calendar</div>)}/>
+          <Route path="/*" element={redirectIfNoUser(<div>calendar</div>)}/>
+        </Routes>
+      </Row>
+    </Container>
   );
 }
 
