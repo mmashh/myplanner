@@ -110,6 +110,8 @@ class Item(Resource):
         
 # /item/all
 class ItemAll(Resource):
+
+    @jwt_required()
     @swag_from('../swagger_documentation/item-get-all.yml')
     def get(self):
 
