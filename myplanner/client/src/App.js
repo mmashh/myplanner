@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Items from './Items.js';
 import Login from './Login.js';
 import Register from './Register.js';
 import {
-  BrowserRouter as Router,
   Route,
   Routes,
   Link,
