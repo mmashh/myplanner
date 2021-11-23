@@ -13,6 +13,7 @@ class ItemAdd(Resource):
     parser.add_argument("body", type=str, required=True)
     parser.add_argument("item_type", type=str, required=True)
     parser.add_argument("is_complete", type=str)
+    
 
     def get_current_date_and_time(self):
 
@@ -50,6 +51,7 @@ class Item(Resource):
     parser.add_argument("body", type=str, required=True)
     parser.add_argument("item_type", type=str, required=True)
     parser.add_argument("is_complete", type=str)
+   
 
     @swag_from('../swagger_documentation/item-get.yml')
     def get(self, item_id):
@@ -70,7 +72,7 @@ class Item(Resource):
             item_to_delete.delete_from_db()
 
             return {'message' : 'item deleted'}, 200
-            
+
 
     def put(self, item_id):
 

@@ -19,7 +19,7 @@ def not_valid_complete_state(is_complete):
 
 
 def no_completion_state_specified(is_complete):
-    if is_complete == NO_COMPLETION_STATE_SPECIFIED:
+    if is_complete is NO_COMPLETION_STATE_SPECIFIED:
         return True
     else:
         return False
@@ -33,13 +33,10 @@ def verify_item_type_and_completion_state(item_to_verify):
         error = None 
 
     elif item_to_verify['item_type'] == ItemTypeEnum.task.value:
-        is_complete = item_to_verify.get('is_complete', NO_COMPLETION_STATE_SPECIFIED)
-         
-        if no_completion_state_specified(is_complete):
-            is_complete = NO_COMPLETION_STATE_SPECIFIED
-            error = {'error': 'No completion state specified for task'}
-
-        elif not_valid_complete_state(is_complete):
+        
+        is_complete = item_to_verify.get('is_complete', None)
+        
+        if not_valid_complete_state(is_complete):
             is_complete = 'invalid'
             error = {'error': 'Tasks should have a valid completion state: TRUE or FALSE'}
 
