@@ -95,23 +95,31 @@ class Item(Resource):
 
         return {'message' : 'item updated'}, 201
 
-        
 
-
-
-        
-
-        
-
-        
-
-
-
-        
 # /item/all
-class ItemAll(Resource):
+class ItemAllSpecificUser(Resource):
 
     @jwt_required()
+    def get(self, id):
+
+        jwt = get_jwt_identity()
+        id = jwt['id']
+
+        all_items_created_by_this_user = []
+        for item in ItemModel.get_all_items_created_by_specific_user(id):
+            all_items_created_by_this_user.append(item.convert_details_to_dict())
+            
+        return {'items_created_by_this_user': all_items_created_by_this_user }, 200
+
+
+
+
+
+        
+# /item/all/admin
+class ItemAll(Resource):
+
+    # @jwt_required()
     @swag_from('../swagger_documentation/item-get-all.yml')
     def get(self):
 
