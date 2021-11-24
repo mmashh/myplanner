@@ -30,3 +30,12 @@ responses:
         message:
           type: string
           example: this item does not exist to begin with
+
+  401:
+    description: Attempting to access an item that the user is unauthorized to access
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: users can only access items they have created

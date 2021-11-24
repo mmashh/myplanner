@@ -35,6 +35,9 @@ responses:
         date_created: 
           type: string
           example: "15/11/2021 20:51"
+        created_by:
+          type: int
+          example: 1
 
   
   422:
@@ -45,3 +48,13 @@ responses:
         message:
           type: string
           example: this item does not exist
+
+
+  401:
+    description: Attempting to access an item that the user is unauthorized to access
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: users can only access items they have created

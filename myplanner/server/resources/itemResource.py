@@ -89,6 +89,7 @@ class Item(Resource):
 
 
     @jwt_required()
+    @swag_from('../swagger_documentation/item-put.yml')
     def put(self, item_id):
 
         item_to_update = ItemModel.find_by_id(item_id)
@@ -111,13 +112,14 @@ class Item(Resource):
 
         item_to_update.save_to_db()
 
-        return {'message' : 'item updated'}, 201
+        return {'message' : 'item updated'}, 200
 
 
 # /item/all
 class ItemAllSpecificUser(Resource):
 
     @jwt_required()
+    @swag_from('../swagger_documentation/item-get-all.yml')
     def get(self):
 
         this_users_id = userModule.get_user_id()
@@ -129,14 +131,11 @@ class ItemAllSpecificUser(Resource):
         return {'items_created_by_this_user': all_items_created_by_this_user }, 200
 
 
-
-
-
         
 # /item/all/admin
 class ItemAll(Resource):
 
-    @swag_from('../swagger_documentation/item-get-all.yml')
+    @swag_from('../swagger_documentation/item-get-all-admin.yml')
     def get(self):
 
         all_items = []

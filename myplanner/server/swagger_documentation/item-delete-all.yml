@@ -1,7 +1,7 @@
-Delete all the list items 
+Delete all list items in the DB regardless of authorization 
 ---
 tags:
-  - List Item
+  - All List Items
 
 responses:
   200:
