@@ -11,6 +11,33 @@ install all required dependencies</li>
 </li>
 </ul>
 
+
+
+
+<p> The following sample data is available for users </p>
+
+<table>
+    <tr>
+    <td>id</td>
+    <td>username</td>
+    <td>password</td>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>user1234</td>
+    <td>user1234</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>user5678</td>
+    <td>user5678</td>
+    </tr>
+</table>
+    
+
+
+
+
 <p> The following sample data is available for list items </p>
 
 <table>
@@ -21,22 +48,34 @@ install all required dependencies</li>
     <td>item_type</td>
     <td>is_complete</td>
     <td>date_created</td>
+    <td>created_by</td>
     </tr>
     <tr>
     <td>1</td>
-    <td>Demo</td>
-    <td>sample text</td>
-    <td>TASK</td>
-    <td>TRUE</td>
-    <td>15/11/2021 21:57</td>
-    </tr>
-    <tr>
-    <td>2</td>
-    <td>Demo</td>
+    <td>Demo-note</td>
     <td>sample text</td>
     <td>NOTE</td>
     <td>null</td>
-    <td>15/11/2021 21:57</td>
+    <td>23/11/2021 19:01</td>
+    <td>1</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Demo-note</td>
+    <td>sample text</td>
+    <td>NOTE</td>
+    <td>null</td>
+    <td>23/11/2021 19:01</td>
+    <td>2</td>
+    </tr>
+    <tr>
+    <td>3</td>
+    <td>Demo-task</td>
+    <td>sample text</td>
+    <td>TASK</td>
+    <td>TRUE</td>
+    <td>23/11/2021 19:02</td>
+    <td>2</td>
     </tr>
 </table>
     
