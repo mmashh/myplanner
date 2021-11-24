@@ -6,6 +6,7 @@ import modules.itemModule as itemModule
 import modules.userModule as userModule
 
 
+
 # /item/add
 class ItemAdd(Resource):
 
@@ -54,15 +55,22 @@ class Item(Resource):
     parser.add_argument("item_type", type=str, required=True)
     parser.add_argument("is_complete", type=str)
    
-
+    @jwt_required()
     @swag_from('../swagger_documentation/item-get.yml')
     def get(self, item_id):
 
+        
         item_requested = ItemModel.find_by_id(item_id)
         if item_requested is None:
             return {'message' : 'this item does not exist'}, 422
-        else:
-            return item_requested.convert_details_to_dict(), 200
+
+        this_users_id = userModule.get_user_id()
+
+        if not userModule.user_can_access_this_item(this_users_id, item_id):
+            return {'error' : 'users can only access items they have created'}, 401
+
+
+        return item_requested.convert_details_to_dict(), 200
 
     @swag_from('../swagger_documentation/item-delete.yml')
     def delete(self, item_id):
