@@ -65,33 +65,41 @@ class Item(Resource):
             return {'message' : 'this item does not exist'}, 422
 
         this_users_id = userModule.get_user_id()
-
         if not userModule.user_can_access_this_item(this_users_id, item_id):
             return {'error' : 'users can only access items they have created'}, 401
 
 
         return item_requested.convert_details_to_dict(), 200
 
+    @jwt_required()
     @swag_from('../swagger_documentation/item-delete.yml')
     def delete(self, item_id):
 
         item_to_delete = ItemModel.find_by_id(item_id)
         if item_to_delete is None:
             return {'message' : 'this item does not exist to begin with'}, 422
-        else:
-            item_to_delete.delete_from_db()
+        
+        this_users_id = userModule.get_user_id()
+        if not userModule.user_can_access_this_item(this_users_id, item_id):
+            return {'error' : 'users can only access items they have created'}, 401
 
-            return {'message' : 'item deleted'}, 200
+        item_to_delete.delete_from_db()
+
+        return {'message' : 'item deleted'}, 200
 
 
+    @jwt_required()
     def put(self, item_id):
 
         item_to_update = ItemModel.find_by_id(item_id)
         if item_to_update is None:
             return {'message' : 'this item does not exist'}, 422
 
-        given_data_to_update_with = self.parser.parse_args()
+        this_users_id = userModule.get_user_id()
+        if not userModule.user_can_access_this_item(this_users_id, item_id):
+            return {'error' : 'users can only access items they have created'}, 401
 
+        given_data_to_update_with = self.parser.parse_args()
         is_complete, error = itemModule.verify_item_type_and_completion_state(given_data_to_update_with)
         if error is not None:
             return error, 422
@@ -112,11 +120,10 @@ class ItemAllSpecificUser(Resource):
     @jwt_required()
     def get(self):
 
-        jwt = get_jwt_identity()
-        id = jwt['id']
+        this_users_id = userModule.get_user_id()
 
         all_items_created_by_this_user = []
-        for item in ItemModel.get_all_items_created_by_specific_user(id):
+        for item in ItemModel.get_all_items_created_by_specific_user(this_users_id):
             all_items_created_by_this_user.append(item.convert_details_to_dict())
             
         return {'items_created_by_this_user': all_items_created_by_this_user }, 200
@@ -129,7 +136,6 @@ class ItemAllSpecificUser(Resource):
 # /item/all/admin
 class ItemAll(Resource):
 
-    # @jwt_required()
     @swag_from('../swagger_documentation/item-get-all.yml')
     def get(self):
 

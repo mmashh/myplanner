@@ -73,14 +73,14 @@ class UserLogin(Resource):
 # /user/all
 class UserAll(Resource):
 
-    # @jwt_required()
     @swag_from('../swagger_documentation/user-all.yml') 
     def get(self):
+        all_users = UserModel.examine_table_contents()
+        all_users_list = []
 
-        all_users = {'users' : [
-            user.convert_details_to_dict()
-        ] for user in UserModel.examine_table_contents()}
+        for user in all_users:
+            all_users_list.append(user.convert_details_to_dict())
 
-        return all_users
+        return {'all_users' : all_users_list}
 
         
