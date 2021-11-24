@@ -21,6 +21,23 @@ class EventModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    def to_dict(self):
+        res = {
+            "event_id": self.event_id,
+            "title": self.title,
+            "body": self.body,
+        }
+
+        if self.date:
+            res = {
+                "event_id": self.event_id,
+                "title": self.title,
+                "body": self.body,
+                "date": self.date.strftime("%d/%m/%Y %H:%M"),
+            }
+
+        return res
+
     @classmethod
     def get_all_items(cls):
         all_items = cls.query.all()

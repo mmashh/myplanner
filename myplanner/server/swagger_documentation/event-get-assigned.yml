@@ -1,0 +1,27 @@
+Get all assigned events
+---
+tags:
+  - Calendar event
+responses:
+  200:
+    description: Successfully requested all assigned events
+    schema:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              event_id:
+                type: int
+                example: 1
+              title:
+                type: string
+                example: Dummy event
+              body:
+                type: string
+                example: Some notes
+              date:
+                type: string
+                example: "15/11/2021 11:10"

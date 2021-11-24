@@ -39,8 +39,8 @@ class EventUnassigned(Resource):
     @swag_from("../swagger_documentation/event-get-unassigned.yml")
     def get(self):
         unassigned_events = []
-        for event in EventModel.filter_by(EventModel.day.is_(None)).all():
-            unassigned_events.append(event)
+        for event in EventModel.query.filter(EventModel.date.is_(None)).all():
+            unassigned_events.append(event.to_dict())
 
         return {"unassigned_events": unassigned_events}, 200
 
@@ -50,7 +50,7 @@ class EventAssigned(Resource):
     @swag_from("../swagger_documentation/event-get-assigned.yml")
     def get(self):
         assigned_events = []
-        for event in EventModel.filter_by(EventModel.day.is_not(None)).all():
-            assigned_events.append(event)
+        for event in EventModel.query.filter(EventModel.date.is_not(None)).all():
+            assigned_events.append(event.to_dict())
 
         return {"assigned_events": assigned_events}, 200
