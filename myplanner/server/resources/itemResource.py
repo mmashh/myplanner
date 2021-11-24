@@ -3,6 +3,7 @@ from models.itemModel import ItemModel, ItemTypeEnum, BooleanEnum
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flasgger import swag_from
 import modules.itemModule as itemModule
+import modules.userModule as userModule
 
 
 # /item/add
@@ -28,7 +29,7 @@ class ItemAdd(Resource):
     @swag_from('../swagger_documentation/item-post.yml')    
     def post(self):
         
-        jwt = get_jwt_identity()
+        this_users_id = userModule.get_user_id()
         new_item_details = self.parser.parse_args()
         date_and_time = self.get_current_date_and_time()
 
@@ -37,7 +38,7 @@ class ItemAdd(Resource):
             return error, 422
 
         item_to_add = ItemModel(new_item_details['title'], new_item_details['body'], date_and_time, 
-                                new_item_details['item_type'], is_complete, jwt['id'] )
+                                new_item_details['item_type'], is_complete, this_users_id)
         
         item_to_add.save_to_db()
 
