@@ -16,7 +16,10 @@ function Items() {
   // Ref: https://stackoverflow.com/a/54621059
   const updateItems = async function(){
     var items = await itemsApi.getAllItems();
-    setItems([...items]);
+    if (Array.isArray(items)){
+      setItems([...items]);
+      console.log(items);
+    }
   }
 
   useEffect(() => updateItems(),[]);
