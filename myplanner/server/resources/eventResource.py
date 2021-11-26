@@ -1,9 +1,10 @@
 from datetime import datetime
 from abc import abstractmethod
-from typing import Type
+
 from flask_restful import Resource, reqparse
-from models.eventModel import EventModel
 from flasgger import swag_from
+
+from models.eventModel import EventModel
 
 
 class EventAdd(Resource):

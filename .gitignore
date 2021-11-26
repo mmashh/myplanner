@@ -1,10 +1,5 @@
 node_modules/
 
-# Serverside stuff
-__pycache__/
-pipfile
-pipfile.lock
-
 # Environments
 .DS_Store
 .vscode/settings.json
