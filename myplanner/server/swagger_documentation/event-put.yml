@@ -5,12 +5,12 @@ tags:
 parameters:
   - in: path
     name: event_id
-    description: The id of the event requested to update
+    description: ID of the event requested to update
     required: true
     schema:
       type: int
   - in: body
-    description: New event attributes
+    description: New event attributes. Must contain title(str), other attributes are optional
     required: true
     schema:
       type: object
@@ -33,6 +33,14 @@ responses:
         message:
           type: string
           example: Event updated
+  400:
+    description: Incorrect datetime format
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format
   422:
     description: No event has the id specified by event_id in the DB
     schema:
