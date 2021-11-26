@@ -49,6 +49,9 @@ class EventEdit(Resource):
         self.parser.add_argument("date", type=str, default=event_to_update.date)
         new_event_attributes = self.parser.parse_args()
 
+        if new_event_attributes["title"] is None or new_event_attributes["title"] == "":
+            return {"message": "Title cannot be set to null"}, 400
+
         event_to_update.title = new_event_attributes["title"]
         event_to_update.body = new_event_attributes["body"]
         try:

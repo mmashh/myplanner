@@ -10,7 +10,7 @@ parameters:
     schema:
       type: int
   - in: body
-    description: New event attributes. Must contain title(str), other attributes are optional
+    description: New event attributes. Use null to nullify attributes except title
     required: true
     schema:
       type: object
