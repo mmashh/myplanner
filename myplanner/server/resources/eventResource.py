@@ -49,7 +49,7 @@ class EventEdit(Resource):
 
         return {"message": "Event successfully updated"}, 201
 
-    # DELETE /event/
+    # DELETE /event/{event_id}
     @swag_from("../swagger_documentation/event-delete.yml")
     def delete(self, event_id):
         event_to_delete = EventModel.find_by_id(event_id)

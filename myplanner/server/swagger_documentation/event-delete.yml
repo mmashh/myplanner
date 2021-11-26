@@ -5,7 +5,7 @@ tags:
 parameters:
   - in: path
     name: event_id
-    description: The id of the event requested to delete
+    description: ID of the event requested to delete
     required: true
     schema:
       type: int
