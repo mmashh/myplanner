@@ -1,4 +1,4 @@
-Get all information about the items that this user has created
+Get information about all items in the DB regardless of authorization
 ---
 tags:
   - All List Items
@@ -9,7 +9,7 @@ responses:
     schema:
       type: object
       properties:
-        items_created_by_this_user:
+        items:
           type: array
           items:
             type: object
