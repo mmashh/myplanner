@@ -21,7 +21,7 @@ This project was created as a final project for CMPT 470 Fall 2021 by the follow
 3. Run the command `npm install` to install all dependency packages. Wait for the packages to finish downloading.
 4. Run the command `npm start` to start the client server
 5. Keep the CLI open during testing
-6. Navigate to https://localhost:3000/ to view the application in your browser.
+6. Navigate to http://localhost:3000/ to view the application in your browser.
 
 ## Testing Information
 The tester must register for an account using the UI. Navigate to https://localhost:3000/register to register for an account (once the application is running)
