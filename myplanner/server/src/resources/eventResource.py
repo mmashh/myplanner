@@ -13,7 +13,7 @@ class EventAdd(Resource):
     parser.add_argument("body", type=str, required=False)
 
     # POST /event/
-    @swag_from("../swagger_documentation/event-post.yml")
+    @swag_from("../swagger_documentation/event/event-post.yml")
     def post(self):
         new_event_attributes = self.parser.parse_args()
 
@@ -41,7 +41,7 @@ class EventEdit(Resource):
         return inner
 
     # PUT /event/{event_id}
-    @swag_from("../swagger_documentation/event-put.yml")
+    @swag_from("../swagger_documentation/event/event-put.yml")
     @validate_event_exits
     def put(self, event_to_update):
         self.parser.add_argument("title", type=str, default=event_to_update.title)
@@ -70,7 +70,7 @@ class EventEdit(Resource):
         return {"message": "Event successfully updated"}, 200
 
     # DELETE /event/{event_id}
-    @swag_from("../swagger_documentation/event-delete.yml")
+    @swag_from("../swagger_documentation/event/event-delete.yml")
     @validate_event_exits
     def delete(self, event_to_delete):
         event_to_delete.delete_from_db()
@@ -93,7 +93,7 @@ class EventGet(Resource):
 
 class EventGetUnassigned(EventGet):
     # GET /event/all/unassigned
-    @swag_from("../swagger_documentation/event-get-unassigned.yml")
+    @swag_from("../swagger_documentation/event/event-get-unassigned.yml")
     def get(self):
         unassigned_events = self._select_where(EventModel.date.is_(None))
 
@@ -102,7 +102,7 @@ class EventGetUnassigned(EventGet):
 
 class EventGetAssigned(EventGet):
     # GET /event/all/assigned
-    @swag_from("../swagger_documentation/event-get-assigned.yml")
+    @swag_from("../swagger_documentation/event/event-get-assigned.yml")
     def get(self):
         assigned_events = self._select_where(EventModel.date.is_not(None))
 

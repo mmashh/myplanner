@@ -25,7 +25,7 @@ class ItemAdd(Resource):
         return desired_format_date_and_time
 
     @jwt_required()
-    @swag_from("../swagger_documentation/item-post.yml")
+    @swag_from("../swagger_documentation/item/item-post.yml")
     def post(self):
 
         this_users_id = userModule.get_user_id()
@@ -62,7 +62,7 @@ class Item(Resource):
     parser.add_argument("is_complete", type=str)
 
     @jwt_required()
-    @swag_from("../swagger_documentation/item-get.yml")
+    @swag_from("../swagger_documentation/item/item-get.yml")
     def get(self, item_id):
 
         item_requested = ItemModel.find_by_id(item_id)
@@ -76,7 +76,7 @@ class Item(Resource):
         return item_requested.convert_details_to_dict(), 200
 
     @jwt_required()
-    @swag_from("../swagger_documentation/item-delete.yml")
+    @swag_from("../swagger_documentation/item/item-delete.yml")
     def delete(self, item_id):
 
         item_to_delete = ItemModel.find_by_id(item_id)
@@ -92,7 +92,7 @@ class Item(Resource):
         return {"message": "item deleted"}, 200
 
     @jwt_required()
-    @swag_from("../swagger_documentation/item-put.yml")
+    @swag_from("../swagger_documentation/item/item-put.yml")
     def put(self, item_id):
 
         item_to_update = ItemModel.find_by_id(item_id)
@@ -123,7 +123,7 @@ class Item(Resource):
 # /item/all
 class ItemAllSpecificUser(Resource):
     @jwt_required()
-    @swag_from("../swagger_documentation/item-get-all.yml")
+    @swag_from("../swagger_documentation/item/item-get-all.yml")
     def get(self):
 
         this_users_id = userModule.get_user_id()
@@ -137,7 +137,7 @@ class ItemAllSpecificUser(Resource):
 
 # /item/all/admin
 class ItemAll(Resource):
-    @swag_from("../swagger_documentation/item-get-all-admin.yml")
+    @swag_from("../swagger_documentation/item/item-get-all-admin.yml")
     def get(self):
 
         all_items = []
@@ -146,7 +146,7 @@ class ItemAll(Resource):
 
         return {"items": all_items}, 200
 
-    @swag_from("../swagger_documentation/item-delete-all.yml")
+    @swag_from("../swagger_documentation/item/item-delete-all.yml")
     def delete(self):
         ItemModel.delete_all_items()
         return {"message": "all items deleted"}, 200
