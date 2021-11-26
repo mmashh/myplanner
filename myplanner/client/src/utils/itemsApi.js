@@ -3,7 +3,7 @@ import apiHelpers from "./apiHelpers";
 
 async function getAllItems() {
   var data = await apiHelpers.httpGet("/item/all");
-  return data.items;
+  return data.items_created_by_this_user;
 }
 
 async function getItem(item_id) {
