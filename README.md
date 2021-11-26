@@ -3,6 +3,17 @@
 ## Note
 This project was created as a final project for CMPT 470 Fall 2021 by the following Group 12 members: sza11, deva, mmashur, jacebedo
 
+## Instructions to Run (docker version)
+
+- Dockerization is not finalized.
+- In case docker does not work properly, please follow the instructions on Development mode section.
+
+1. Navigate to the directory containing `docker-compose.yml`
+2. (Optional) `docker-compose down && docker system prune -f`
+3. `docker-compose build && docker-compose up`
+4. Navigate to http://localhost:3000/ to view the application in your browser.
+5. Swagger doc is available on http://localhost:5000/apidocs
+
 ## Instructions to Run (Development mode)
 - The following instructions assumes that the application is coming directly from git. Thus, all instructions must be ran successfully.
 - Both CLI must remain open during testing. This is only for the development version of MyPlanner and will be deployed in a more production-ready fashion in the near future.
@@ -21,7 +32,7 @@ This project was created as a final project for CMPT 470 Fall 2021 by the follow
 3. Run the command `npm install` to install all dependency packages. Wait for the packages to finish downloading.
 4. Run the command `npm start` to start the client server
 5. Keep the CLI open during testing
-6. Navigate to https://localhost:3000/ to view the application in your browser.
+6. Navigate to http://localhost:3000/ to view the application in your browser.
 
 ## Testing Information
 The tester must register for an account using the UI. Navigate to https://localhost:3000/register to register for an account (once the application is running)
