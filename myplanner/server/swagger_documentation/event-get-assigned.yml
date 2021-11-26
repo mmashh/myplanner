@@ -8,7 +8,7 @@ responses:
     schema:
       type: object
       properties:
-        items:
+        assigned_events:
           type: array
           items:
             type: object
@@ -18,10 +18,10 @@ responses:
                 example: 1
               title:
                 type: string
-                example: Dummy event
+                example: Quiz x
               body:
                 type: string
-                example: Some notes
+                example: Quiz for course xyz
               date:
                 type: string
                 example: "15/11/2021 11:10"
