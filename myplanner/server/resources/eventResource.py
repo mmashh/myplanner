@@ -3,7 +3,7 @@ from models.eventModel import EventModel
 from flasgger import swag_from
 
 
-class Event(Resource):
+class EventAdd(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("title", type=str, required=True)
     parser.add_argument("body", type=str, required=True)
@@ -21,6 +21,13 @@ class Event(Resource):
 
         return {"message": "Event successfully created"}, 201
 
+
+class EventEdit(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("title", type=str, required=False)
+    parser.add_argument("body", type=str, required=False)
+    parser.add_argument("date", type=str, required=False)
+    
     # PUT /event/
     @swag_from("../swagger_documentation/event-put.yml")
     def put(self):
@@ -28,8 +35,14 @@ class Event(Resource):
 
     # DELETE /event/
     @swag_from("../swagger_documentation/event-delete.yml")
-    def delete(self):
-        pass
+    def delete(self, event_id):
+        event_to_delete = EventModel.find_by_id(event_id)
+        if event_to_delete is None:
+            return {"message": "No event with specified id was found"}, 422
+        else:
+            event_to_delete.delete_from_db()
+
+            return {"message": "Event deleted"}, 200
 
 
 class EventUnassigned(Resource):

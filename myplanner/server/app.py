@@ -6,7 +6,7 @@ from flask_cors import CORS
 from db import db
 from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete
 from resources.itemResource import ItemAdd, ItemAll, Item
-from resources.eventResource import Event, EventUnassigned, EventAssigned
+from resources.eventResource import EventAdd, EventEdit, EventUnassigned, EventAssigned
 
 
 def init_app():
@@ -33,7 +33,8 @@ def add_routes(app):
     api.add_resource(ItemAdd, "/item/add")
     api.add_resource(ItemAll, '/item/all')
     api.add_resource(Item, '/item/<int:item_id>')
-    api.add_resource(Event, '/event/')
+    api.add_resource(EventAdd, '/event/')
+    api.add_resource(EventEdit, '/event/<int:event_id>')
     api.add_resource(EventUnassigned, '/event/all/unassigned')
     api.add_resource(EventAssigned, '/event/all/assigned')
 
