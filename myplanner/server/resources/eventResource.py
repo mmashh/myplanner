@@ -32,45 +32,52 @@ class EventEdit(Resource):
     parser.add_argument("body", type=str, default=NOT_SET)
     parser.add_argument("date", type=str, default=NOT_SET)
 
+    def validate_event_exits(func):
+        def inner(*args, **kwargs):
+            target = EventModel.find_by_id(kwargs["event_id"])
+            if target is None:
+                return {"message": "No event with specified id was found"}, 422
+            else:
+                args = (*args, target)
+                del kwargs["event_id"]
+                return func(*args, **kwargs)
+
+        return inner
+
     # PUT /event/{event_id}
     @swag_from("../swagger_documentation/event-put.yml")
-    def put(self, event_id):
-        event_to_update = EventModel.find_by_id(event_id)
-        if event_to_update is None:
-            return {"message": "No event with specified id was found"}, 422
-        else:
-            new_event_attributes = self.parser.parse_args()
+    @validate_event_exits
+    def put(self, event_to_update):
+        new_event_attributes = self.parser.parse_args()
 
-            if new_event_attributes["title"] != self.NOT_SET:
-                event_to_update.title = new_event_attributes["title"]
-            if new_event_attributes["body"] != self.NOT_SET:
-                event_to_update.body = new_event_attributes["body"]
-            try:
-                if new_event_attributes["date"] != self.NOT_SET:
-                    event_to_update.date = datetime.strptime(
-                        new_event_attributes["date"], r"%d/%m/%Y %H:%M"
-                    )
-            except ValueError:
-                return {
-                    "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
-                }, 400
-            except TypeError:
-                pass  # This should be occuring when no date was provided. If that's the case it is valid.
+        if new_event_attributes["title"] != self.NOT_SET:
+            event_to_update.title = new_event_attributes["title"]
+        if new_event_attributes["body"] != self.NOT_SET:
+            event_to_update.body = new_event_attributes["body"]
+        try:
+            if new_event_attributes["date"] != self.NOT_SET:
+                event_to_update.date = datetime.strptime(
+                    new_event_attributes["date"], r"%d/%m/%Y %H:%M"
+                )
+        except ValueError:
+            return {
+                "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
+            }, 400
+        except TypeError:
+            pass  # This should be occuring when no date was provided. If that's the case it is valid.
 
-            event_to_update.save_to_db()
+        event_to_update.save_to_db()
 
-            return {"message": "Event successfully updated"}, 200
+        return {"message": "Event successfully updated"}, 200
 
     # DELETE /event/{event_id}
     @swag_from("../swagger_documentation/event-delete.yml")
-    def delete(self, event_id):
-        event_to_delete = EventModel.find_by_id(event_id)
-        if event_to_delete is None:
-            return {"message": "No event with specified id was found"}, 422
-        else:
-            event_to_delete.delete_from_db()
+    @validate_event_exits
+    def delete(self, event_to_delete):
+        event_to_delete.delete_from_db()
 
-            return {"message": "Event deleted"}, 200
+        return {"message": "Event deleted"}, 200
+
 
 
 class EventGet(Resource):
