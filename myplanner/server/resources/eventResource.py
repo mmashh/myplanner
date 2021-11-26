@@ -1,4 +1,5 @@
 from datetime import datetime
+from abc import abstractmethod
 from flask_restful import Resource, reqparse
 from models.eventModel import EventModel
 from flasgger import swag_from
@@ -39,7 +40,7 @@ class EventEdit(Resource):
         event_to_update.body = new_event_attributes["body"]
         try:
             event_to_update.date = datetime.strptime(
-                f'{new_event_attributes["date"]}:00', r"%d/%m/%Y %H:%M:%S"
+                new_event_attributes["date"], r"%d/%m/%Y %H:%M"
             )
         except ValueError:
             return {"message": "Bad date format"}, 400
@@ -60,25 +61,32 @@ class EventEdit(Resource):
             return {"message": "Event deleted"}, 200
 
 
-class EventUnassigned(Resource):
-    # TODO: extract query method
+class EventGet(Resource):
+    def _select_where(self, filter_condition):
+        targets = []
+        for target in EventModel.query.filter(filter_condition).all():
+            targets.append(target.to_dict())
 
+        return targets
+
+    @abstractmethod
+    def get(self):
+        pass
+
+
+class EventGetUnassigned(EventGet):
     # GET /event/all/unassigned
     @swag_from("../swagger_documentation/event-get-unassigned.yml")
     def get(self):
-        unassigned_events = []
-        for event in EventModel.query.filter(EventModel.date.is_(None)).all():
-            unassigned_events.append(event.to_dict())
+        unassigned_events = self._select_where(EventModel.date.is_(None))
 
         return {"unassigned_events": unassigned_events}, 200
 
 
-class EventAssigned(Resource):
+class EventGetAssigned(EventGet):
     # GET /event/all/assigned
     @swag_from("../swagger_documentation/event-get-assigned.yml")
     def get(self):
-        assigned_events = []
-        for event in EventModel.query.filter(EventModel.date.is_not(None)).all():
-            assigned_events.append(event.to_dict())
+        assigned_events = self._select_where(EventModel.date.is_not(None))
 
         return {"assigned_events": assigned_events}, 200
