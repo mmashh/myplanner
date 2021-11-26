@@ -1,11 +1,18 @@
-Add a new list item to our DB 
+Update the values of a list item 
 ---
 tags:
   - List Item
 parameters:
+  - in: path
+    name: item_id
+    description: The id of the item we want to update
+    required: true
+    schema:
+      type: int
+
   - in: body 
     required: true
-    description: item information 
+    description: updated item information 
     schema:
       type: object
       properties:
@@ -24,14 +31,14 @@ parameters:
 
 
 responses:
-  201:
-    description: Item created
+  200:
+    description: Item updated
     schema:
       type: object
       properties:
         message:
           type: string
-          example: item successfully created
+          example: item updated
 
   422:
     description: The list item type was incorrect, or the is_complete field was incorrect
@@ -42,4 +49,11 @@ responses:
           type: string
           example: "Tasks should have a valid completion state: TRUE or FALSE"
 
-  
+  401:
+    description: Attempting to access an item that the user is unauthorized to access
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: users can only access items they have created
