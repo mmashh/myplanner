@@ -99,7 +99,7 @@ function ItemModal({activeItem,modalType,show,toggle, updateStateCallback}){
       onHide={() => toggle(false)}
       size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>{(modalType === 'edit') ? "Edit" + " " + activeItem.title : activeItem.title + " " + headerSuffix}</Modal.Title>
+        <Modal.Title>{(modalType === 'edit') ? `Edit ${activeItem.title}` : `${activeItem.title} ${headerSuffix}`}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {(modalType === 'edit') ? ModalBodyEdit() : ModalBodyView()}
