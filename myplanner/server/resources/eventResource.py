@@ -26,10 +26,11 @@ class EventAdd(Resource):
 
 
 class EventEdit(Resource):
+    NOT_SET = ""
     parser = reqparse.RequestParser()
-    parser.add_argument("title", type=str, required=True)
-    parser.add_argument("body", type=str, required=False)
-    parser.add_argument("date", type=str, required=False)
+    parser.add_argument("title", type=str, default=NOT_SET)
+    parser.add_argument("body", type=str, default=NOT_SET)
+    parser.add_argument("date", type=str, default=NOT_SET)
 
     # PUT /event/{event_id}
     @swag_from("../swagger_documentation/event-put.yml")
@@ -40,12 +41,15 @@ class EventEdit(Resource):
         else:
             new_event_attributes = self.parser.parse_args()
 
-            event_to_update.title = new_event_attributes["title"]
-            event_to_update.body = new_event_attributes["body"]
+            if new_event_attributes["title"] != self.NOT_SET:
+                event_to_update.title = new_event_attributes["title"]
+            if new_event_attributes["body"] != self.NOT_SET:
+                event_to_update.body = new_event_attributes["body"]
             try:
-                event_to_update.date = datetime.strptime(
-                    new_event_attributes["date"], r"%d/%m/%Y %H:%M"
-                )
+                if new_event_attributes["date"] != self.NOT_SET:
+                    event_to_update.date = datetime.strptime(
+                        new_event_attributes["date"], r"%d/%m/%Y %H:%M"
+                    )
             except ValueError:
                 return {
                     "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
