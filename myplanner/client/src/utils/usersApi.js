@@ -5,7 +5,7 @@ const cookies = new Cookies();
 
 const login = async function(user){
   var response = await apiHelpers.httpPost('/user/login',user);
-  cookies.set("Authorization",`Bearer ${response.access_token}`);
+  cookies.set("Authorization",`Bearer ${response.data?.access_token}`);
 }
 
 const register = async function(user){

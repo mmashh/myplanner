@@ -12,14 +12,14 @@ const httpGet = async function(url){
   var response = await axios.get(getUrl(url),{
     headers: cookies.getAll()
   });
-  return response.data;
+  return response;
 }
 
 const httpPost = async function(url,data){
   var response = await axios.post(getUrl(url),data,{
     headers: cookies.getAll()
   });
-  return response.data;
+  return response;
 }
 
 const httpPut = async function(url,id,data){/* TODO */}
@@ -28,7 +28,7 @@ const httpDelete = async function(url){
   var response = await axios.delete(getUrl(url),{
     headers: cookies.getAll()
   });
-  return response.data;
+  return response;
 }
 
 const apiHelpers = {
