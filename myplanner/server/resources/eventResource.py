@@ -81,7 +81,7 @@ class EventEdit(Resource):
 class EventGet(Resource):
     def _select_where(self, filter_condition):
         targets = []
-        for target in EventModel.query.filter(filter_condition).all():
+        for target in EventModel.get_all_where(filter_condition):
             targets.append(target.to_dict())
 
         return targets

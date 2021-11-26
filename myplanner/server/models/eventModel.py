@@ -42,15 +42,8 @@ class EventModel(db.Model):
         return res
 
     @classmethod
-    def get_all_items(cls):
-        all_items = cls.query.all()
-        return all_items
-
-    @classmethod
-    def delete_all_items(cls):
-        all_items = cls.query.all()
-        for item in all_items:
-            item.delete_from_db()
+    def get_all_where(cls, condition):
+        return cls.query.filter(condition).all()
 
     @classmethod
     def find_by_id(cls, _id):
