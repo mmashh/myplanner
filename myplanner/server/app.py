@@ -17,10 +17,11 @@ def init_app():
 
     swagger = Swagger(app)
     jwt = JWTManager(app)
-    
+
     cors = CORS(app)
 
     return app
+
 
 def add_routes(app):
 
@@ -32,8 +33,8 @@ def add_routes(app):
 
     api.add_resource(ItemAdd, "/item/add")
     api.add_resource(ItemAllSpecificUser, "/item/all")
-    api.add_resource(ItemAll, '/item/all/admin')
-    api.add_resource(Item, '/item/<int:item_id>')
+    api.add_resource(ItemAll, "/item/all/admin")
+    api.add_resource(Item, "/item/<int:item_id>")
 
     return app
 

@@ -11,33 +11,36 @@ class UserRegister(Resource):
     parser.add_argument("username", type=str, required=True)
     parser.add_argument("password", type=str, required=True)
 
-    @swag_from('../swagger_documentation/user-register.yml')    
+    @swag_from("../swagger_documentation/user-register.yml")
     def post(self):
 
         new_user_details = self.parser.parse_args()
-        preexisting_user_with_this_username = UserModel.find_by_username(new_user_details['username'])
-        
+        preexisting_user_with_this_username = UserModel.find_by_username(
+            new_user_details["username"]
+        )
+
         if preexisting_user_with_this_username is None:
-            user_to_add = UserModel(new_user_details['username'], new_user_details['password'])
+            user_to_add = UserModel(
+                new_user_details["username"], new_user_details["password"]
+            )
             user_to_add.save_to_db()
-            return {'message': 'user created'}, 201
+            return {"message": "user created"}, 201
         else:
-            return {'message': 'this user already exists in the DB'}, 422
+            return {"message": "this user already exists in the DB"}, 422
 
 
 # user/delete/<int: id>
 class UserDelete(Resource):
-
-    @swag_from('../swagger_documentation/user-delete.yml')  
+    @swag_from("../swagger_documentation/user-delete.yml")
     def delete(self, id_of_user_to_delete):
         user_to_delete = UserModel.find_by_id(id_of_user_to_delete)
 
         if user_to_delete is None:
-            return {'message' : 'this user does not exist in the DB'}, 422
-        
+            return {"message": "this user does not exist in the DB"}, 422
+
         else:
             user_to_delete.delete_from_db()
-            return {'message' : 'user deleted'}, 200
+            return {"message": "user deleted"}, 200
 
 
 # /user/login
@@ -47,7 +50,7 @@ class UserLogin(Resource):
     parser.add_argument("username", type=str, required=True)
     parser.add_argument("password", type=str, required=True)
 
-    @swag_from('../swagger_documentation/user-login.yml')  
+    @swag_from("../swagger_documentation/user-login.yml")
     def post(self):
 
         login_information = self.parser.parse_args()
@@ -69,11 +72,9 @@ class UserLogin(Resource):
         return {"message": "invalid credentials"}, 401
 
 
-
 # /user/all
 class UserAll(Resource):
-
-    @swag_from('../swagger_documentation/user-all.yml') 
+    @swag_from("../swagger_documentation/user-all.yml")
     def get(self):
         all_users = UserModel.examine_table_contents()
         all_users_list = []
@@ -81,6 +82,4 @@ class UserAll(Resource):
         for user in all_users:
             all_users_list.append(user.convert_details_to_dict())
 
-        return {'all_users' : all_users_list}
-
-        
+        return {"all_users": all_users_list}
