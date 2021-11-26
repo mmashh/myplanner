@@ -8,17 +8,17 @@ responses:
     schema:
       type: object
       properties:
-        items:
+        unassigned_events:
           type: array
           items:
             type: object
             properties:
               event_id:
                 type: int
-                example: 1
+                example: 2
               title:
                 type: string
-                example: Dummy event
+                example: Some unscheduled event
               body:
                 type: string
                 example: Some notes
