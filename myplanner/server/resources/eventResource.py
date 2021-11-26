@@ -7,8 +7,7 @@ from flasgger import swag_from
 class EventAdd(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("title", type=str, required=True)
-    parser.add_argument("body", type=str, required=True)
-    parser.add_argument("date", type=str, required=False)
+    parser.add_argument("body", type=str, required=False)
 
     # POST /event/
     @swag_from("../swagger_documentation/event-post.yml")

@@ -3,7 +3,7 @@ Add a new calendar event to our DB
 tags:
   - Calendar event
 parameters:
-  - description: Event attributes
+  - description: Event attributes. Must contain title(str), body(str) is optional
     in: body
     required: true
     schema:
