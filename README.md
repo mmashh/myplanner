@@ -10,12 +10,13 @@ This project was created as a final project for CMPT 470 Fall 2021 by the follow
 ### Part 1: Server
 1. Open up the CLI of your choice (Terminal/CMD)
 2. Navigate to `~/myplanner/server`
-3. Run the command `pip install -r ./requirements.txt` to install all dependency packages. Wait for the packages to finish downloading.
-4. Run the command `python app.py` to start the server.
-5. Keep the CLI open during testing.
+3. (Optional) It is highly recommended to create a python virtual environment before proceeding with the following steps.
+4. Run the command `pip install -r ./requirements.txt` to install all dependency packages. Wait for the packages to finish downloading.
+5. Run the command `python app.py` to start the server.
+6. Keep the CLI open during testing.
 
 ### Part 2: Client
-1. Open up a **separate** CLI of  your choice (Different from the CLI used in part 1).
+1. Open up a **separate** CLI of your choice (Different from the CLI used in part 1).
 2. Navigate to `~/myplanner/client`
 3. Run the command `npm install` to install all dependency packages. Wait for the packages to finish downloading.
 4. Run the command `npm start` to start the client server
