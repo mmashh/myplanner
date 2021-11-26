@@ -9,19 +9,15 @@ parameters:
     required: true
     schema:
       type: int
-
-
 responses:
   200:
-    description: Event deleted successfully deleted
+    description: Event successfully deleted
     schema:
       type: object
       properties:
         message:
           type: string
           example: Event deleted
-
-  
   422:
     description: No event has the id specified by event_id in the DB
     schema:

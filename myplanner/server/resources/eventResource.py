@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_restful import Resource, reqparse
 from models.eventModel import EventModel
 from flasgger import swag_from
@@ -27,11 +28,26 @@ class EventEdit(Resource):
     parser.add_argument("title", type=str, required=False)
     parser.add_argument("body", type=str, required=False)
     parser.add_argument("date", type=str, required=False)
-    
+
     # PUT /event/
     @swag_from("../swagger_documentation/event-put.yml")
-    def put(self):
-        pass
+    def put(self, event_id):
+        event_to_update = EventModel.find_by_id(event_id)
+
+        new_event_attributes = self.parser.parse_args()
+
+        event_to_update.title = new_event_attributes["title"]
+        event_to_update.body = new_event_attributes["body"]
+        try:
+            event_to_update.date = datetime.strptime(
+                f'{new_event_attributes["date"]}:00', r"%d/%m/%Y %H:%M:%S"
+            )
+        except ValueError:
+            return {"message": "Bad date format"}, 400
+
+        event_to_update.save_to_db()
+
+        return {"message": "Event successfully updated"}, 201
 
     # DELETE /event/
     @swag_from("../swagger_documentation/event-delete.yml")
