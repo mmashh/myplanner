@@ -20,8 +20,8 @@ function Itemlist({items, updateStateCallback}) {
   let [showItemModal, setShowItemModal] = useState(false);
   let [modalType, setModalType] = useState('view');
 
-  const markCompleteHandler = function(e,item_id) {
-    itemsApi.markComplete(item_id,e.target.checked) 
+  const markCompleteHandler = async function(e,item_id) {
+    await itemsApi.markComplete(item_id,e.target.checked);
     updateStateCallback();
   }
 

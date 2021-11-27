@@ -12,12 +12,14 @@ import itemsApi from './utils/itemsApi';
 
 function Items() {
   let [items, setItems] = useState([]);
-  
+
   // Ref: https://stackoverflow.com/a/54621059
   const updateItems = async function(){
     var items = await itemsApi.getAllItems();
-    console.log(items);
-    setItems([...items]);
+    if (Array.isArray(items)){
+      setItems([...items]);
+      console.log(items);
+    }
   }
 
   useEffect(() => updateItems(),[]);
