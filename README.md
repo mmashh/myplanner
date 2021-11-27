@@ -4,31 +4,25 @@
 This project was created as a final project for CMPT 470 Fall 2021 by the following Group 12 members: sza11, deva, mmashur, jacebedo
 
 ## Instructions to Run (Development mode)
-- The following instructions assumes that the application is coming directly from git. Thus, all instructions must be ran successfully.
-- Both CLI must remain open during testing. This is only for the development version of MyPlanner and will be deployed in a more production-ready fashion in the near future.
+- The terminal must remain open during testing. This is only for the development version of MyPlanner and will be deployed in a more production-ready fashion in the near future.
 
 ### Part 1: Server
-1. Open up the CLI of your choice (Terminal/CMD)
-2. Navigate to `~/myplanner/server`
+1. Open up a terminal window
+2. Navigate to `./myplanner/server`
 3. Run the command `pip install -r ./requirements.txt` to install all dependency packages. Wait for the packages to finish downloading.
 4. Run the command `python app.py` to start the server.
 5. Keep the CLI open during testing.
 
 ### Part 2: Client
-1. Open up a **separate** CLI of  your choice (Different from the CLI used in part 1).
-2. Navigate to `~/myplanner/client`
+1. Open up a **separate** terminal window (Different from the terminal window used in part 1).
+2. Navigate to `./myplanner/client`
 3. Run the command `npm install` to install all dependency packages. Wait for the packages to finish downloading.
 4. Run the command `npm start` to start the client server
 5. Keep the CLI open during testing
-6. Navigate to https://localhost:3000/ to view the application in your browser.
+6. Navigate to http://localhost:3000/ to view the application in your browser.
 
-## Testing Information
-The tester must register for an account using the UI. Navigate to https://localhost:3000/register to register for an account (once the application is running)
-
-## Database Information & Sample Users
 <h1> Application Server Information </h1>
 <br>
-
 
 <ul>
 <li>Run <code>pip install -r ./requirements.txt </code> to 
@@ -39,9 +33,7 @@ install all required dependencies</li>
 </li>
 </ul>
 
-
-
-
+## Sample  Users
 <p> The following sample data is available for users </p>
 
 <table>
@@ -62,10 +54,7 @@ install all required dependencies</li>
     </tr>
 </table>
     
-
-
-
-
+## Database Information 
 <p> The following sample data is available for list items </p>
 
 <table>
@@ -106,8 +95,6 @@ install all required dependencies</li>
     <td>2</td>
     </tr>
 </table>
-    
-
 
 ## Special Thanks To:
 - The CMPT 470 Fall 2021 Teaching Staff: ggbaker, lirongl, gna17 
