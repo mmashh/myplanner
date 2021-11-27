@@ -37,19 +37,20 @@ async function editItem(item_id,item) {
     item_type: item.item_type,
     is_complete: convertIsComplete(item.is_complete,item.item_type)
   };
-  var response = await apiHelpers.put(`/item/${item_id}`,itemToEdit);
+
+  var response = await apiHelpers.httpPut(`/item/${item_id}`,itemToEdit);
   return response;
 }
 
 async function markComplete(item,is_complete) {
-
   var itemToEdit = {
     title: item.title,
     body: item.body,
     item_type: item.item_type,
     is_complete: convertIsComplete(is_complete,item.item_type)
   };
-  return editItem(itemToEdit.item_id,itemToEdit);
+  var response = await apiHelpers.httpPut(`/item/${item.item_id}`,itemToEdit);
+  return response;
 }
 
 async function deleteItem(item_id) {
