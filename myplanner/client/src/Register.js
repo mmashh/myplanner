@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import usersApi from './utils/usersApi';
+import ErrorDisplay from './components/ErrorDisplay';
 import {
   Container,
   Row,
@@ -13,6 +14,7 @@ import {
 
 function Register() {
   let navigate = useNavigate();
+  let [error,setError] = useState();
   let [user,setUser] = useState({
     username: '',
     password: ''
@@ -31,8 +33,13 @@ function Register() {
   
   const registerUser = async function(e){
     e.preventDefault();
-    await usersApi.register(user);
-    navigate('/login');
+    let result = await usersApi.register(user);
+    if (result.error){
+      setError(result.error)
+    } else {
+      navigate('/login');
+    }
+
   }
 
   return (
@@ -40,6 +47,7 @@ function Register() {
       <Row md={12} className="vh-100">
         <Col md={4} className="mx-auto my-5">
           <h1 className="mb-4">Register</h1>
+          <ErrorDisplay error={error}/>
           <Form onSubmit={registerUser}>
             <Form.Group className="mb-4">
               <Form.Label>Username</Form.Label>

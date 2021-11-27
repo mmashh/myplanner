@@ -42,4 +42,8 @@ The tester must register for an account using the UI. Navigate to https://localh
 - [React-Bootstrap-Icons](https://github.com/ismamz/react-bootstrap-icons)
 - [React](https://reactjs.org/)
 - [React-Router](https://github.com/remix-run/react-router)
+<<<<<<< HEAD
 - [Fullcalendar](https://github.com/fullcalendar/fullcalendar-react)
+=======
+- [Fullcalendar](https://github.com/fullcalendar/fullcalendar-react)
+>>>>>>> 5-login-page

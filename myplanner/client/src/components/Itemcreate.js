@@ -80,7 +80,7 @@ function  Itemcreate({updateStateCallback}){
             </Row>
             <Form.Group id="item-actions">
                 <Button id="item-clear" className="mx-4" variant="danger" onClick={clearHandler}>Clear</Button>
-                <Button id="item-submit" variant="success" type="submit" type="submit">Submit</Button>
+                <Button id="item-submit" variant="success" type="submit">Submit</Button>
             </Form.Group>
           </Form>
         </Row>
