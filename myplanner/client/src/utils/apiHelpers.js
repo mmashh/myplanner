@@ -22,7 +22,12 @@ const httpPost = async function(url,data){
   return response;
 }
 
-const httpPut = async function(url,id,data){/* TODO */}
+const httpPut = async function(url,data){
+  var response = await axios.put(getUrl(url),data,{
+    headers: cookies.getAll()
+  });
+  return response.data;
+}
 
 const httpDelete = async function(url){
   var response = await axios.delete(getUrl(url),{

@@ -31,9 +31,9 @@ function ItemModal({activeItem,modalType,show,toggle, updateStateCallback}){
     });
   }
 
-  const handleEditForm = function(e) {
+  const handleEditForm = async function(e) {
     e.preventDefault();
-    itemsApi.editItem(itemToEdit.item_id,itemToEdit);
+    await itemsApi.editItem(itemToEdit.item_id,itemToEdit);
     updateStateCallback()
     toggle(false);
   }
