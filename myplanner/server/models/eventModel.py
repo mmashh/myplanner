@@ -8,10 +8,12 @@ class EventModel(db.Model):
     title = db.Column(db.String(80), nullable=False)
     body = db.Column(db.String(280), nullable=True)
     date = db.Column(db.DateTime(), nullable=True)
+    owner = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, title, body):
+    def __init__(self, title, body, owner):
         self.title = title
         self.body = body
+        self.owner = owner
 
     def save_to_db(self):
         db.session.add(self)
@@ -29,15 +31,11 @@ class EventModel(db.Model):
             "event_id": self.event_id,
             "title": self.title,
             "body": self.body,
+            "owner_id": self.owner
         }
 
         if self.date:
-            res = {
-                "event_id": self.event_id,
-                "title": self.title,
-                "body": self.body,
-                "date": self.date.strftime("%d/%m/%Y %H:%M"),
-            }
+            res["date"] = self.date.strftime("%d/%m/%Y %H:%M")
 
         return res
 
