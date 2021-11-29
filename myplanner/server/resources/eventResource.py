@@ -2,9 +2,11 @@ from datetime import datetime
 from abc import abstractmethod
 
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 from flasgger import swag_from
 
 from models.eventModel import EventModel
+import modules.userModule as userModule
 
 
 class EventAdd(Resource):
@@ -13,12 +15,14 @@ class EventAdd(Resource):
     parser.add_argument("body", type=str, required=False)
 
     # POST /event/
+    @jwt_required
     @swag_from("../swagger_documentation/event-post.yml")
     def post(self):
+        owner_id = userModule.get_user_id()
         new_event_attributes = self.parser.parse_args()
 
         event_to_add = EventModel(
-            new_event_attributes["title"], new_event_attributes["body"]
+            new_event_attributes["title"], new_event_attributes["body"], owner_id
         )
         event_to_add.save_to_db()
 
