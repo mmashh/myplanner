@@ -2,7 +2,7 @@ from datetime import datetime
 from abc import abstractmethod
 
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, verify_jwt_in_request
 from flasgger import swag_from
 
 from models.eventModel import EventModel
@@ -15,7 +15,7 @@ class EventAdd(Resource):
     parser.add_argument("body", type=str, required=False)
 
     # POST /event/
-    @jwt_required
+    @jwt_required()
     @swag_from("../swagger_documentation/event-post.yml")
     def post(self):
         owner_id = userModule.get_user_id()
@@ -32,9 +32,9 @@ class EventAdd(Resource):
 class EventEdit(Resource):
     parser = reqparse.RequestParser()
 
-    @jwt_required
     def validate_event_exits(func):
         def inner(*args, **kwargs):
+            verify_jwt_in_request()
             ids = {}
             ids["event_id"] = kwargs["event_id"]
             ids["owner"] = userModule.get_user_id()
@@ -87,8 +87,8 @@ class EventEdit(Resource):
 
 
 class EventGet(Resource):
-    @jwt_required
     def _select_where(self, filter_conditions):
+        verify_jwt_in_request()
         targets = []
         owner_id = userModule.get_user_id()
         filter_conditions = (filter_conditions, EventModel.owner.is_(owner_id))
