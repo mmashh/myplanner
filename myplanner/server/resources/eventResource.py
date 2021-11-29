@@ -83,9 +83,12 @@ class EventEdit(Resource):
 
 
 class EventGet(Resource):
-    def _select_where(self, filter_condition):
+    @jwt_required
+    def _select_where(self, filter_conditions):
         targets = []
-        for target in EventModel.get_all_where(filter_condition):
+        owner_id = userModule.get_user_id()
+        filter_conditions = (filter_conditions, EventModel.owner.is_(owner_id))
+        for target in EventModel.get_all_where(filter_conditions):
             targets.append(target.to_dict())
 
         return targets

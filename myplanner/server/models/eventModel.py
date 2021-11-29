@@ -31,7 +31,6 @@ class EventModel(db.Model):
             "event_id": self.event_id,
             "title": self.title,
             "body": self.body,
-            "owner_id": self.owner
         }
 
         if self.date:
@@ -40,8 +39,8 @@ class EventModel(db.Model):
         return res
 
     @classmethod
-    def get_all_where(cls, condition):
-        return cls.query.filter(condition).all()
+    def get_all_where(cls, _conditions):
+        return cls.query.filter(*_conditions).all()
 
     @classmethod
     def find_by_id(cls, _id):
