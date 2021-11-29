@@ -32,9 +32,13 @@ class EventAdd(Resource):
 class EventEdit(Resource):
     parser = reqparse.RequestParser()
 
+    @jwt_required
     def validate_event_exits(func):
         def inner(*args, **kwargs):
-            target = EventModel.find_by_id(kwargs["event_id"])
+            ids = {}
+            ids["event_id"] = kwargs["event_id"]
+            ids["owner"] = userModule.get_user_id()
+            target = EventModel.find_by_id(ids)
             if target is None:
                 return {"message": "No event with specified id was found"}, 422
             else:

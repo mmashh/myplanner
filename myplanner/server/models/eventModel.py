@@ -43,5 +43,5 @@ class EventModel(db.Model):
         return cls.query.filter(*_conditions).all()
 
     @classmethod
-    def find_by_id(cls, _id):
-        return cls.query.filter_by(event_id=_id).first()
+    def find_by_id(cls, _ids):
+        return cls.query.filter_by(**_ids).first()
