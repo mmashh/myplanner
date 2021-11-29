@@ -9,12 +9,12 @@ from models.eventModel import EventModel
 import modules.userModule as userModule
 
 
+# POST /event/
 class EventAdd(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("title", type=str, required=True)
     parser.add_argument("body", type=str, required=False)
 
-    # POST /event/
     @jwt_required()
     @swag_from("../swagger_documentation/event-post.yml")
     def post(self):
@@ -29,12 +29,13 @@ class EventAdd(Resource):
         return {"message": "Event successfully created"}, 201
 
 
+# PUT /event/{event_id}
+# DELETE /event/{event_id}
 class EventEdit(Resource):
     parser = reqparse.RequestParser()
 
     def validate_event_exits(func):
         def inner(*args, **kwargs):
-            verify_jwt_in_request()
             ids = {}
             ids["event_id"] = kwargs["event_id"]
             ids["owner"] = userModule.get_user_id()
@@ -48,7 +49,7 @@ class EventEdit(Resource):
 
         return inner
 
-    # PUT /event/{event_id}
+    @jwt_required()
     @swag_from("../swagger_documentation/event-put.yml")
     @validate_event_exits
     def put(self, event_to_update):
@@ -77,7 +78,7 @@ class EventEdit(Resource):
 
         return {"message": "Event successfully updated"}, 200
 
-    # DELETE /event/{event_id}
+    @jwt_required()
     @swag_from("../swagger_documentation/event-delete.yml")
     @validate_event_exits
     def delete(self, event_to_delete):
@@ -88,7 +89,6 @@ class EventEdit(Resource):
 
 class EventGet(Resource):
     def _select_where(self, filter_conditions):
-        verify_jwt_in_request()
         targets = []
         owner_id = userModule.get_user_id()
         filter_conditions = (filter_conditions, EventModel.owner.is_(owner_id))
@@ -102,8 +102,9 @@ class EventGet(Resource):
         pass
 
 
+# GET /event/all/unassigned
 class EventGetUnassigned(EventGet):
-    # GET /event/all/unassigned
+    @jwt_required()
     @swag_from("../swagger_documentation/event-get-unassigned.yml")
     def get(self):
         unassigned_events = self._select_where(EventModel.date.is_(None))
@@ -111,8 +112,9 @@ class EventGetUnassigned(EventGet):
         return {"unassigned_events": unassigned_events}, 200
 
 
+# GET /event/all/assigned
 class EventGetAssigned(EventGet):
-    # GET /event/all/assigned
+    @jwt_required()
     @swag_from("../swagger_documentation/event-get-assigned.yml")
     def get(self):
         assigned_events = self._select_where(EventModel.date.is_not(None))
