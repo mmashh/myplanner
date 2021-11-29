@@ -83,23 +83,41 @@ install all required dependencies</li>
     <td>title</td>
     <td>body</td>
     <td>date</td>
+    <td>owner</td>
     </tr>
     <tr>
     <td>1</td>
     <td>Quiz x</td>
     <td>Quiz for course xyz</td>
     <td>11/11/2021 13:30</td>
+    <td>1</td>
     </tr>
     <tr>
     <td>2</td>
     <td>Quiz y</td>
     <td>null</td>
     <td>23/11/2021 19:01</td>
+    <td>1</td>
     </tr>
     <tr>
     <td>3</td>
     <td>Exam</td>
     <td>Time TBA</td>
     <td>null</td>
+    <td>1</td>
+    </tr>
+    <tr>
+    <td>4</td>
+    <td>Demo-event</td>
+    <td>sample text</td>
+    <td>null</td>
+    <td>2</td>
+    </tr>
+    <tr>
+    <td>5</td>
+    <td>Demo2</td>
+    <td>some more text</td>
+    <td>null</td>
+    <td>2</td>
     </tr>
 </table>
