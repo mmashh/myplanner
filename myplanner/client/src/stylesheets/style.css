@@ -23,6 +23,12 @@ body {
   left: 0;
 }
 
+#register-container {
+  background-color: var(--secondary);
+  border: 0.25em solid var(--ternary);
+  border-radius:1rem;
+}
+
 .app-content {
   height: 80vh;
 }

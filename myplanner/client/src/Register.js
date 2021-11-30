@@ -6,7 +6,8 @@ import {
   Row,
   Col,
   Form,
-  Button
+  Button,
+  ButtonGroup
 } from 'react-bootstrap';
 import {
   useNavigate
@@ -14,6 +15,7 @@ import {
 
 function Register() {
   let navigate = useNavigate();
+  let [validated, setValidated] = useState(false);
   let [error,setError] = useState();
   let [user,setUser] = useState({
     username: '',
@@ -32,32 +34,40 @@ function Register() {
   }
   
   const registerUser = async function(e){
+    const form = e.target;
     e.preventDefault();
-    let result = await usersApi.register(user);
-    if (result.error){
-      setError(result.error)
-    } else {
-      navigate('/login');
+    if (form.checkValidity()){
+      let result = await usersApi.register(user);
+      if (result.error){
+        setError(result.error);
+        setValidated(false);
+        return;
+      } else {
+        navigate('/login');
+      }
     }
-
+    setValidated(true);
   }
 
   return (
     <Container fluid>
-      <Row md={12} className="vh-100">
-        <Col md={4} className="mx-auto my-5">
+      <Row md={12}>
+        <Col md={4} id="register-container" className="mx-auto my-5 p-5">
           <h1 className="mb-4">Register</h1>
+          <hr/>
           <ErrorDisplay error={error}/>
-          <Form onSubmit={registerUser}>
+          <Form onSubmit={registerUser} validated={validated} noValidate>
             <Form.Group className="mb-4">
               <Form.Label>Username</Form.Label>
               <Form.Control 
                 id="username" 
                 name="username" 
                 type="text" 
-                placeholder="Enter username here..."
+                placeholder="Username"
                 value={user.username}
-                onChange={handleFormChange}/>
+                onChange={handleFormChange} 
+                required/>
+              <Form.Control.Feedback type="invalid">The username field cannot be empty.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-5">
               <Form.Label>Password</Form.Label>
@@ -67,7 +77,9 @@ function Register() {
                 type="password" 
                 placeholder="Password"
                 value={user.password}
-                onChange={handleFormChange}/>
+                onChange={handleFormChange}
+                required/>
+              <Form.Control.Feedback type="invalid">The password field cannot be empty.</Form.Control.Feedback>                
             </Form.Group>
             <Form.Group className="d-grid gap-3 mb-4">
               <Button variant="primary" type="submit">Register</Button>
