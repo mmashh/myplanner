@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import usersApi from './utils/usersApi';
 import ErrorDisplay from './components/ErrorDisplay';
+import LoadingButton from './components/LoadingButton';
 import {
   Container,
   Row,
   Col,
   Form,
-  Button
+  Button,
+  Spinner
 } from 'react-bootstrap';
 import {
   useNavigate
@@ -20,6 +22,7 @@ function Login() {
     password: ''
   });
   let [validated,setValidated] = useState(false);
+  let [loading, setLoading] = useState(false);
   
   //Ref: https://stackoverflow.com/a/61243124
   const handleFormChange = function(e){
@@ -36,7 +39,9 @@ function Login() {
     e.preventDefault();
     const form = e.target;
     if (form.checkValidity()) {
+      setLoading(true);
       var result = await usersApi.login(user);
+      setLoading(false);
       if (result.error) {
         setError(result.error);
         setValidated(false);
@@ -52,8 +57,10 @@ function Login() {
     <Container fluid>
       <Row md={12}>
         <Col md={4} className="mx-auto my-5">
-          <h1 className="mb-4">Log In</h1>
-          <hr/>
+          <Row id="login-header">
+            <h1 className="mb-4">Log In </h1>
+            <hr/>
+          </Row>
           <ErrorDisplay error={error}/>
           <Form onSubmit={loginUser} validated={validated} noValidate>
             <Form.Group className="mb-4">
@@ -81,7 +88,7 @@ function Login() {
               <Form.Control.Feedback type="invalid">The password field cannot be empty.</Form.Control.Feedback>                
             </Form.Group>           
             <Form.Group className="d-grid gap-3 mb-4">
-              <Button variant="primary" type="submit">Log In</Button>
+              <LoadingButton variant="primary" type="submit" loading={loading} text="Log In"/>
               <Button variant="secondary" onClick={()=>navigate('/register')}>Register</Button>
             </Form.Group>
           </Form>

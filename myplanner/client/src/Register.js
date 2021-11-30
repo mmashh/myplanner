@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import usersApi from './utils/usersApi';
 import ErrorDisplay from './components/ErrorDisplay';
+import LoadingButton from './components/LoadingButton';
 import {
   Container,
   Row,
   Col,
   Form,
-  Button,
-  ButtonGroup
+  Button
 } from 'react-bootstrap';
 import {
   useNavigate
@@ -17,6 +17,7 @@ function Register() {
   let navigate = useNavigate();
   let [validated, setValidated] = useState(false);
   let [error,setError] = useState();
+  let [loading,setLoading] = useState();
   let [user,setUser] = useState({
     username: '',
     password: ''
@@ -37,7 +38,9 @@ function Register() {
     const form = e.target;
     e.preventDefault();
     if (form.checkValidity()){
+      setLoading(true);
       let result = await usersApi.register(user);
+      setLoading(false);
       if (result.error){
         setError(result.error);
         setValidated(false);
@@ -82,7 +85,7 @@ function Register() {
               <Form.Control.Feedback type="invalid">The password field cannot be empty.</Form.Control.Feedback>                
             </Form.Group>
             <Form.Group className="d-grid gap-3 mb-4">
-              <Button variant="primary" type="submit">Register</Button>
+              <LoadingButton variant="primary" type="submit" loading={loading} text="Create User"/>
               <Button variant="secondary" onClick={()=>navigate('/login')}>Back to Login</Button>
             </Form.Group>
           </Form>
@@ -91,8 +94,5 @@ function Register() {
     </Container>
   );
 }
-
-
-
 
 export default Register;
