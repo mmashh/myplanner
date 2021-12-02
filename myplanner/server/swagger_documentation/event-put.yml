@@ -1,0 +1,51 @@
+Update an existing calendar event in our DB
+---
+tags:
+  - Calendar event
+parameters:
+  - in: path
+    name: event_id
+    description: ID of the event requested to update
+    required: true
+    schema:
+      type: int
+  - in: body
+    description: New event attributes. Use null to nullify attributes except title
+    required: true
+    schema:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Sample event name
+        body:
+          type: string
+          example: Some notes about the event
+        datetime:
+          type: string
+          example: "15/11/2021 11:10"
+responses:
+  200:
+    description: Event successfully updated
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Event updated
+  400:
+    description: Incorrect datetime format
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format
+  422:
+    description: No event has the id specified by event_id in the DB
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: No event with specified id was found
