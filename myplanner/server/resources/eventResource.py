@@ -38,7 +38,7 @@ class EventEdit(Resource):
         def inner(*args, **kwargs):
             ids = {}
             ids["event_id"] = kwargs["event_id"]
-            ids["owner"] = userModule.get_user_id()
+            ids["created_by"] = userModule.get_user_id()
             target = EventModel.find_by_id(ids)
             if target is None:
                 return {"message": "No event with specified id was found"}, 422
