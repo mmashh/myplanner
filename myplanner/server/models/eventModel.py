@@ -34,7 +34,7 @@ class EventModel(db.Model):
         }
 
         if self.datetime:
-            res["datetime"] = self.date.strftime("%d/%m/%Y %H:%M")
+            res["datetime"] = self.datetime.strftime("%d/%m/%Y %H:%M")
 
         return res
 

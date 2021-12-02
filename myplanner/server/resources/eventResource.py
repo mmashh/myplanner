@@ -72,7 +72,7 @@ class EventEdit(Resource):
                 "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
             }, 400
         except TypeError:
-            pass  # This should be occuring when no datetime was provided. If that's the case it is valid.
+            event_to_update.datetime = None
 
         event_to_update.save_to_db()
 
