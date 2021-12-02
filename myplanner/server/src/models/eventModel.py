@@ -7,11 +7,13 @@ class EventModel(db.Model):
     event_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     body = db.Column(db.String(280), nullable=True)
-    date = db.Column(db.DateTime(), nullable=True)
+    datetime = db.Column(db.DateTime(), nullable=True)
+    created_by = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, title, body):
+    def __init__(self, title, body, owner):
         self.title = title
         self.body = body
+        self.created_by = owner
 
     def save_to_db(self):
         db.session.add(self)
@@ -31,20 +33,15 @@ class EventModel(db.Model):
             "body": self.body,
         }
 
-        if self.date:
-            res = {
-                "event_id": self.event_id,
-                "title": self.title,
-                "body": self.body,
-                "date": self.date.strftime("%d/%m/%Y %H:%M"),
-            }
+        if self.datetime:
+            res["datetime"] = self.datetime.strftime("%d/%m/%Y %H:%M")
 
         return res
 
     @classmethod
-    def get_all_where(cls, condition):
-        return cls.query.filter(condition).all()
+    def get_all_where(cls, _conditions):
+        return cls.query.filter(*_conditions).all()
 
     @classmethod
-    def find_by_id(cls, _id):
-        return cls.query.filter_by(event_id=_id).first()
+    def find_by_id(cls, _ids):
+        return cls.query.filter_by(**_ids).first()

@@ -2,35 +2,44 @@ from datetime import datetime
 from abc import abstractmethod
 
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required, verify_jwt_in_request
 from flasgger import swag_from
 
 from models.eventModel import EventModel
+import modules.userModule as userModule
 
 
+# POST /event/
 class EventAdd(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("title", type=str, required=True)
     parser.add_argument("body", type=str, required=False)
 
-    # POST /event/
+    @jwt_required()
     @swag_from("../swagger_documentation/event/event-post.yml")
     def post(self):
+        owner_id = userModule.get_user_id()
         new_event_attributes = self.parser.parse_args()
 
         event_to_add = EventModel(
-            new_event_attributes["title"], new_event_attributes["body"]
+            new_event_attributes["title"], new_event_attributes["body"], owner_id
         )
         event_to_add.save_to_db()
 
         return {"message": "Event successfully created"}, 201
 
 
+# PUT /event/{event_id}
+# DELETE /event/{event_id}
 class EventEdit(Resource):
     parser = reqparse.RequestParser()
 
     def validate_event_exits(func):
         def inner(*args, **kwargs):
-            target = EventModel.find_by_id(kwargs["event_id"])
+            ids = {}
+            ids["event_id"] = kwargs["event_id"]
+            ids["created_by"] = userModule.get_user_id()
+            target = EventModel.find_by_id(ids)
             if target is None:
                 return {"message": "No event with specified id was found"}, 422
             else:
@@ -40,13 +49,13 @@ class EventEdit(Resource):
 
         return inner
 
-    # PUT /event/{event_id}
+    @jwt_required()
     @swag_from("../swagger_documentation/event/event-put.yml")
     @validate_event_exits
     def put(self, event_to_update):
         self.parser.add_argument("title", type=str, default=event_to_update.title)
         self.parser.add_argument("body", type=str, default=event_to_update.body)
-        self.parser.add_argument("date", type=str, default=event_to_update.date)
+        self.parser.add_argument("datetime", type=str, default=event_to_update.datetime)
         new_event_attributes = self.parser.parse_args()
 
         if new_event_attributes["title"] is None or new_event_attributes["title"] == "":
@@ -55,21 +64,21 @@ class EventEdit(Resource):
         event_to_update.title = new_event_attributes["title"]
         event_to_update.body = new_event_attributes["body"]
         try:
-            event_to_update.date = datetime.strptime(
-                new_event_attributes["date"], r"%d/%m/%Y %H:%M"
+            event_to_update.datetime = datetime.strptime(
+                new_event_attributes["datetime"], r"%d/%m/%Y %H:%M"
             )
         except ValueError:
             return {
                 "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
             }, 400
         except TypeError:
-            pass  # This should be occuring when no date was provided. If that's the case it is valid.
+            event_to_update.datetime = None
 
         event_to_update.save_to_db()
 
         return {"message": "Event successfully updated"}, 200
 
-    # DELETE /event/{event_id}
+    @jwt_required()
     @swag_from("../swagger_documentation/event/event-delete.yml")
     @validate_event_exits
     def delete(self, event_to_delete):
@@ -79,9 +88,11 @@ class EventEdit(Resource):
 
 
 class EventGet(Resource):
-    def _select_where(self, filter_condition):
+    def _select_where(self, filter_conditions):
         targets = []
-        for target in EventModel.get_all_where(filter_condition):
+        owner_id = userModule.get_user_id()
+        filter_conditions = (filter_conditions, EventModel.created_by.is_(owner_id))
+        for target in EventModel.get_all_where(filter_conditions):
             targets.append(target.to_dict())
 
         return targets
@@ -91,19 +102,21 @@ class EventGet(Resource):
         pass
 
 
+# GET /event/all/unassigned
 class EventGetUnassigned(EventGet):
-    # GET /event/all/unassigned
+    @jwt_required()
     @swag_from("../swagger_documentation/event/event-get-unassigned.yml")
     def get(self):
-        unassigned_events = self._select_where(EventModel.date.is_(None))
+        unassigned_events = self._select_where(EventModel.datetime.is_(None))
 
         return {"unassigned_events": unassigned_events}, 200
 
 
+# GET /event/all/assigned
 class EventGetAssigned(EventGet):
-    # GET /event/all/assigned
+    @jwt_required()
     @swag_from("../swagger_documentation/event/event-get-assigned.yml")
     def get(self):
-        assigned_events = self._select_where(EventModel.date.is_not(None))
+        assigned_events = self._select_where(EventModel.datetime.is_not(None))
 
         return {"assigned_events": assigned_events}, 200

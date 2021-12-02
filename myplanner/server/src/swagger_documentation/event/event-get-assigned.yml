@@ -22,6 +22,6 @@ responses:
               body:
                 type: string
                 example: Quiz for course xyz
-              date:
+              datetime:
                 type: string
                 example: "15/11/2021 11:10"
