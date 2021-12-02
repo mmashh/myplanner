@@ -82,8 +82,8 @@ install all required dependencies</li>
     <td>event_id</td>
     <td>title</td>
     <td>body</td>
-    <td>date</td>
-    <td>owner</td>
+    <td>datetime</td>
+    <td>created_by</td>
     </tr>
     <tr>
     <td>1</td>
