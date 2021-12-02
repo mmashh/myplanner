@@ -55,7 +55,7 @@ class EventEdit(Resource):
     def put(self, event_to_update):
         self.parser.add_argument("title", type=str, default=event_to_update.title)
         self.parser.add_argument("body", type=str, default=event_to_update.body)
-        self.parser.add_argument("date", type=str, default=event_to_update.date)
+        self.parser.add_argument("datetime", type=str, default=event_to_update.datetime)
         new_event_attributes = self.parser.parse_args()
 
         if new_event_attributes["title"] is None or new_event_attributes["title"] == "":
@@ -64,15 +64,15 @@ class EventEdit(Resource):
         event_to_update.title = new_event_attributes["title"]
         event_to_update.body = new_event_attributes["body"]
         try:
-            event_to_update.date = datetime.strptime(
-                new_event_attributes["date"], r"%d/%m/%Y %H:%M"
+            event_to_update.datetime = datetime.strptime(
+                new_event_attributes["datetime"], r"%d/%m/%Y %H:%M"
             )
         except ValueError:
             return {
                 "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
             }, 400
         except TypeError:
-            pass  # This should be occuring when no date was provided. If that's the case it is valid.
+            pass  # This should be occuring when no datetime was provided. If that's the case it is valid.
 
         event_to_update.save_to_db()
 
@@ -107,7 +107,7 @@ class EventGetUnassigned(EventGet):
     @jwt_required()
     @swag_from("../swagger_documentation/event-get-unassigned.yml")
     def get(self):
-        unassigned_events = self._select_where(EventModel.date.is_(None))
+        unassigned_events = self._select_where(EventModel.datetime.is_(None))
 
         return {"unassigned_events": unassigned_events}, 200
 
@@ -117,6 +117,6 @@ class EventGetAssigned(EventGet):
     @jwt_required()
     @swag_from("../swagger_documentation/event-get-assigned.yml")
     def get(self):
-        assigned_events = self._select_where(EventModel.date.is_not(None))
+        assigned_events = self._select_where(EventModel.datetime.is_not(None))
 
         return {"assigned_events": assigned_events}, 200

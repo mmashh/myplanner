@@ -21,7 +21,7 @@ parameters:
         body:
           type: string
           example: Some notes about the event
-        date:
+        datetime:
           type: string
           example: "15/11/2021 11:10"
 responses:

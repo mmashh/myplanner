@@ -7,7 +7,7 @@ class EventModel(db.Model):
     event_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     body = db.Column(db.String(280), nullable=True)
-    date = db.Column(db.DateTime(), nullable=True)
+    datetime = db.Column(db.DateTime(), nullable=True)
     created_by = db.Column(db.Integer, nullable=False)
 
     def __init__(self, title, body, owner):
@@ -33,8 +33,8 @@ class EventModel(db.Model):
             "body": self.body,
         }
 
-        if self.date:
-            res["date"] = self.date.strftime("%d/%m/%Y %H:%M")
+        if self.datetime:
+            res["datetime"] = self.date.strftime("%d/%m/%Y %H:%M")
 
         return res
 
