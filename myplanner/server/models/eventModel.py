@@ -8,12 +8,12 @@ class EventModel(db.Model):
     title = db.Column(db.String(80), nullable=False)
     body = db.Column(db.String(280), nullable=True)
     date = db.Column(db.DateTime(), nullable=True)
-    owner = db.Column(db.Integer, nullable=False)
+    created_by = db.Column(db.Integer, nullable=False)
 
     def __init__(self, title, body, owner):
         self.title = title
         self.body = body
-        self.owner = owner
+        self.created_by = owner
 
     def save_to_db(self):
         db.session.add(self)

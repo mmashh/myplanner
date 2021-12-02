@@ -91,7 +91,7 @@ class EventGet(Resource):
     def _select_where(self, filter_conditions):
         targets = []
         owner_id = userModule.get_user_id()
-        filter_conditions = (filter_conditions, EventModel.owner.is_(owner_id))
+        filter_conditions = (filter_conditions, EventModel.created_by.is_(owner_id))
         for target in EventModel.get_all_where(filter_conditions):
             targets.append(target.to_dict())
 
