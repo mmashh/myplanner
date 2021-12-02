@@ -42,7 +42,7 @@ def add_routes(app):
     api.add_resource(ItemAdd, "/item/add")
     api.add_resource(Item, "/item/<int:item_id>")
 
-    api.add_resource(EventAdd, "/event/")
+    api.add_resource(EventAdd, "/event")
     api.add_resource(EventEdit, "/event/<int:event_id>")
     api.add_resource(EventGetUnassigned, "/event/all/unassigned")
     api.add_resource(EventGetAssigned, "/event/all/assigned")
