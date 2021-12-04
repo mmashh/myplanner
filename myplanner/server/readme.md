@@ -85,5 +85,4 @@ install all required dependencies</li>
     <td>2</td>
     <td>green</td>
     </tr>
-    
 </table>

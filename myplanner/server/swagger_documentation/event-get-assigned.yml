@@ -25,3 +25,6 @@ responses:
               datetime:
                 type: string
                 example: "15/11/2021 11:10"
+              color:
+                type: string
+                example: red
