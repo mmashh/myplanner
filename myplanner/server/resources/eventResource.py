@@ -133,6 +133,8 @@ class EventGetAssigned(EventGet):
         return {"assigned_events": assigned_events}, 200
 
 
+
+# /event/upcoming/<int:no_weeks_to_look_ahead>
 class EventGetUpcoming(EventGet):
 
     def to_timestamp_since_epoch(self, date_and_time_string):
@@ -162,13 +164,10 @@ class EventGetUpcoming(EventGet):
 
         current_timestamp = self.get_current_timestamp_since_epoch()
         furthest_relevant_timestamp = current_timestamp + (no_weeks_to_look_ahead * const.NO_SECONDS_IN_A_WEEK)
-        print(current_timestamp)
-        print(furthest_relevant_timestamp)
         list_of_upcoming_events = []
 
         for event in all_assigned_events:
             event_timestamp = self.to_timestamp_since_epoch(event["datetime"])
-            print(event, event_timestamp)
             if (self.event_considered_upcoming(event_timestamp, current_timestamp, furthest_relevant_timestamp)):
                 list_of_upcoming_events.append(event)
 
