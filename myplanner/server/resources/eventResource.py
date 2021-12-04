@@ -103,7 +103,7 @@ class EventEdit(Resource):
                     "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
                 }, 400
         
-        
+
         # Event updated
         event_to_update.title = new_event_attributes["title"]
         event_to_update.body = new_event_attributes["body"]
@@ -171,7 +171,7 @@ class EventGetAssigned(EventGet):
 # /event/upcoming/<int:no_weeks_to_look_ahead>
 class EventGetUpcoming(EventGet):
 
-    def to_timestamp_since_epoch(self, date_and_time_string):
+    def convert_to_timestamp_since_epoch(self, date_and_time_string):
 
         timestamp_of_date_and_time_string = datetime.strptime(
                 date_and_time_string, const.EVENT_DATE_AND_TIME_FORMAT
@@ -202,7 +202,7 @@ class EventGetUpcoming(EventGet):
         list_of_upcoming_events = []
 
         for event in all_assigned_events:
-            event_timestamp = self.to_timestamp_since_epoch(event["datetime"])
+            event_timestamp = self.convert_to_timestamp_since_epoch(event["datetime"])
             if (self.event_considered_upcoming(event_timestamp, current_timestamp, furthest_relevant_timestamp)):
                 list_of_upcoming_events.append(event)
 
