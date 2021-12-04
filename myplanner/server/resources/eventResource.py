@@ -147,22 +147,38 @@ class EventGetUpcoming(EventGet):
         now_date_obj = datetime.now()
         current_timestamp = now_date_obj.timestamp()
         return current_timestamp
+
+    def event_considered_upcoming(self, event_timestamp, lower_bound, upper_bound):
+
+        if (event_timestamp >= lower_bound and event_timestamp <= upper_bound):
+            return True
+        else:
+            return False
+
         
     def get(self, no_weeks_to_look_ahead):
 
         all_assigned_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_not(None))
 
         current_timestamp = self.get_current_timestamp_since_epoch()
-        furthest_relevant_timestamp = no_weeks_to_look_ahead * const.NO_SECONDS_IN_A_WEEK
-
+        furthest_relevant_timestamp = current_timestamp + (no_weeks_to_look_ahead * const.NO_SECONDS_IN_A_WEEK)
+        print(current_timestamp)
+        print(furthest_relevant_timestamp)
         list_of_upcoming_events = []
 
         for event in all_assigned_events:
-            event["datetime"] = self.to_timestamp_since_epoch(event["datetime"])
+            event_timestamp = self.to_timestamp_since_epoch(event["datetime"])
+            print(event, event_timestamp)
+            if (self.event_considered_upcoming(event_timestamp, current_timestamp, furthest_relevant_timestamp)):
+                list_of_upcoming_events.append(event)
+
+        return {'upcoming events' : list_of_upcoming_events}
+
+
             
         
         
         
 
 
-        return {'message' : 'hit this endpoint'}, 200
+        
