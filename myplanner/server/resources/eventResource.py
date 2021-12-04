@@ -120,3 +120,9 @@ class EventGetAssigned(EventGet):
         assigned_events = self._select_where(EventModel.datetime.is_not(None))
 
         return {"assigned_events": assigned_events}, 200
+
+
+class EventGetUpcoming(EventGet):
+
+    def get(self, no_weeks_to_look_ahead):
+        return {'message' : 'hit this endpoint'}, 200

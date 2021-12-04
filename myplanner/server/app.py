@@ -12,6 +12,7 @@ from resources.eventResource import (
     EventEdit,
     EventGetUnassigned,
     EventGetAssigned,
+    EventGetUpcoming
 )
 
 
@@ -46,6 +47,7 @@ def add_routes(app):
     api.add_resource(EventEdit, "/event/<int:event_id>")
     api.add_resource(EventGetUnassigned, "/event/all/unassigned")
     api.add_resource(EventGetAssigned, "/event/all/assigned")
+    api.add_resource(EventGetUpcoming, "/event/upcoming/<int:no_weeks_to_look_ahead>")
 
     return app
 
