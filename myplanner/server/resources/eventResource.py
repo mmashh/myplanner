@@ -14,6 +14,7 @@ import modules.constants as const
 class EventAdd(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("title", type=str, required=True)
+    parser.add_argument("color", type=str, required=True)
     parser.add_argument("body", type=str, required=False)
 
     @jwt_required()
@@ -23,7 +24,10 @@ class EventAdd(Resource):
         new_event_attributes = self.parser.parse_args()
 
         event_to_add = EventModel(
-            new_event_attributes["title"], new_event_attributes["body"], owner_id
+            new_event_attributes["title"], 
+            new_event_attributes["body"], 
+            owner_id,
+            new_event_attributes["color"] 
         )
         event_to_add.save_to_db()
 
@@ -50,21 +54,32 @@ class EventEdit(Resource):
 
         return inner
 
+    def is_null(self, value_to_check):
+        if value_to_check is None or value_to_check == "":
+            return True
+        else:
+            return False
+
+
     @jwt_required()
     @swag_from("../swagger_documentation/event-put.yml")
     @validate_event_exits
     def put(self, event_to_update):
+        
         self.parser.add_argument("title", type=str, default=event_to_update.title)
         self.parser.add_argument("body", type=str, default=event_to_update.body)
         self.parser.add_argument("datetime", type=str, default=event_to_update.datetime)
         self.parser.add_argument("color", type=str, default=event_to_update.color)
+
         new_event_attributes = self.parser.parse_args()
 
-        if new_event_attributes["title"] is None or new_event_attributes["title"] == "":
-            return {"message": "Title cannot be set to null"}, 400
+        if (self.is_null(new_event_attributes["title"]) or self.is_null(new_event_attributes["color"])):
+            return {"message": "Neither title nor color can be set to null"}, 400
 
         event_to_update.title = new_event_attributes["title"]
         event_to_update.body = new_event_attributes["body"]
+        event_to_update.color = new_event_attributes["color"]
+
         try:
             event_to_update.datetime = datetime.strptime(
                 new_event_attributes["datetime"], const.EVENT_DATE_AND_TIME_FORMAT

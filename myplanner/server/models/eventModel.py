@@ -1,5 +1,12 @@
 from sqlalchemy.orm import column_property
 from db import db
+import enum
+
+class colorEnum(enum.Enum):
+    RED = 'red'
+    GREEN = 'green'
+    BLUE = 'blue'
+
 
 
 class EventModel(db.Model):
@@ -34,6 +41,7 @@ class EventModel(db.Model):
             "event_id": self.event_id,
             "title": self.title,
             "body": self.body,
+            "color" : self.color
         }
 
         if self.datetime:
