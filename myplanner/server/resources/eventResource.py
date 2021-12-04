@@ -97,10 +97,10 @@ class EventGet(Resource):
 
         if added_filter_condition is None:
             filter_conditions = (default_filter_condition,)
-            print(filter_conditions)
+            
         else:
             filter_conditions = (added_filter_condition, default_filter_condition)
-            print(filter_conditions)
+            
             
         for target in EventModel.get_all_where(filter_conditions):
             targets.append(target.to_dict())
@@ -134,16 +134,32 @@ class EventGetAssigned(EventGet):
 
 class EventGetUpcoming(EventGet):
 
-    def to_timestamp_since_epoch(self, time):
-        from datetime import datetime
+    def to_timestamp_since_epoch(self, date_and_time_string):
+
+        timestamp_of_date_and_time_string = datetime.strptime(
+                date_and_time_string, r"%d/%m/%Y %H:%M"
+            ).timestamp()
+
+        return timestamp_of_date_and_time_string
+
+    def get_current_timestamp_since_epoch(self):
         now_date_obj = datetime.now()
-        current_timestamp = now_date_obj.timestamp() 
-        print(type(now_date_obj))
-        print(now_date_obj.timestamp())
+        current_timestamp = now_date_obj.timestamp()
+        return current_timestamp
+        
 
 
     def get(self, no_weeks_to_look_ahead):
+
         all_assigned_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_not(None))
-        self.convert_all_event_date_time_to_secs_since_epoch(all_assigned_events)
+
+        for event in all_assigned_events:
+            event["datetime"] = self.to_timestamp_since_epoch(event["datetime"])
+            print(event)
+
+        current_timestamp = self.get_current_timestamp_since_epoch
+        print(current_timestamp)
+        
+
 
         return {'message' : 'hit this endpoint'}, 200
