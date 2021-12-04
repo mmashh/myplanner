@@ -59,5 +59,5 @@ class EventModel(db.Model):
 
     @classmethod
     def get_all_events(cls):
-        all_items = cls.query.all()
-        return all_items
+        all_events = cls.query.all()
+        return all_events
