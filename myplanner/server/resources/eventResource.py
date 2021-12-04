@@ -57,6 +57,7 @@ class EventEdit(Resource):
         self.parser.add_argument("title", type=str, default=event_to_update.title)
         self.parser.add_argument("body", type=str, default=event_to_update.body)
         self.parser.add_argument("datetime", type=str, default=event_to_update.datetime)
+        self.parser.add_argument("color", type=str, default=event_to_update.color)
         new_event_attributes = self.parser.parse_args()
 
         if new_event_attributes["title"] is None or new_event_attributes["title"] == "":

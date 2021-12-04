@@ -1,3 +1,4 @@
+from sqlalchemy.orm import column_property
 from db import db
 
 
@@ -9,11 +10,13 @@ class EventModel(db.Model):
     body = db.Column(db.String(280), nullable=True)
     datetime = db.Column(db.DateTime(), nullable=True)
     created_by = db.Column(db.Integer, nullable=False)
+    color = db.Column(db.String(80), nullable=False)
 
-    def __init__(self, title, body, owner):
+    def __init__(self, title, body, owner, color):
         self.title = title
         self.body = body
         self.created_by = owner
+        self.color = color
 
     def save_to_db(self):
         db.session.add(self)
