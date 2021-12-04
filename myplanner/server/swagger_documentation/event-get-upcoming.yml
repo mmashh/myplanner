@@ -1,0 +1,37 @@
+Get all upcoming events
+---
+tags:
+  - Calendar event
+
+parameters:
+  - in: path
+    name: no_weeks_to_look_ahead
+    description: The number of weeks ahead that define upcoming
+    required: true
+    schema:
+      type: int
+
+
+responses:
+  200:
+    description: All upcoming events
+    schema:
+      type: object
+      properties:
+        upcoming_events:
+          type: array
+          items:
+            type: object
+            properties:
+              event_id:
+                type: int
+                example: 1
+              title:
+                type: string
+                example: Quiz x
+              body:
+                type: string
+                example: Quiz for course xyz
+              datetime:
+                type: string
+                example: "14/12/2021 11:10"

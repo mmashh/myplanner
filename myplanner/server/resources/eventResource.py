@@ -157,7 +157,8 @@ class EventGetUpcoming(EventGet):
         else:
             return False
 
-        
+    @jwt_required()
+    @swag_from("../swagger_documentation/event-get-upcoming.yml")    
     def get(self, no_weeks_to_look_ahead):
 
         all_assigned_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_not(None))
