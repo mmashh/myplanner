@@ -66,7 +66,7 @@ class EventEdit(Resource):
         event_to_update.body = new_event_attributes["body"]
         try:
             event_to_update.datetime = datetime.strptime(
-                new_event_attributes["datetime"], r"%d/%m/%Y %H:%M"
+                new_event_attributes["datetime"], const.EVENT_DATE_AND_TIME_FORMAT
             )
         except ValueError:
             return {
@@ -140,7 +140,7 @@ class EventGetUpcoming(EventGet):
     def to_timestamp_since_epoch(self, date_and_time_string):
 
         timestamp_of_date_and_time_string = datetime.strptime(
-                date_and_time_string, r"%d/%m/%Y %H:%M"
+                date_and_time_string, const.EVENT_DATE_AND_TIME_FORMAT
             ).timestamp()
 
         return timestamp_of_date_and_time_string
