@@ -61,11 +61,30 @@ class EventEdit(Resource):
             return False
 
 
+    def parse_date_as_date_time_object(self, date_and_time_string):
+        
+        error_thrown = False
+
+        if date_and_time_string is None:
+            datetime_obj = None
+            return error_thrown, datetime_obj
+    
+        try:
+            datetime_obj = datetime.strptime(
+                date_and_time_string, const.EVENT_DATE_AND_TIME_FORMAT
+            )
+        except ValueError:
+            error_thrown = True
+            datetime_obj = None
+
+        return error_thrown, datetime_obj
+                    
+            
     @jwt_required()
     @swag_from("../swagger_documentation/event-put.yml")
     @validate_event_exits
     def put(self, event_to_update):
-        
+
         self.parser.add_argument("title", type=str, default=event_to_update.title)
         self.parser.add_argument("body", type=str, default=event_to_update.body)
         self.parser.add_argument("datetime", type=str, default=event_to_update.datetime)
@@ -73,24 +92,23 @@ class EventEdit(Resource):
 
         new_event_attributes = self.parser.parse_args()
 
+        # Verifying no field is malformed
         if (self.is_null(new_event_attributes["title"]) or self.is_null(new_event_attributes["color"])):
             return {"message": "Neither title nor color can be set to null"}, 400
 
+        error_thrown, datetime_obj = self.parse_date_as_date_time_object(new_event_attributes["datetime"])
+
+        if error_thrown:
+            return {
+                    "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
+                }, 400
+        
+        
+        # Event updated
         event_to_update.title = new_event_attributes["title"]
         event_to_update.body = new_event_attributes["body"]
         event_to_update.color = new_event_attributes["color"]
-
-        try:
-            event_to_update.datetime = datetime.strptime(
-                new_event_attributes["datetime"], const.EVENT_DATE_AND_TIME_FORMAT
-            )
-        except ValueError:
-            return {
-                "message": "Incorrect datetime format. Datetime must be in 'DD/MM/YYYY hh:mm' format"
-            }, 400
-        except TypeError:
-            event_to_update.datetime = None
-
+        event_to_update.datetime = datetime_obj
         event_to_update.save_to_db()
 
         return {"message": "Event successfully updated"}, 200
