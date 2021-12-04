@@ -47,6 +47,15 @@ install all required dependencies</li>
     <td>created_by</td>
     </tr>
     <tr>
+    <td>1</td>
+    <td>Demo-note</td>
+    <td>sample text</td>
+    <td>NOTE</td>
+    <td>Null</td>
+    <td>03/12/2021 21:26</td>
+    <td>1</td>
+    </tr>
+    <tr>
     <td>2</td>
     <td>Demo-task</td>
     <td>sample text</td>
