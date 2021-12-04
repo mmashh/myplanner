@@ -88,11 +88,21 @@ class EventEdit(Resource):
 
 
 class EventGet(Resource):
-    def _select_where(self, additional_filter_conditions=None):
+
+    def select_where_created_by_this_user_and(self, added_filter_condition):
+
         targets = []
         owner_id = userModule.get_user_id()
-        additional_filter_conditions = (additional_filter_conditions, EventModel.created_by.is_(owner_id))
-        for target in EventModel.get_all_where(additional_filter_conditions):
+        default_filter_condition = EventModel.created_by.is_(owner_id)
+
+        if added_filter_condition is None:
+            filter_conditions = (default_filter_condition,)
+            print(filter_conditions)
+        else:
+            filter_conditions = (added_filter_condition, default_filter_condition)
+            print(filter_conditions)
+            
+        for target in EventModel.get_all_where(filter_conditions):
             targets.append(target.to_dict())
 
         return targets
@@ -107,7 +117,7 @@ class EventGetUnassigned(EventGet):
     @jwt_required()
     @swag_from("../swagger_documentation/event-get-unassigned.yml")
     def get(self):
-        unassigned_events = self._select_where(EventModel.datetime.is_(None))
+        unassigned_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_(None))
 
         return {"unassigned_events": unassigned_events}, 200
 
@@ -117,7 +127,7 @@ class EventGetAssigned(EventGet):
     @jwt_required()
     @swag_from("../swagger_documentation/event-get-assigned.yml")
     def get(self):
-        assigned_events = self._select_where(EventModel.datetime.is_not(None))
+        assigned_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_not(None))
 
         return {"assigned_events": assigned_events}, 200
 
@@ -125,6 +135,10 @@ class EventGetAssigned(EventGet):
 class EventGetUpcoming(EventGet):
 
     def get(self, no_weeks_to_look_ahead):
-        upcoming_events = self._select_where(None)
-        print(upcoming_events)
+        all_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_not(None))
+
+        print('hit this')
+        for event in all_events:
+            print(event)
+
         return {'message' : 'hit this endpoint'}, 200

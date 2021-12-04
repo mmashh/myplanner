@@ -48,3 +48,13 @@ def verify_item_type_and_completion_state(item_to_verify):
         error = {"error": "Item type incorrect"}
 
     return is_complete, error
+
+
+def get_current_date_and_time(desired_date_format):
+
+    from datetime import datetime
+
+    now_date_obj = datetime.now()
+    desired_format_date_and_time = now_date_obj.strftime(desired_date_format)
+
+    return desired_format_date_and_time

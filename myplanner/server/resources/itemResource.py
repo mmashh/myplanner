@@ -15,22 +15,13 @@ class ItemAdd(Resource):
     parser.add_argument("item_type", type=str, required=True)
     parser.add_argument("is_complete", type=str)
 
-    def get_current_date_and_time(self):
-
-        from datetime import datetime
-
-        now_date_obj = datetime.now()
-        desired_format_date_and_time = now_date_obj.strftime("%d/%m/%Y %H:%M")
-
-        return desired_format_date_and_time
-
     @jwt_required()
     @swag_from("../swagger_documentation/item-post.yml")
     def post(self):
 
         this_users_id = userModule.get_user_id()
         new_item_details = self.parser.parse_args()
-        date_and_time = self.get_current_date_and_time()
+        date_and_time = itemModule.get_current_date_and_time("%d/%m/%Y %H:%M")
 
         is_complete, error = itemModule.verify_item_type_and_completion_state(
             new_item_details
