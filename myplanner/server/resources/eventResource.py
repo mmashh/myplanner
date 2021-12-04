@@ -7,6 +7,7 @@ from flasgger import swag_from
 
 from models.eventModel import EventModel
 import modules.userModule as userModule
+import modules.constants as const
 
 
 # POST /event/
@@ -97,7 +98,6 @@ class EventGet(Resource):
 
         if added_filter_condition is None:
             filter_conditions = (default_filter_condition,)
-            
         else:
             filter_conditions = (added_filter_condition, default_filter_condition)
             
@@ -124,6 +124,7 @@ class EventGetUnassigned(EventGet):
 
 # GET /event/all/assigned
 class EventGetAssigned(EventGet):
+
     @jwt_required()
     @swag_from("../swagger_documentation/event-get-assigned.yml")
     def get(self):
@@ -147,18 +148,20 @@ class EventGetUpcoming(EventGet):
         current_timestamp = now_date_obj.timestamp()
         return current_timestamp
         
-
-
     def get(self, no_weeks_to_look_ahead):
 
         all_assigned_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_not(None))
 
+        current_timestamp = self.get_current_timestamp_since_epoch()
+        furthest_relevant_timestamp = no_weeks_to_look_ahead * const.NO_SECONDS_IN_A_WEEK
+
+        list_of_upcoming_events = []
+
         for event in all_assigned_events:
             event["datetime"] = self.to_timestamp_since_epoch(event["datetime"])
-            print(event)
-
-        current_timestamp = self.get_current_timestamp_since_epoch
-        print(current_timestamp)
+            
+        
+        
         
 
 
