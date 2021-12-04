@@ -49,6 +49,7 @@ class EventModel(db.Model):
 
         return res
 
+
     @classmethod
     def get_all_where(cls, _conditions):
         return cls.query.filter(*_conditions).all()
@@ -56,3 +57,8 @@ class EventModel(db.Model):
     @classmethod
     def find_by_id(cls, _ids):
         return cls.query.filter_by(**_ids).first()
+
+    @classmethod
+    def get_all_events(cls):
+        all_items = cls.query.all()
+        return all_items
