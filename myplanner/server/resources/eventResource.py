@@ -88,11 +88,11 @@ class EventEdit(Resource):
 
 
 class EventGet(Resource):
-    def _select_where(self, filter_conditions):
+    def _select_where(self, additional_filter_conditions=None):
         targets = []
         owner_id = userModule.get_user_id()
-        filter_conditions = (filter_conditions, EventModel.created_by.is_(owner_id))
-        for target in EventModel.get_all_where(filter_conditions):
+        additional_filter_conditions = (additional_filter_conditions, EventModel.created_by.is_(owner_id))
+        for target in EventModel.get_all_where(additional_filter_conditions):
             targets.append(target.to_dict())
 
         return targets
@@ -125,4 +125,6 @@ class EventGetAssigned(EventGet):
 class EventGetUpcoming(EventGet):
 
     def get(self, no_weeks_to_look_ahead):
+        upcoming_events = self._select_where(None)
+        print(upcoming_events)
         return {'message' : 'hit this endpoint'}, 200
