@@ -134,11 +134,16 @@ class EventGetAssigned(EventGet):
 
 class EventGetUpcoming(EventGet):
 
-    def get(self, no_weeks_to_look_ahead):
-        all_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_not(None))
+    def to_timestamp_since_epoch(self, time):
+        from datetime import datetime
+        now_date_obj = datetime.now()
+        current_timestamp = now_date_obj.timestamp() 
+        print(type(now_date_obj))
+        print(now_date_obj.timestamp())
 
-        print('hit this')
-        for event in all_events:
-            print(event)
+
+    def get(self, no_weeks_to_look_ahead):
+        all_assigned_events = self.select_where_created_by_this_user_and(EventModel.datetime.is_not(None))
+        self.convert_all_event_date_time_to_secs_since_epoch(all_assigned_events)
 
         return {'message' : 'hit this endpoint'}, 200
