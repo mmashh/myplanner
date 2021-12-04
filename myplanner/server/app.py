@@ -12,7 +12,7 @@ from resources.eventResource import (
     EventEdit,
     EventGetUnassigned,
     EventGetAssigned,
-    EventGetUpcoming
+    EventGetUpcoming,
 )
 
 
