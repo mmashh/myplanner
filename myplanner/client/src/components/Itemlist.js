@@ -5,10 +5,7 @@ import {
   Container,
   Row,
   Col,
-  Form,
-  Dropdown
 } from 'react-bootstrap';
-import { List } from 'react-bootstrap-icons';
 import itemsApi from '../utils/itemsApi';
 
 function Itemlist({items, updateStateCallback}) {
@@ -50,6 +47,7 @@ function Itemlist({items, updateStateCallback}) {
             {items.map(function(item){
               return (
                 <ItemEntry 
+                  key={item.item_id}
                   item={item} 
                   itemModalHandler={itemModalHandler} 
                   handleDeleteItem={handleDeleteItem} 

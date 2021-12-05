@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   Row,
   Col,
@@ -8,8 +8,21 @@ import {
 import { List } from 'react-bootstrap-icons';
 
 
-function ItemEntry({item, itemModalHandler,handleDeleteItem, markCompleteHandler}) {
+function ItemEntry({keyVal,item, itemModalHandler,handleDeleteItem, markCompleteHandler}) {
 
+  // Reference: https://stackoverflow.com/a/36862446
+  const [windowWidth,setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(function(){
+    function handleResize() {
+      setWindowWidth(window.innerWidth)
+    }
+    window.addEventListener('resize',handleResize);
+
+    return function(){
+      window.removeEventListener('resize',handleResize);
+    }
+  },[]);
 
   const ItemOption = function(item) {
     return (
@@ -40,8 +53,12 @@ function ItemEntry({item, itemModalHandler,handleDeleteItem, markCompleteHandler
     }
   }
 
+  const getResponsiveBreakpoint = function(){
+    return (windowWidth < 768) ?  3 : 1;
+  }
+
   return (
-    <div key={item.item_id} className="itemlist-item">
+    <div key={keyVal} className="itemlist-item">
     <Row md={12}>
       <Col xs={6} className="itemlist-item-main">
         <div className="itemlist-item-mark-complete">
@@ -49,13 +66,13 @@ function ItemEntry({item, itemModalHandler,handleDeleteItem, markCompleteHandler
         </div>
         <span className="itemlist-item-title">{item.title}</span>
       </Col>
-      <Col xs={4} className="itemlist-item-desc">
-        <span className="itemlist-item-body">{trimItemBody(item.body)}</span>
-      </Col>
-      <Col xs={1} className="itemlist-item-time">
+        <Col xs={4} className="itemlist-item-desc">
+          <span className="itemlist-item-body">{trimItemBody(item.body)}</span>
+        </Col>
+      <Col xs={getResponsiveBreakpoint()} className="itemlist-item-time">
         <span className="itemlist-item-datecreated">{item.date_created}</span>
       </Col>
-      <Col xs={1} className="itemlist-item-actions">
+      <Col xs={getResponsiveBreakpoint()} className="itemlist-item-actions">
         {ItemOption(item)}
       </Col>
     </Row>

@@ -14,7 +14,16 @@
     border: 5px solid var(--ternary);
   }
 
+  .navbar-toggler {
+    margin-right: 1em;
+  }
+
+  #itemlist {
+    margin-top:2em;
+  }
+  
   .itemlist-item-desc {
     display: none;
   }
+
 }
