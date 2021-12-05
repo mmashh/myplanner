@@ -1,2 +1,12 @@
 node_modules/
-.pyc
+
+# Environments
+.DS_Store
+.vscode/settings.json
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

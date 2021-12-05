@@ -3,9 +3,16 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 from flask_cors import CORS
+
 from db import db
 from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete
 from resources.itemResource import ItemAdd, ItemAll, Item, ItemAllSpecificUser
+from resources.eventResource import (
+    EventAdd,
+    EventEdit,
+    EventGetUnassigned,
+    EventGetAssigned,
+)
 
 
 def init_app():
@@ -15,10 +22,9 @@ def init_app():
     app.config["SQLALCHEMY_TRACK_MODFIFICATIONS"] = False
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
 
-    swagger = Swagger(app)
-    jwt = JWTManager(app)
-
-    cors = CORS(app)
+    Swagger(app)
+    JWTManager(app)
+    CORS(app)
 
     return app
 
@@ -31,10 +37,15 @@ def add_routes(app):
     api.add_resource(UserLogin, "/user/login")
     api.add_resource(UserDelete, "/user/delete/<int:id>")
 
-    api.add_resource(ItemAdd, "/item/add")
     api.add_resource(ItemAllSpecificUser, "/item/all")
     api.add_resource(ItemAll, "/item/all/admin")
+    api.add_resource(ItemAdd, "/item/add")
     api.add_resource(Item, "/item/<int:item_id>")
+
+    api.add_resource(EventAdd, "/event/")
+    api.add_resource(EventEdit, "/event/<int:event_id>")
+    api.add_resource(EventGetUnassigned, "/event/all/unassigned")
+    api.add_resource(EventGetAssigned, "/event/all/assigned")
 
     return app
 

@@ -1,2 +1,4 @@
-# Ignore pycache
-*.pyc
+# Serverside stuff
+__pycache__/
+pipfile
+pipfile.lock

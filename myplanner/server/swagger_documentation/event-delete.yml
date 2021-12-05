@@ -1,0 +1,28 @@
+Delete a calendar event from our DB
+---
+tags:
+  - Calendar event
+parameters:
+  - in: path
+    name: event_id
+    description: ID of the event requested to delete
+    required: true
+    schema:
+      type: int
+responses:
+  200:
+    description: Event successfully deleted
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Event deleted
+  422:
+    description: No event has the id specified by event_id in the DB
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: No event with specified id was found
