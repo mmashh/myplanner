@@ -69,7 +69,7 @@ function App() {
   }
 
   return (
-    <Container id="app-container">
+    <Container id="app-container" fluid>
       <Row md={3} id="app-navbar">
         <Col md={12}>
           <Navbar bg="dark" variant="dark" expand="md">

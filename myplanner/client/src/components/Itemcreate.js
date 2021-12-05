@@ -48,7 +48,7 @@ function  Itemcreate({updateStateCallback}){
   }
 
   return (
-    <Container id="itemcreate" className="vh-100">
+    <Container id="itemcreate" className="vh-100" fluid>
       <Col md={12}>
         <Row md={2} id="itemcreate-header">
           <h2>Create Item</h2>

@@ -51,7 +51,7 @@ function ItemModal({activeItem,modalType,show,toggle, updateStateCallback}){
   const ModalBodyView = function(){
     return (
       <p id="item-modal-content">
-        {activeItem.body}
+        {(activeItem.body?.length  > 0) ? activeItem.body : `There are no contents for this ${activeItem.item_type.toLowerCase()}...`}
       </p>  
     );
   }

@@ -8,6 +8,7 @@ import LoadingScreen from './LoadingScreen';
 import {
   Row,
   Col,
+  Container
 } from 'react-bootstrap';
 import itemsApi from '../utils/itemsApi';
 
@@ -29,14 +30,16 @@ function Items() {
 
   return (
       <>
-        <Row md={12}>
-          <Col md={4}>
-            <Itemcreate updateStateCallback={updateItems}/>
-          </Col>
-          <Col md={8}>
-            <Itemlist items={items} updateStateCallback={updateItems} />
-          </Col>
-        </Row>
+        <Container fluid>
+          <Row md={12}>
+            <Col md={4}>
+              <Itemcreate updateStateCallback={updateItems}/>
+            </Col>
+            <Col md={8}>
+              <Itemlist items={items} updateStateCallback={updateItems} />
+            </Col>
+          </Row>
+        </Container>
         <LoadingScreen show={isLoading} isTransparent={true}/>
       </>
   );

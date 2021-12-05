@@ -45,6 +45,10 @@ body {
   text-decoration: none;
 }
 
+.app-navbar-link:hover {
+  color: var(--secondary-font);
+}
+
 .loading-screen {
   position: absolute;
   left: 0;
@@ -72,11 +76,6 @@ body {
   padding-top: 1em !important;
   float:right;
   clear:both;
-}
-
-
-.app-navbar-link:hover {
-  color: var(--secondary-font);
 }
 
 /* For development purposes only */
