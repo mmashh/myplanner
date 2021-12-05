@@ -45,6 +45,36 @@ body {
   text-decoration: none;
 }
 
+.loading-screen {
+  position: absolute;
+  left: 0;
+  top:0;
+  justify-content: center;
+  display:flex;
+}
+
+.loading-container {
+  margin-top: 40vh;
+  margin-bottom: 60vh;
+}
+
+.loading-icon{
+  opacity: 100%;
+  color: white;
+  width: 3em;
+  height: 3em;
+  float:left;
+  clear:both;
+  margin-left: 0.5em;
+}
+
+.loading-text {
+  padding-top: 1em !important;
+  float:right;
+  clear:both;
+}
+
+
 .app-navbar-link:hover {
   color: var(--secondary-font);
 }
@@ -57,3 +87,5 @@ body {
 .test2 {
   background-color: var(--test2);
 }
+
+

@@ -9,7 +9,6 @@ import {
 } from 'react-bootstrap';
 import { List } from 'react-bootstrap-icons';
 import itemsApi from '../utils/itemsApi';
-
 function Itemlist({items, updateStateCallback}) {
 
   let [activeItem, setActiveItem] = useState({

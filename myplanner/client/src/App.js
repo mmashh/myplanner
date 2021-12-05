@@ -1,7 +1,7 @@
 import React from 'react';
-import Items from './Items.js';
-import Login from './Login.js';
-import Register from './Register.js';
+import Items from './components/Items.js';
+import Login from './components/Login.js';
+import Register from './components/Register.js';
 import {
   Route,
   Routes,

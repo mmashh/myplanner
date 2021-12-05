@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import usersApi from './utils/usersApi';
-import ErrorDisplay from './components/ErrorDisplay';
-import LoadingButton from './components/LoadingButton';
+import usersApi from '../utils/usersApi';
+import ErrorDisplay from './ErrorDisplay';
+import LoadingScreen from './LoadingScreen';
 import {
   Container,
   Row,
@@ -53,6 +53,7 @@ function Register() {
   }
 
   return (
+    <>
     <Container fluid>
       <Row md={12}>
         <Col md={4} id="register-container" className="mx-auto my-5 p-5">
@@ -85,13 +86,16 @@ function Register() {
               <Form.Control.Feedback type="invalid">The password field cannot be empty.</Form.Control.Feedback>                
             </Form.Group>
             <Form.Group className="d-grid gap-3 mb-4">
-              <LoadingButton variant="primary" type="submit" loading={loading} text="Create User"/>
+              <Button variant="primary" type="submit">Create User</Button>
               <Button variant="secondary" onClick={()=>navigate('/login')}>Back to Login</Button>
             </Form.Group>
           </Form>
         </Col>
       </Row>
     </Container>
+    <LoadingScreen show={loading} isTransparent={false} />
+    </>
+
   );
 }
 
