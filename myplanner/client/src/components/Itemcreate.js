@@ -14,7 +14,7 @@ function  Itemcreate({updateStateCallback}){
     body: "",
     item_type: 'TASK'
   });
-
+  let [validated, setValidated] = useState(false);
   //Ref: https://stackoverflow.com/a/61243124
   function handleFormChange(e){
     const {name,value} = e.target
@@ -28,9 +28,14 @@ function  Itemcreate({updateStateCallback}){
 
   async function createItem(e){
     e.preventDefault()
-    await itemsApi.newItem(newItem);
-    updateStateCallback(); // update parent state
-    clearNewItem();
+    const form = e.target;
+    setValidated(true);
+    if (form.checkValidity()){
+      await itemsApi.newItem(newItem);
+      updateStateCallback(); // update parent state
+      clearNewItem();
+      setValidated(false);
+    }
   }
 
   function clearNewItem(){
@@ -54,12 +59,13 @@ function  Itemcreate({updateStateCallback}){
           <h2>Create Item</h2>
         </Row>
         <Row md={10}>
-          <Form onSubmit={createItem}>
-            <Row md className="mb-3">
+          <Form onSubmit={createItem} validated={validated} noValidate>
+            <Row md className="mb-4">
               <Col md={8}>
                 <Form.Group controlId="item-title">
                   <Form.Label>Title</Form.Label>
-                  <Form.Control name="title" type="text" placeholder="Enter item title..."  value={newItem.title} onChange={handleFormChange}/>
+                  <Form.Control name="title" type="text" placeholder="Enter item title..."  value={newItem.title} onChange={handleFormChange} required/>
+                  <Form.Control.Feedback type="invalid">An item title must be provided</Form.Control.Feedback>
                 </Form.Group>
               </Col>
               <Col md={4}>

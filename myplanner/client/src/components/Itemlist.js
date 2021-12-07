@@ -43,8 +43,8 @@ function Itemlist({items, updateStateCallback}) {
         <Row id="itemlist-header" md={3}>
             <h2>Items</h2>
         </Row>
-        <Row id="itemlist-content" md={9}>
-            {items.map(function(item){
+        {(items.length > 0) 
+        ? items.map(function(item){
               return (
                 <ItemEntry 
                   key={item.item_id}
@@ -52,14 +52,18 @@ function Itemlist({items, updateStateCallback}) {
                   itemModalHandler={itemModalHandler} 
                   handleDeleteItem={handleDeleteItem} 
                   markCompleteHandler={markCompleteHandler}/>
-            )})}
-            <ItemModal 
+            )})
+        : <p id="empty-item-list">No items are currently available for this user.</p>
+        }
+        <Row id="itemlist-content" md={9}>
+
+        </Row>
+        <ItemModal 
               activeItem={activeItem}
               show={showItemModal}
               modalType={modalType}
               toggle={setShowItemModal}
               updateStateCallback={updateStateCallback}/>
-        </Row>
       </Col>
     </Container>
   )
