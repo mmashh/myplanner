@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import usersApi from '../utils/usersApi';
 import ErrorDisplay from './ErrorDisplay';
 import {
@@ -9,12 +9,16 @@ import {
   Button
 } from 'react-bootstrap';
 import {
-  useNavigate
+  useNavigate,
+  useLocation
 } from 'react-router-dom';
 import LoadingScreen from './LoadingScreen';
+import ApplicationAlert from './ApplicationAlert';
 
 function Login() {
+
   let navigate = useNavigate();
+  let routerState = useLocation().state;
   let [error,setError] = useState();
   let [user,setUser] = useState({
     username: '',
@@ -22,7 +26,27 @@ function Login() {
   });
   let [validated,setValidated] = useState(false);
   let [loading, setLoading] = useState(false);
+
+  let [appAlertInfo, setAppAlertInfo] = useState({
+    show: false,
+    message: '',
+    type: 'default'
+  });
   
+  useEffect(function(){
+    if (routerState?.applicationMessage) {
+      setAppAlertInfo({
+        show:true,
+        message: routerState.applicationMessage.message,
+        type: routerState.applicationMessage.type
+      });
+    }
+
+    return ()=> {
+      setAppAlertInfo({});
+    }
+  },[routerState]);
+
   //Ref: https://stackoverflow.com/a/61243124
   const handleFormChange = function(e){
     const {name,value} = e.target
@@ -46,7 +70,14 @@ function Login() {
         setValidated(false);
         return;
       } else {
-        navigate('/calendar');
+        navigate('/calendar',{
+          state: {
+            applicationMessage: {
+              type: 'info',
+              message: 'The user has been successfully logged in.'
+            }
+          }
+        });
       }
     } 
     setValidated(true);
@@ -95,6 +126,11 @@ function Login() {
           </Col>
         </Row>
       </Container>
+      <ApplicationAlert 
+        type={appAlertInfo.type} 
+        message={appAlertInfo.message} 
+        show={appAlertInfo.show}
+        handleClose={(prevState)=>{setAppAlertInfo({...prevState, show:false})}}/>
       <LoadingScreen show={loading} isTransparent={false} />
     </>
   );

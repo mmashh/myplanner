@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import usersApi from '../utils/usersApi';
 import ErrorDisplay from './ErrorDisplay';
 import LoadingScreen from './LoadingScreen';
@@ -22,6 +22,13 @@ function Register() {
     username: '',
     password: ''
   });
+
+  useEffect(function(){
+    return function(){
+      // clean up useNavigate hook (https://stackoverflow.com/q/53949393)
+    }
+  },[]);
+
   
   //Ref: https://stackoverflow.com/a/61243124
   const handleFormChange = function(e){
@@ -46,7 +53,14 @@ function Register() {
         setValidated(false);
         return;
       } else {
-        navigate('/login');
+        navigate('/login', {
+          state: {
+            applicationMessage: {
+              type: 'info',
+              message: 'The user has been successfully registered.'
+            }
+          }
+        });
       }
     }
     setValidated(true);
