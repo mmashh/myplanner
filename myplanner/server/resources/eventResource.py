@@ -70,7 +70,7 @@ class EventEdit(Resource):
 
         try:
             datetime_obj = datetime.strptime(
-                date_and_time_string, const.EVENT_DATE_AND_TIME_FORMAT
+                date_and_time_string, const.DATETIME_FORMAT
             )
         except ValueError:
             error_thrown = True
@@ -124,16 +124,17 @@ class EventEdit(Resource):
 
 
 class EventGet(Resource):
-    def select_where_created_by_this_user_and(self, added_filter_condition):
+
+    def select_where(given_conditions, only_events_created_by_this_user = True):
 
         targets = []
-        owner_id = userModule.get_user_id()
-        default_filter_condition = EventModel.created_by.is_(owner_id)
-
-        if added_filter_condition is None:
-            filter_conditions = (default_filter_condition,)
+        
+        if only_events_created_by_this_user:
+            owner_id = userModule.get_user_id()
+            default_condition = EventModel.created_by.is_(owner_id)
+            filter_conditions = (given_conditions, default_condition)
         else:
-            filter_conditions = (added_filter_condition, default_filter_condition)
+            filter_conditions = (given_conditions,)
 
         for target in EventModel.get_all_where(filter_conditions):
             targets.append(target.to_dict())
@@ -150,7 +151,7 @@ class EventGetUnassigned(EventGet):
     @jwt_required()
     @swag_from("../swagger_documentation/event-get-unassigned.yml")
     def get(self):
-        unassigned_events = self.select_where_created_by_this_user_and(
+        unassigned_events = self.select_where(
             EventModel.datetime.is_(None)
         )
 
@@ -162,7 +163,7 @@ class EventGetAssigned(EventGet):
     @jwt_required()
     @swag_from("../swagger_documentation/event-get-assigned.yml")
     def get(self):
-        assigned_events = self.select_where_created_by_this_user_and(
+        assigned_events = self.select_where(
             EventModel.datetime.is_not(None)
         )
 
@@ -174,7 +175,7 @@ class EventGetUpcoming(EventGet):
     def convert_to_timestamp_since_epoch(self, date_and_time_string):
 
         timestamp_of_date_and_time_string = datetime.strptime(
-            date_and_time_string, const.EVENT_DATE_AND_TIME_FORMAT
+            date_and_time_string, const.DATETIME_FORMAT
         ).timestamp()
 
         return timestamp_of_date_and_time_string
@@ -195,7 +196,7 @@ class EventGetUpcoming(EventGet):
     @swag_from("../swagger_documentation/event-get-upcoming.yml")
     def get(self, no_weeks_to_look_ahead):
 
-        all_assigned_events = self.select_where_created_by_this_user_and(
+        all_assigned_events = self.select_where(
             EventModel.datetime.is_not(None)
         )
 
