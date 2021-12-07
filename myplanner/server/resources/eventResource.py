@@ -125,7 +125,7 @@ class EventEdit(Resource):
 
 class EventGet(Resource):
 
-    def select_where(self, given_conditions, only_events_created_by_this_user = True):
+    def select_where(self, given_conditions, only_events_created_by_this_user=True):
 
         targets = []
         
@@ -152,7 +152,7 @@ class EventGetUnassigned(EventGet):
     @swag_from("../swagger_documentation/event-get-unassigned.yml")
     def get(self):
         unassigned_events = self.select_where(
-            EventModel.datetime.is_(None)
+            EventModel.datetime.is_(None), only_events_created_by_this_user=True
         )
 
         return {"unassigned_events": unassigned_events}, 200
@@ -164,7 +164,7 @@ class EventGetAssigned(EventGet):
     @swag_from("../swagger_documentation/event-get-assigned.yml")
     def get(self):
         assigned_events = self.select_where(
-            EventModel.datetime.is_not(None)
+            EventModel.datetime.is_not(None), only_events_created_by_this_user=True
         )
 
         return {"assigned_events": assigned_events}, 200
@@ -197,7 +197,7 @@ class EventGetUpcoming(EventGet):
     def get(self, no_weeks_to_look_ahead):
 
         all_assigned_events = self.select_where(
-            EventModel.datetime.is_not(None)
+            EventModel.datetime.is_not(None), only_events_created_by_this_user=True
         )
 
         current_timestamp = self.get_current_timestamp_since_epoch()
