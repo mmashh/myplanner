@@ -4,6 +4,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from flasgger import swag_from
 import modules.itemModule as itemModule
 import modules.userModule as userModule
+import modules.constants as const
 
 
 # /item/add
@@ -21,7 +22,7 @@ class ItemAdd(Resource):
 
         this_users_id = userModule.get_user_id()
         new_item_details = self.parser.parse_args()
-        date_and_time = itemModule.get_current_date_and_time("%d/%m/%Y %H:%M")
+        date_and_time = itemModule.get_current_date_and_time(const.DATETIME_FORMAT)
 
         is_complete, error = itemModule.verify_item_type_and_completion_state(
             new_item_details
