@@ -125,7 +125,24 @@ class EventEdit(Resource):
 
 class EventGet(Resource):
 
-    def select_where(given_conditions, only_events_created_by_this_user = True):
+    def select_where_created_by_this_user_and(self, added_filter_condition=None):
+
+        targets = []
+        owner_id = userModule.get_user_id()
+        default_filter_condition = EventModel.created_by.is_(owner_id)
+
+        if added_filter_condition is None:
+            filter_conditions = (default_filter_condition,)
+        else:
+            filter_conditions = (added_filter_condition, default_filter_condition)
+
+        for target in EventModel.get_all_where(filter_conditions):
+            targets.append(target.to_dict())
+
+        return targets
+
+
+    def select_where(self, given_conditions, only_events_created_by_this_user = True):
 
         targets = []
         
