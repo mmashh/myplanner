@@ -1,12 +1,12 @@
-FROM python:3
+FROM python:3.9.5-slim-buster
 
+# ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DATABASE_URL=postgresql://flask:flask_myplanner@db:5432/myplanner_data
 
-RUN mkdir /code
-COPY ./src /code/
-COPY ./requirements.txt /code/
+WORKDIR /usr/src
+COPY ./src ./requirements.txt ./entrypoint.sh /usr/src/
+RUN pip install --upgrade pip && pip install -r requirements.txt --no-cache-dir
 
-WORKDIR /code
-RUN pip install -r requirements.txt --no-cache-dir
-
-CMD python app.py
+RUN apt-get update && apt-get install -y netcat && chmod +x ./entrypoint.sh
+CMD ["/usr/src/entrypoint.sh"]
