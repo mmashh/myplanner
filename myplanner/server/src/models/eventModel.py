@@ -10,9 +10,10 @@ class EventModel(db.Model):
     datetime = db.Column(db.DateTime(), nullable=True)
     created_by = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, title, body, owner):
+    def __init__(self, title, body, owner, datetime=None):
         self.title = title
         self.body = body
+        self.datetime = datetime
         self.created_by = owner
 
     def save_to_db(self):

@@ -15,6 +15,7 @@ from resources.eventResource import (
     EventGetUnassigned,
     EventGetAssigned,
 )
+from load_sample import load
 
 
 def init_app():
@@ -54,6 +55,7 @@ def add_routes(app):
 
 app = init_app()
 app = add_routes(app)
+db.init_app(app)
 
 
 @app.before_first_request
@@ -61,6 +63,4 @@ def create_tables():
     db.drop_all()
     db.create_all()
     db.session.commit()
-
-
-db.init_app(app)
+    load()
