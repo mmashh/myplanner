@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.userModel import UserModel
 from werkzeug.security import safe_str_cmp
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token
 from flasgger import swag_from
 
 # /user/register

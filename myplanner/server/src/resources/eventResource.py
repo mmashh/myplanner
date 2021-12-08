@@ -2,7 +2,7 @@ from datetime import datetime
 from abc import abstractmethod
 
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required, verify_jwt_in_request
+from flask_jwt_extended import jwt_required
 from flasgger import swag_from
 
 from models.eventModel import EventModel
@@ -124,11 +124,10 @@ class EventEdit(Resource):
 
 
 class EventGet(Resource):
-
     def select_where(self, given_conditions, only_events_created_by_this_user=True):
 
         targets = []
-        
+
         if only_events_created_by_this_user:
             owner_id = userModule.get_user_id()
             default_condition = EventModel.created_by.is_(owner_id)
