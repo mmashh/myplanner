@@ -5,9 +5,11 @@ import {
   Col
 } from 'react-bootstrap';
 import { Calendar } from "./calendar";
+import { useLocation } from "react-router-dom";
 import { CreateEvent } from "./createEvent";
 import { EventLists } from "./eventLists";
 import eventApi from "../../utils/eventsApi";
+import ApplicationAlert from "../ApplicationAlert";
 const EventCalendar = () => {
   let initial = {
     event_id: "",
@@ -21,6 +23,34 @@ const EventCalendar = () => {
   const [unassignedLists, setUnassignedLists] = useState([]);
   const [assignedLists, setAssignedLists] = useState([]);
   const [dragEvent, setDragEvent] = useState({});
+  let routerState = useLocation().state;
+  let [appAlertInfo, setAppAlertInfo] = useState({
+    show: false,
+    message: '',
+    type: 'default'
+  });
+  
+  useEffect(function(){
+    if (routerState?.applicationMessage) {
+      setAppAlertInfo({
+        show:true,
+        message: routerState.applicationMessage.message,
+        type: routerState.applicationMessage.type
+      });
+    }
+
+    return ()=> {
+      setAppAlertInfo({});
+    }
+  },[routerState]);
+
+  const populateAlert = function(type,message) {
+    setAppAlertInfo({
+    show:true,
+    type:type,
+    message: message
+    });
+  }
 
   const handleChange = ({ target: { value, name } }) => {
     let oldValues = { ...eventInfo };
@@ -31,7 +61,7 @@ const EventCalendar = () => {
   const handleCreateEvent = async (props) => {
     const { status, data } = await eventApi.newEvent(props);
     if (status == 201) {
-      alert(data.message);
+      populateAlert('success','The event has been successfully created');
       setEventInfo(initial);
       getUnassignedEvents();
     }
@@ -63,15 +93,14 @@ const EventCalendar = () => {
 
     info['datetime'] = finalDate;
     const response = await eventApi.eventEdit(info);
-    alert('Event has updated')
-    setEventInfo(initial);
+    populateAlert('success','The event has been successfully updated');    setEventInfo(initial);
     setOpenForm(false)
     getAssignedEvents();
   };
 
   const handleDelete = async(props)=>{
     const response = await eventApi.eventDelete(props);
-    alert('Event has deleted')
+    populateAlert('success','The event has been successfully deleted');
     setEventInfo(initial);
     setOpenForm(false)
     getAssignedEvents();
@@ -114,6 +143,11 @@ const EventCalendar = () => {
           </Col>
         </Row>
       </Container>
+      <ApplicationAlert 
+          show={appAlertInfo.show}
+          type={appAlertInfo.type}
+          message={appAlertInfo.message}
+          handleClose={(prevState)=>{setAppAlertInfo({...prevState, show:false})}}/>
     </>
   );
 };
