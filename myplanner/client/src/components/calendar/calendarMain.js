@@ -46,7 +46,7 @@ const EventCalendar = () => {
     }
   },[routerState]);
 
-  const populateAlert = function(type,message) {
+  const populateAlert = function (type,message) {
     setAppAlertInfo({
     show:true,
     type:type,
@@ -81,11 +81,15 @@ const EventCalendar = () => {
     setAssignedLists(response);
   };
 
-  useLayoutEffect(async () => {
-    setLoading(true);
-    await getUnassignedEvents();
-    await getAssignedEvents();
-    setLoading(false);
+  useLayoutEffect(() => {
+    async function getAllEvents() {
+      setLoading(true);
+      await getUnassignedEvents();
+      await getAssignedEvents();
+      setLoading(false);
+    }
+    
+    getAllEvents();
   }, []);
 
   const onDragStart = (props) => {
