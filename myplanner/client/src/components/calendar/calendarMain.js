@@ -10,6 +10,7 @@ import { CreateEvent } from "./createEvent";
 import { EventLists } from "./eventLists";
 import eventApi from "../../utils/eventsApi";
 import ApplicationAlert from "../ApplicationAlert";
+import LoadingScreen from "../LoadingScreen";
 const EventCalendar = () => {
   let initial = {
     event_id: "",
@@ -23,8 +24,9 @@ const EventCalendar = () => {
   const [unassignedLists, setUnassignedLists] = useState([]);
   const [assignedLists, setAssignedLists] = useState([]);
   const [dragEvent, setDragEvent] = useState({});
-  let routerState = useLocation().state;
-  let [appAlertInfo, setAppAlertInfo] = useState({
+  const [loading,setLoading] = useState(true);
+  const routerState = useLocation().state;
+  const [appAlertInfo, setAppAlertInfo] = useState({
     show: false,
     message: '',
     type: 'default'
@@ -59,12 +61,14 @@ const EventCalendar = () => {
   };
 
   const handleCreateEvent = async (props) => {
+    setLoading(true);
     const { status, data } = await eventApi.newEvent(props);
     if (status == 201) {
-      populateAlert('success','The event has been successfully created');
       setEventInfo(initial);
       getUnassignedEvents();
+      populateAlert('success','The event has been successfully created');
     }
+    setLoading(false);
   };
 
   const getUnassignedEvents = async () => {
@@ -77,9 +81,11 @@ const EventCalendar = () => {
     setAssignedLists(response);
   };
 
-  useLayoutEffect(() => {
-    getUnassignedEvents();
-    getAssignedEvents();
+  useLayoutEffect(async () => {
+    setLoading(true);
+    await getUnassignedEvents();
+    await getAssignedEvents();
+    setLoading(false);
   }, []);
 
   const onDragStart = (props) => {
@@ -92,15 +98,19 @@ const EventCalendar = () => {
     let finalDate = `${date[2]}/${date[1]}/${date[0]} 0:0`;
 
     info['datetime'] = finalDate;
+    setLoading(true);
     const response = await eventApi.eventEdit(info);
+    getAssignedEvents();
+    setLoading(false);
     populateAlert('success','The event has been successfully updated');    
     setEventInfo(initial);
     setOpenForm(false)
-    getAssignedEvents();
   };
 
   const handleDelete = async(props)=>{
+    setLoading(true);
     const response = await eventApi.eventDelete(props);
+    setLoading(false);
     populateAlert('success','The event has been successfully deleted');
     setEventInfo(initial);
     setOpenForm(false)
@@ -149,6 +159,7 @@ const EventCalendar = () => {
           type={appAlertInfo.type}
           message={appAlertInfo.message}
           handleClose={(prevState)=>{setAppAlertInfo({...prevState, show:false})}}/>
+      <LoadingScreen show={loading}/>
     </>
   );
 };
