@@ -1,5 +1,5 @@
 :root {
-  --main: #18191a;
+  --main: #101111;
   --secondary: #242526;
   --ternary: #3a3b3c;
   --primary-font: #ffffff;
@@ -9,18 +9,11 @@
   --component-height: 55%;
 }
 
-body {
-  background-color: var(--main) !important;
-  color: var(--primary-font) !important;
-}
-
 #app-container {
   height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  overflow:hidden;
-  position: absolute;
-  left: 0;
+  max-width: inherit;
+  background-color: var(--main) !important;
+  color:  var(--primary-font);
 }
 
 #register-container {
@@ -33,10 +26,12 @@ body {
   height: 80vh;
 }
 
+
 #app-navbar-header {
-  font-size: xx-large;
+  font-size: 38px;
+  padding-left: 2em;
+  color: var(--test);
   font-weight:bold;
-  padding: 0 1em 0 1em;
 }
 
 .app-navbar-link {
@@ -76,6 +71,52 @@ body {
   padding-top: 1em !important;
   float:right;
   clear:both;
+}
+
+#event-calendar {
+  color: black;
+}
+
+.calendar{
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.eventcolor{
+  height: 60px;
+}
+
+
+.create-event {
+
+}
+
+.updateEvent {
+  display: flex;
+    justify-content: space-between;
+}
+
+.unassigned{
+  height: 200px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.eventlists{
+  color: var(--primary-font);
+  padding: 15px;
+  border: 2px solid var(--ternary);
+  border-radius: 5px;
+  background-color: var(--secondary);
+}
+
+.upcoming-events {
+  color: var(--primary-font);
+  padding: 15px;
+  border: 2px solid var(--ternary);
+  border-radius: 5px;
+  background-color: var(--secondary);
 }
 
 /* For development purposes only */
