@@ -8,7 +8,7 @@ import {
 import { List } from 'react-bootstrap-icons';
 
 
-function ItemEntry({keyVal,item, itemModalHandler,handleDeleteItem, markCompleteHandler}) {
+function ItemEntry({keyVal,item, itemModalHandler,handleDeleteItem, editItemSuccessCallback,markCompleteHandler}) {
 
   // Reference: https://stackoverflow.com/a/36862446
   const [windowWidth,setWindowWidth] = useState(window.innerWidth);
@@ -49,7 +49,7 @@ function ItemEntry({keyVal,item, itemModalHandler,handleDeleteItem, markComplete
     if (item.item_type === "TASK") {
       return <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item)} checked={item.is_complete === "TRUE"}/>
     } else {
-      return <Form.Check type="checkbox" onChange={(e) => markCompleteHandler(e,item)} checked={false} disabled={true}/>      
+      return <Form.Check type="checkbox" onChange={(e) => {}} checked={false} disabled={true}/>      
     }
   }
 

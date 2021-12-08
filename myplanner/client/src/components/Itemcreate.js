@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap';
 import itemsApi from '../utils/itemsApi';
 
-function  Itemcreate({updateStateCallback}){
+function  Itemcreate({populateAlert,updateStateCallback}){
   let [newItem, setNewItem] = useState({
     title: "",
     body: "",
@@ -32,7 +32,8 @@ function  Itemcreate({updateStateCallback}){
     setValidated(true);
     if (form.checkValidity()){
       await itemsApi.newItem(newItem);
-      updateStateCallback(); // update parent state
+      await updateStateCallback(); // update parent state
+      populateAlert('success',`"${newItem.title}" has been successfully created`);
       clearNewItem();
       setValidated(false);
     }

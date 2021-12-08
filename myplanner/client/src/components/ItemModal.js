@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap'
 
 
-function ItemModal({activeItem,modalType,show,toggle, updateStateCallback}){
+function ItemModal({activeItem,modalType,show,toggle,editItemSuccessCallback,updateStateCallback}){
   
   let [itemToEdit, setItemToEdit] = useState();
 
@@ -35,6 +35,7 @@ function ItemModal({activeItem,modalType,show,toggle, updateStateCallback}){
     e.preventDefault();
     await itemsApi.editItem(itemToEdit.item_id,itemToEdit);
     updateStateCallback()
+    editItemSuccessCallback();
     toggle(false);
   }
 

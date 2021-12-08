@@ -1,25 +1,30 @@
-import React, { useState } from 'react';
-import ItemModal from './ItemModal';
-import ItemEntry from './ItemEntry';
+import React, { useState } from "react";
+import ItemModal from "./ItemModal";
+import ItemEntry from "./ItemEntry";
 import {
   Container,
   Row,
   Col,
-} from 'react-bootstrap';
-import itemsApi from '../utils/itemsApi';
+} from "react-bootstrap";
+import itemsApi from "../utils/itemsApi";
 
-function Itemlist({items, updateStateCallback}) {
+function Itemlist({items,populateAlert, updateStateCallback}) {
   let [activeItem, setActiveItem] = useState({
     title: "",
     body: "",
     item_type: "",
   });
   let [showItemModal, setShowItemModal] = useState(false);
-  let [modalType, setModalType] = useState('view');
+  let [modalType, setModalType] = useState("view");
 
-  const markCompleteHandler = async function(e,item_id) {
-    await itemsApi.markComplete(item_id,e.target.checked);
-    updateStateCallback();
+  const markCompleteHandler = async function(e,item) {
+    await itemsApi.markComplete(item,e.target.checked);
+    await updateStateCallback();
+    populateAlert("success",`The item "${item.title}" has been marked as ${e.target.checked ? "complete" : "incomplete"}.`);
+  }
+
+  const editItemSuccessCallback = function(){
+    populateAlert("success",`The item has been successfully modified`);
   }
 
   const itemModalHandler = function(item,type){
@@ -32,7 +37,8 @@ function Itemlist({items, updateStateCallback}) {
   const handleDeleteItem = async function (item) { 
     if (window.confirm(`Are you sure you want to delete this ${item.item_type.toLowerCase()}?`)) {
       await itemsApi.deleteItem(item.item_id);
-      updateStateCallback();
+      await updateStateCallback();
+      populateAlert("success", `Successfully deleted "${item.title}".`)
     }
   }
 
@@ -63,6 +69,7 @@ function Itemlist({items, updateStateCallback}) {
               show={showItemModal}
               modalType={modalType}
               toggle={setShowItemModal}
+              editItemSuccessCallback={editItemSuccessCallback}
               updateStateCallback={updateStateCallback}/>
       </Col>
     </Container>
