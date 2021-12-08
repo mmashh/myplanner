@@ -22,3 +22,6 @@ responses:
               body:
                 type: string
                 example: Some notes
+              color:
+                type: string
+                example: red
