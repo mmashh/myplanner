@@ -93,7 +93,8 @@ const EventCalendar = () => {
 
     info['datetime'] = finalDate;
     const response = await eventApi.eventEdit(info);
-    populateAlert('success','The event has been successfully updated');    setEventInfo(initial);
+    populateAlert('success','The event has been successfully updated');    
+    setEventInfo(initial);
     setOpenForm(false)
     getAssignedEvents();
   };
