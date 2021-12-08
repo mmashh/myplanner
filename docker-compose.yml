@@ -19,5 +19,3 @@ services:
       - POSTGRES_USER=flask
       - POSTGRES_PASSWORD=flask_myplanner
       - POSTGRES_DB=myplanner_data
-    ports:
-      - "5432:5432"
