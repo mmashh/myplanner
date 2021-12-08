@@ -1,14 +1,24 @@
 version: "3.6"
 services:
-  backend:
-    build:
-      context: ./myplanner/server/
-    ports:
-      - "5000:5000"
   frontend:
     build:
       context: ./myplanner/client
     ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+      - "80:80"
+  # backend:
+  #   build:
+  #     context: ./myplanner/server/
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - ./myplanner/server:/code
+  #   depends_on:
+  #     - db
+  # db:
+  #   image: postgres:10.5
+  #   restart: always
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   ports:
+  #     - "5438:5432"
