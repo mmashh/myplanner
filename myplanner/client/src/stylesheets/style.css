@@ -30,7 +30,7 @@
 
 #app-navbar-header {
   font-size: 38px;
-  padding-left: 2em;
+  padding-left: 1em;
   color: var(--test);
   font-weight:bold;
 }
