@@ -68,7 +68,7 @@ class UserLogin(Resource):
 
             access_token = create_access_token(
                 identity=identifying_values,
-                fresh=True
+                fresh=True,
                 expires_delta=time_till_token_expires
                 )
 
