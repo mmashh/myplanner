@@ -1,7 +1,8 @@
 from flask_restful import Resource, reqparse
 from models.userModel import UserModel
+from models.blockListModel import TokenBlocklistModel
 from werkzeug.security import safe_str_cmp
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flasgger import swag_from
 import datetime
 
@@ -77,6 +78,25 @@ class UserLogin(Resource):
             }, 200
 
         return {"message": "invalid credentials"}, 401
+
+
+# /user/logout
+class UserLogout(Resource):
+
+    def get(self):
+        return {"message" : "hit this endpoint"}, 200
+    
+    @jwt_required()
+    def post(self):
+        jti = get_jwt()["jti"]
+        expiry = get_jwt()["exp"]
+        now = datetime.now().timestamp()
+        newly_blocked_token = TokenBlocklistModel(jti, now, expiry)
+        newly_blocked_token.save_to_db()
+        return {"message" : "JWT revoked" }, 200
+
+
+
 
 
 # /user/all

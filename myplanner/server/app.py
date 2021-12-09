@@ -5,7 +5,7 @@ from flasgger import Swagger
 from flask_cors import CORS
 
 from db import db
-from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete
+from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete, UserLogout
 from resources.itemResource import ItemAdd, ItemAll, Item, ItemAllSpecificUser
 from resources.eventResource import (
     EventAdd,
@@ -15,7 +15,7 @@ from resources.eventResource import (
     EventGetUpcoming,
 )
 
-from models import blockListModel
+from models.blockListModel import TokenBlocklistModel 
 
 def init_app():
 
@@ -38,6 +38,7 @@ def add_routes(app):
     api.add_resource(UserRegister, "/user/register")
     api.add_resource(UserAll, "/user/all")
     api.add_resource(UserLogin, "/user/login")
+    api.add_resource(UserLogout, "/user/logout")
     api.add_resource(UserDelete, "/user/delete/<int:id>")
 
     api.add_resource(ItemAllSpecificUser, "/item/all")
@@ -69,7 +70,7 @@ if __name__ == "__main__":
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
         jti = jwt_payload["jti"]
-        token = blockListModel.get_blocked_jwt(jti)
+        token = TokenBlocklistModel.get_blocked_jwt(jti)
         return token is not None
 
 
