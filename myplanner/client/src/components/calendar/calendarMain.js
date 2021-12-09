@@ -22,20 +22,16 @@ const EventCalendar = () => {
   const [unassignedLists, setUnassignedLists] = useState([]);
   const [assignedLists, setAssignedLists] = useState([]);
   const [dragEvent, setDragEvent] = useState({});
+  const [upcomingEvents,setUpcomingEvents] = useState({
+    numWeeks: 1,
+    events: []
+  });
 
   const handleChange = ({ target: { value, name } }) => {
     let oldValues = { ...eventInfo };
     oldValues[name] = value;
     setEventInfo(oldValues);
   };
-
-  const getUpcomingEvents = async (numWeeks) => {
-    if (isNaN(numWeeks)){
-      alert("You must select a valid option for the \"Upcoming Events\" dropdown.");
-    } else {
-        return await eventApi.getUpcomingEvents(numWeeks);
-    }
-  }
 
   const handleCreateEvent = async (props) => {
     const { status, data } = await eventApi.newEvent(props);
@@ -56,10 +52,40 @@ const EventCalendar = () => {
     setAssignedLists(response);
   };
 
+  const getUpcomingEvents = async (numWeeks) => {
+    if (isNaN(numWeeks)){
+      alert("You must select a valid option for the \"Upcoming Events\" dropdown.");
+    } else {
+      const response = await eventApi.getUpcomingEvents(numWeeks);
+      setUpcomingEvents((prevState)=> {
+        return {
+          ...prevState,
+          events: response
+        }
+      });
+    }
+  }
+
+  const setNumWeeks = (n)=> {
+    setUpcomingEvents((prevState) => {
+      return {
+        ...prevState,
+        numWeeks: n
+      }
+    });
+  }
+
   useLayoutEffect(() => {
     getUnassignedEvents();
     getAssignedEvents();
   }, []);
+
+  useEffect(()=>{
+    const upcomingEventsForWeek = async (numWeeks)=>{
+      await getUpcomingEvents(numWeeks);
+    };
+    upcomingEventsForWeek(upcomingEvents.numWeeks);
+  },[upcomingEvents.numWeeks]);
 
   const onDragStart = (props) => {
     setDragEvent({ ...props });
@@ -119,7 +145,10 @@ const EventCalendar = () => {
             />
           </Col>
           <Col md={4} className="mt-4">
-            <UpcomingEvents getUpcomingEvents={getUpcomingEvents}/>
+            <UpcomingEvents 
+              upcomingEvents={upcomingEvents.events} 
+              setNumWeeks={setNumWeeks}
+            />
           </Col>
         </Row>
       </Container>

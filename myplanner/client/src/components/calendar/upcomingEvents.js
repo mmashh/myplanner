@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React from 'react';
 import {
   Row,
   Col,
@@ -7,25 +7,12 @@ import {
 import {CircleFill} from 'react-bootstrap-icons';
 
 
-const UpcomingEvents = function({getUpcomingEvents}){
-
-  let [upcomingEvents,setUpcomingEvents] = useState([]);
-
-  useEffect(function(){
-    const initEvents = async ()=>{
-      setUpcomingEvents(await getUpcomingEvents(1));
-    }
-
-    initEvents();
-  },[])
+const UpcomingEvents = function({upcomingEvents, setNumWeeks}){
   
-  const handleChange = async function(e){
+  const handleChange = function(e){
     var numWeeks = parseInt(e.target.value);
-    var events = await getUpcomingEvents(numWeeks);
-    setUpcomingEvents(events);
+    setNumWeeks(numWeeks);
   }
-
-
 
   return (
     <Col md={12} className='upcoming-events h-100'>
@@ -45,7 +32,7 @@ const UpcomingEvents = function({getUpcomingEvents}){
       <Row md={10} >
         {upcomingEvents.map(function(event){
           return (
-            <Row className="upcoming-event-item my-1">
+            <Row key={event.event_id} className="upcoming-event-item my-1">
               <Col xs={1} className="upcoming-event-color">
                 <CircleFill color={event.color}/>
               </Col>
