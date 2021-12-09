@@ -9,6 +9,7 @@ import {
   Row,
   Col
 } from 'react-bootstrap'
+import UpcomingEventsToast from "./upcomingEventsToast";
 const EventCalendar = () => {
   let initial = {
     event_id: "",
@@ -26,6 +27,7 @@ const EventCalendar = () => {
     numWeeks: 1,
     events: []
   });
+  const [showToast,setShowToast] = useState(false);
 
   const handleChange = ({ target: { value, name } }) => {
     let oldValues = { ...eventInfo };
@@ -80,6 +82,7 @@ const EventCalendar = () => {
       await getUnassignedEvents();
       await getAssignedEvents();
       await getUpcomingEvents(upcomingEvents.numWeeks);
+      setShowToast(true);
     }
     initializeEvents();
   }, []);
@@ -156,6 +159,7 @@ const EventCalendar = () => {
           </Col>
         </Row>
       </Container>
+      <UpcomingEventsToast upcomingEvents={upcomingEvents.events} show={showToast} handleClose={()=>{setShowToast(false)}}/>
     </>
   );
 };
