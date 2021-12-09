@@ -29,6 +29,14 @@ const EventCalendar = () => {
     setEventInfo(oldValues);
   };
 
+  const getUpcomingEvents = async (numWeeks) => {
+    if (isNaN(numWeeks)){
+      alert("You must select a valid option for the \"Upcoming Events\" dropdown.");
+    } else {
+        return await eventApi.getUpcomingEvents(numWeeks);
+    }
+  }
+
   const handleCreateEvent = async (props) => {
     const { status, data } = await eventApi.newEvent(props);
     if (status == 201) {
@@ -111,7 +119,7 @@ const EventCalendar = () => {
             />
           </Col>
           <Col md={4} className="mt-4">
-            <UpcomingEvents/>
+            <UpcomingEvents getUpcomingEvents={getUpcomingEvents}/>
           </Col>
         </Row>
       </Container>
