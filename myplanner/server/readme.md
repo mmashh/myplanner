@@ -51,28 +51,20 @@ install all required dependencies</li>
     <td>Demo-note</td>
     <td>sample text</td>
     <td>NOTE</td>
-    <td>null</td>
-    <td>23/11/2021 19:01</td>
+    <td>Null</td>
+    <td>03/12/2021 21:26</td>
     <td>1</td>
     </tr>
     <tr>
     <td>2</td>
-    <td>Demo-note</td>
-    <td>sample text</td>
-    <td>NOTE</td>
-    <td>null</td>
-    <td>23/11/2021 19:01</td>
-    <td>2</td>
-    </tr>
-    <tr>
-    <td>3</td>
     <td>Demo-task</td>
     <td>sample text</td>
     <td>TASK</td>
     <td>TRUE</td>
-    <td>23/11/2021 19:02</td>
+    <td>03/12/2021 21:26</td>
     <td>2</td>
     </tr>
+
 </table>
 
 <p> The following sample data is available for calendar events </p>
@@ -84,40 +76,22 @@ install all required dependencies</li>
     <td>body</td>
     <td>datetime</td>
     <td>created_by</td>
+    <td>color</td>
     </tr>
     <tr>
     <td>1</td>
     <td>Quiz x</td>
     <td>Quiz for course xyz</td>
-    <td>11/11/2021 13:30</td>
+    <td>14/12/2021 13:30</td>
     <td>1</td>
+    <td>red</td>
     </tr>
     <tr>
     <td>2</td>
     <td>Quiz y</td>
     <td>null</td>
-    <td>23/11/2021 19:01</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>3</td>
-    <td>Exam</td>
-    <td>Time TBA</td>
-    <td>null</td>
-    <td>1</td>
-    </tr>
-    <tr>
-    <td>4</td>
-    <td>Demo-event</td>
-    <td>sample text</td>
     <td>null</td>
     <td>2</td>
-    </tr>
-    <tr>
-    <td>5</td>
-    <td>Demo2</td>
-    <td>some more text</td>
-    <td>null</td>
-    <td>2</td>
+    <td>green</td>
     </tr>
 </table>

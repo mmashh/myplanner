@@ -1,0 +1,2 @@
+NO_SECONDS_IN_A_WEEK = 7 * 86400
+DATETIME_FORMAT = r"%d/%m/%Y %H:%M"

@@ -1,8 +1,9 @@
-from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
 from models.itemModel import ItemModel
 
 
 def get_user_id():
+    verify_jwt_in_request()
     identifiers_in_jwt = get_jwt_identity()
     user_id = identifiers_in_jwt["id"]
     return user_id
