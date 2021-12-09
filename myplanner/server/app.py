@@ -15,6 +15,7 @@ from resources.eventResource import (
     EventGetUpcoming,
 )
 
+from models import blockListModel
 
 def init_app():
 
@@ -24,10 +25,11 @@ def init_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
 
     Swagger(app)
-    JWTManager(app)
+    jwt = JWTManager(app)
     CORS(app)
 
-    return app
+    
+    return app, jwt
 
 
 def add_routes(app):
@@ -54,13 +56,21 @@ def add_routes(app):
 
 if __name__ == "__main__":
 
-    app = init_app()
+    app, jwt = init_app()
+
     app = add_routes(app)
 
     @app.before_first_request
     def create_tables():
         db.create_all()
-
     db.init_app(app)
+
+
+    @jwt.token_in_blocklist_loader
+    def check_if_token_revoked(jwt_header, jwt_payload):
+        jti = jwt_payload["jti"]
+        token = blockListModel.get_blocked_jwt(jti)
+        return token is not None
+
 
     app.run(host="0.0.0.0", port="5000", debug=True)

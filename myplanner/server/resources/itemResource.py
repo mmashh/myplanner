@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.itemModel import ItemModel, ItemTypeEnum, BooleanEnum
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flasgger import swag_from
 import modules.itemModule as itemModule
 import modules.userModule as userModule
