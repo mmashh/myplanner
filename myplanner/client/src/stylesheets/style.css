@@ -1,5 +1,5 @@
 :root {
-  --main: #242526;
+  --main: #1c1c1d;
   --secondary: #242526;
   --ternary: #3a3b3c;
   --primary-font: #ffffff;
@@ -11,7 +11,8 @@
 
 .maincontainer {
   width: 100%;
-  background-color: #ffffff !important;
+  background-color: var(--main) !important;
+  color: var(--primary-font);
   display: flex;
   justify-content: center;
 
@@ -47,8 +48,9 @@
   color: var(--secondary-font);
 }
 
-.calendar{
+.calendar, .card{
   background-color: white;
+  color: black;
   padding: 15px;
   border-radius: 5px;
 }
@@ -68,12 +70,11 @@
   overflow-x: hidden;
 }
 
-.eventlists{
+.eventlists, .upcoming-events{
   width: 100%;
-  height: 40vh;
   padding: 15px;
   border-radius: 5px;
-  background-color: white;
+  background-color: var(--ternary);
   margin-bottom: 10px;
 }
 

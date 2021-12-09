@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Calendar } from "./calendar";
+import UpcomingEvents from "./upcomingEvents";
 import { CreateEvent } from "./createEvent";
 import { EventLists } from "./eventLists";
 import eventApi from "../../utils/eventsApi";
+import {
+  Container,
+  Row,
+  Col
+} from 'react-bootstrap'
 const EventCalendar = () => {
   let initial = {
     event_id: "",
@@ -81,9 +87,9 @@ const EventCalendar = () => {
   };
   return (
     <>
-      <div className="container mt-2">
-        <div className="row">
-          <div className="col-xl-8 mb-2">
+      <Container className="mt-2" fluid>
+        <Row>
+          <Col md={8} className="mb-2">
             <Calendar
               setEventInfo={setEventInfo}
               setForm={setOpenForm}
@@ -92,18 +98,23 @@ const EventCalendar = () => {
               updateCalendar={getAssignedEvents}
               updateUnassignedList={getUnassignedEvents}
             />
-          </div>
-          <div className={openForm ? "col-xl-4" : "d-none"}>
+          </Col>
+          <Col md={4} className={openForm ? "" : "d-none"}>
             <CreateEvent {...eventCreateContext} />
-          </div>
-          <div className="col-xl-12  mt-4">
+          </Col>
+        </Row>
+        <Row>
+          <Col md={8} className="mt-4">
             <EventLists
               unassignedLists={unassignedLists}
               handleDrag={onDragStart}
             />
-          </div>
-        </div>
-      </div>
+          </Col>
+          <Col md={4} className="mt-4">
+            <UpcomingEvents/>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };
