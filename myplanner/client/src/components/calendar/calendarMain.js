@@ -76,8 +76,12 @@ const EventCalendar = () => {
   }
 
   useLayoutEffect(() => {
-    getUnassignedEvents();
-    getAssignedEvents();
+    const initializeEvents = async ()=>{
+      await getUnassignedEvents();
+      await getAssignedEvents();
+      await getUpcomingEvents(upcomingEvents.numWeeks);
+    }
+    initializeEvents();
   }, []);
 
   useEffect(()=>{
