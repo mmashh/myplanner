@@ -4,7 +4,7 @@ from models.blockListModel import TokenBlocklistModel
 from werkzeug.security import safe_str_cmp
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flasgger import swag_from
-import datetime
+from datetime import datetime
 
 # /user/register
 class UserRegister(Resource):
@@ -94,6 +94,20 @@ class UserLogout(Resource):
         newly_blocked_token = TokenBlocklistModel(jti, now, expiry)
         newly_blocked_token.save_to_db()
         return {"message" : "JWT revoked" }, 200
+
+
+# /user/blocked_tokens/all/admin
+class AllBlockedTokens(Resource):
+
+    def get(self):
+        all_blocked_tokens = TokenBlocklistModel.get_all_blocked()
+        all_blocked_tokens_list = []
+
+        for token in all_blocked_tokens:
+            all_blocked_tokens_list.append(token.to_dict())
+        
+        return all_blocked_tokens_list
+
 
 
 

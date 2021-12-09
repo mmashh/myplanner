@@ -5,7 +5,7 @@ from flasgger import Swagger
 from flask_cors import CORS
 
 from db import db
-from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete, UserLogout
+from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete, UserLogout, AllBlockedTokens
 from resources.itemResource import ItemAdd, ItemAll, Item, ItemAllSpecificUser
 from resources.eventResource import (
     EventAdd,
@@ -39,6 +39,7 @@ def add_routes(app):
     api.add_resource(UserAll, "/user/all")
     api.add_resource(UserLogin, "/user/login")
     api.add_resource(UserLogout, "/user/logout")
+    api.add_resource(AllBlockedTokens, "/user/blocked_tokens/all/admin")
     api.add_resource(UserDelete, "/user/delete/<int:id>")
 
     api.add_resource(ItemAllSpecificUser, "/item/all")
