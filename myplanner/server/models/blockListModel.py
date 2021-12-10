@@ -1,6 +1,7 @@
 from db import db
 from datetime import datetime
 
+
 class TokenBlocklistModel(db.Model):
 
     jwt_id = db.Column(db.Integer, primary_key=True)
@@ -23,13 +24,12 @@ class TokenBlocklistModel(db.Model):
 
     def to_dict(self):
         item_summary_dict = {
-           "jwt_id" : self.jwt_id,
-           "jti" : self.jti,
-           "created_at" : self.created_at,
-           "expiry" : self.expiry
+            "jwt_id": self.jwt_id,
+            "jti": self.jti,
+            "created_at": self.created_at,
+            "expiry": self.expiry,
         }
         return item_summary_dict
-
 
     @classmethod
     def get_all_blocked(cls):
@@ -40,15 +40,10 @@ class TokenBlocklistModel(db.Model):
     def get_blocked_jwt(cls, jti_to_check):
         existing_blocked_jwt = cls.query.filter_by(jti=jti_to_check).first()
         return existing_blocked_jwt
-    
+
     @classmethod
     def purge_expired_jwts(cls):
         current_timestamp = datetime.now().timestamp()
         all_expired_jwts = cls.query.filter(cls.expiry <= current_timestamp).all()
         for jwt in all_expired_jwts:
             jwt.delete_from_db()
-        
-
-    
-
-    

@@ -8,7 +8,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from jobs.blocklist_jobs import purge_expired_jwts_from_blocklist
 
 from db import db
-from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete, UserLogout, AllBlockedTokens
+from resources.userResource import (
+    UserRegister,
+    UserAll,
+    UserLogin,
+    UserDelete,
+    UserLogout,
+    AllBlockedTokens,
+)
 from resources.itemResource import ItemAdd, ItemAll, Item, ItemAllSpecificUser
 from resources.eventResource import (
     EventAdd,
@@ -18,7 +25,8 @@ from resources.eventResource import (
     EventGetUpcoming,
 )
 
-from models.blockListModel import TokenBlocklistModel 
+from models.blockListModel import TokenBlocklistModel
+
 
 def init_app():
 
@@ -31,7 +39,6 @@ def init_app():
     jwt = JWTManager(app)
     CORS(app)
 
-    
     return app, jwt
 
 
@@ -61,7 +68,11 @@ def add_routes(app):
 
 def start_jobs(app):
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=lambda: purge_expired_jwts_from_blocklist(app), trigger="interval", seconds=600)
+    scheduler.add_job(
+        func=lambda: purge_expired_jwts_from_blocklist(app),
+        trigger="interval",
+        seconds=600,
+    )
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown())
 
@@ -75,8 +86,8 @@ if __name__ == "__main__":
     @app.before_first_request
     def create_tables():
         db.create_all()
-    db.init_app(app)
 
+    db.init_app(app)
 
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
@@ -84,9 +95,6 @@ if __name__ == "__main__":
         token = TokenBlocklistModel.get_blocked_jwt(jti)
         return token is not None
 
-    
     start_jobs(app)
 
     app.run(host="0.0.0.0", port="5000", debug=True, use_reloader=False)
-
-    

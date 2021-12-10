@@ -124,11 +124,10 @@ class EventEdit(Resource):
 
 
 class EventGet(Resource):
-
     def select_where(self, given_conditions, only_events_created_by_this_user=True):
 
         targets = []
-        
+
         if only_events_created_by_this_user:
             owner_id = userModule.get_user_id()
             default_condition = EventModel.created_by.is_(owner_id)

@@ -2,7 +2,12 @@ from flask_restful import Resource, reqparse
 from models.userModel import UserModel
 from models.blockListModel import TokenBlocklistModel
 from werkzeug.security import safe_str_cmp
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import (
+    create_access_token,
+    jwt_required,
+    get_jwt_identity,
+    get_jwt,
+)
 from flasgger import swag_from
 from datetime import datetime
 from datetime import timedelta
@@ -71,8 +76,8 @@ class UserLogin(Resource):
             access_token = create_access_token(
                 identity=identifying_values,
                 fresh=True,
-                expires_delta=time_till_token_expires
-                )
+                expires_delta=time_till_token_expires,
+            )
 
             return {
                 "access_token": access_token,
@@ -83,7 +88,6 @@ class UserLogin(Resource):
 
 # /user/logout
 class UserLogout(Resource):
-    
     @jwt_required()
     @swag_from("../swagger_documentation/user-logout.yml")
     def post(self):
@@ -92,12 +96,11 @@ class UserLogout(Resource):
         now = datetime.now().timestamp()
         newly_blocked_token = TokenBlocklistModel(jti, now, expiry)
         newly_blocked_token.save_to_db()
-        return {"message" : "JWT revoked" }, 200
+        return {"message": "JWT revoked"}, 200
 
 
 # /user/blocked_tokens/all/admin
 class AllBlockedTokens(Resource):
-
     @swag_from("../swagger_documentation/user-blockedtokens-get-all-admin.yml")
     def get(self):
         all_blocked_tokens = TokenBlocklistModel.get_all_blocked()
@@ -105,12 +108,8 @@ class AllBlockedTokens(Resource):
 
         for token in all_blocked_tokens:
             all_blocked_tokens_list.append(token.to_dict())
-        
-        return {'blocked_tokens' : all_blocked_tokens_list}, 200
 
-
-
-
+        return {"blocked_tokens": all_blocked_tokens_list}, 200
 
 
 # /user/all
