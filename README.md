@@ -55,7 +55,9 @@ The tester must register for an account using the UI. Navigate to <http://localh
 ## Database Information & Sample Users
 
 To access contents of the database, execute the following command to enter postgres after spinning up the database container.  
-`docker exec -it myplanner_db_1 psql myplanner_data -U flask`
+`docker exec -it myplanner_db_1 psql myplanner_data -U flask`  
+Note that table sample data will be populated before first request to the backend application.  
+This can be done by attempting to access the swagger docs at <http://localhost:5000/apidocs/> or at first login, or even when attempting to register a new user.
 
 ### The following sample data is available for users
 
