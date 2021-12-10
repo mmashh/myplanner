@@ -4,7 +4,7 @@ services:
     build:
       context: ./myplanner/client
     ports:
-      - "80:80"
+      - "8080:80"
   backend:
     build:
       context: ./myplanner/server/
