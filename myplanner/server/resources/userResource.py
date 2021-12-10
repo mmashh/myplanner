@@ -98,6 +98,7 @@ class UserLogout(Resource):
 # /user/blocked_tokens/all/admin
 class AllBlockedTokens(Resource):
 
+    @swag_from("../swagger_documentation/user-blockedtokens-get-all-admin.yml")
     def get(self):
         all_blocked_tokens = TokenBlocklistModel.get_all_blocked()
         all_blocked_tokens_list = []
@@ -105,7 +106,7 @@ class AllBlockedTokens(Resource):
         for token in all_blocked_tokens:
             all_blocked_tokens_list.append(token.to_dict())
         
-        return all_blocked_tokens_list
+        return {'blocked_tokens' : all_blocked_tokens_list}, 200
 
 
 
