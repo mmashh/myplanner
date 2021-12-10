@@ -78,7 +78,7 @@ class UserLogin(Resource):
                 "access_token": access_token,
             }, 200
 
-        return {"message": "invalid credentials"}, 404
+        return {"message": "invalid credentials"}, 422
 
 
 # /user/logout
