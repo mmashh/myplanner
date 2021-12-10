@@ -130,7 +130,7 @@ class EventGet(Resource):
 
         if only_events_created_by_this_user:
             owner_id = userModule.get_user_id()
-            default_condition = EventModel.created_by.is_(owner_id)
+            default_condition = EventModel.created_by == owner_id
             filter_conditions = (given_conditions, default_condition)
         else:
             filter_conditions = (given_conditions,)
