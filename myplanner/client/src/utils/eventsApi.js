@@ -6,7 +6,7 @@ const eventCreate = async (props) => {
     body: props.body,
     color: props.color,
   };
-  const response = await apiHelpers.httpPost("/event/", eventInfo);
+  const response = await apiHelpers.httpPost("/event", eventInfo);
   return response;
 };
 
