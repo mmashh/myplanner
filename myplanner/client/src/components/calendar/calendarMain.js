@@ -37,7 +37,7 @@ const EventCalendar = () => {
 
   const handleCreateEvent = async (props) => {
     const { status, data } = await eventApi.newEvent(props);
-    if (status == 201) {
+    if (status === 201) {
       alert(data.message);
       setEventInfo(initial);
       getUnassignedEvents();
@@ -81,7 +81,7 @@ const EventCalendar = () => {
     const initializeEvents = async ()=>{
       await getUnassignedEvents();
       await getAssignedEvents();
-      await getUpcomingEvents(upcomingEvents.numWeeks);
+      await getUpcomingEvents(1);
       setShowToast(true);
     }
     initializeEvents();
@@ -104,7 +104,7 @@ const EventCalendar = () => {
     let finalDate = `${date[2]}/${date[1]}/${date[0]} 0:0`;
 
     info['datetime'] = finalDate;
-    const response = await eventApi.eventEdit(info);
+    await eventApi.eventEdit(info);
     alert('Event has updated')
     setEventInfo(initial);
     setOpenForm(false)
@@ -112,7 +112,7 @@ const EventCalendar = () => {
   };
 
   const handleDelete = async(props)=>{
-    const response = await eventApi.eventDelete(props);
+    eventApi.eventDelete(props);
     alert('Event has deleted')
     setEventInfo(initial);
     setOpenForm(false)

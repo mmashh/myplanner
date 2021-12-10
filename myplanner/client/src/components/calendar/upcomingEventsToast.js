@@ -69,5 +69,4 @@ function UpcomingEventsToast({upcomingEvents, show, handleClose}) {
   );
 }
 
-
-export default UpcomingEventsToast
+export default UpcomingEventsToast;

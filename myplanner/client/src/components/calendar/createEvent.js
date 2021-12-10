@@ -9,13 +9,13 @@ export const CreateEvent = ({
 }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (eventInfo.title == "") return alert("please enter title");
+    if (eventInfo.title === "") return alert("please enter title");
     addEvent(eventInfo);
   };
 
   const handleUpdate = (event) => {
     event.preventDefault();
-    if (eventInfo.title == "") return alert("please enter title");
+    if (eventInfo.title === "") return alert("please enter title");
     updateEvent(eventInfo);
   };
 

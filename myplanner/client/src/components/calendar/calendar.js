@@ -17,7 +17,7 @@ export const Calendar = ({
 }) => {
   const CustomToolbar = (props) => {
     let {
-      localizer: { messages },
+      localizer: { messages }, //-- Change endpoint to order by chronological
       label,
     } = props;
     const navigate = (action) => {
@@ -66,14 +66,14 @@ export const Calendar = ({
       ...dragEvent,
       datetime: customDate,
     };
-    const response = await eventApi.eventEdit(eventInfo);
+    await eventApi.eventEdit(eventInfo);
 
     updateUnassignedList();
     updateCalendar();
   };
 
   const customEvents = () => {
-    if (events.length == 0) return [];
+    if (Array.isArray(events) && events.length === 0) return [];
     let modifiedEvents = events.map((item) => {
       let date = item.datetime.split(" ");
       let dateForCalendar = date[0].split("/");

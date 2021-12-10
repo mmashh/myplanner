@@ -39,14 +39,14 @@ function App(props) {
         <>
           <Nav.Item>
             <Link to="/calendar" className="app-navbar-link">
-              <Button variant={pathname == '/calendar' ? 'primary':'secondary'} >
+              <Button variant={pathname === '/calendar' ? 'primary':'secondary'} >
                 Calendar
               </Button>
             </Link>
           </Nav.Item>
           <Nav.Item>
             <Link to="/items" className="app-navbar-link">
-            <Button variant={pathname == '/items' ? 'primary':'secondary'} >
+            <Button variant={pathname === '/items' ? 'primary':'secondary'} >
                 Items
               </Button>
             </Link>
