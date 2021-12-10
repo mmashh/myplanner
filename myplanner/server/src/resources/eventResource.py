@@ -192,7 +192,7 @@ class EventGetUpcoming(EventGet):
             return False
 
     @jwt_required()
-    @swag_from("../swagger_documentation/event-get-upcoming.yml")
+    @swag_from("../swagger_documentation/event/event-get-upcoming.yml")
     def get(self, no_weeks_to_look_ahead):
 
         all_assigned_events = self.select_where(

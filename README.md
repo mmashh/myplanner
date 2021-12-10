@@ -4,16 +4,15 @@
 
 This project was created as a final project for CMPT 470 Fall 2021 by the following Group 12 members: sza11, deva, mmashur, jacebedo
 
-## Instructions to Run (docker version)
+## Instructions to Run (docker)
 
-- Dockerization is not finalized.
-- In case docker does not work properly, please follow the instructions on Development mode section.
+**For windows users, please note that `myplanner/server/entrypoint.sh` has LF ending.**
 
 1. Navigate to the directory containing `docker-compose.yml`
 2. (Optional) `docker-compose down && docker system prune -f`
 3. `docker-compose build && docker-compose up`
-4. Navigate to http://localhost:3000/ to view the application in your browser.
-5. Swagger doc is available on http://localhost:5000/apidocs
+4. Navigate to http://localhost:8080/login to view the application in your browser.
+5. Swagger doc will be available on http://localhost:5000/apidocs/
 
 ## Completed Features
 
@@ -83,7 +82,6 @@ The tester must register for an account using the UI. Navigate to http://localho
 </li>
 </ul>
 
-## Sample  Users
 <p> The following sample data is available for users </p>
 
 <table>
@@ -103,8 +101,7 @@ The tester must register for an account using the UI. Navigate to http://localho
     <td>user5678</td>
     </tr>
 </table>
-    
-## Database Information 
+
 <p> The following sample data is available for list items </p>
 
 <table>
@@ -122,27 +119,48 @@ The tester must register for an account using the UI. Navigate to http://localho
     <td>Demo-note</td>
     <td>sample text</td>
     <td>NOTE</td>
-    <td>null</td>
-    <td>23/11/2021 19:01</td>
+    <td>Null</td>
+    <td>03/12/2021 21:26</td>
     <td>1</td>
     </tr>
     <tr>
     <td>2</td>
-    <td>Demo-note</td>
-    <td>sample text</td>
-    <td>NOTE</td>
-    <td>null</td>
-    <td>23/11/2021 19:01</td>
-    <td>2</td>
-    </tr>
-    <tr>
-    <td>3</td>
     <td>Demo-task</td>
     <td>sample text</td>
     <td>TASK</td>
     <td>TRUE</td>
-    <td>23/11/2021 19:02</td>
+    <td>03/12/2021 21:26</td>
     <td>2</td>
+    </tr>
+
+</table>
+
+<p> The following sample data is available for calendar events </p>
+
+<table>
+    <tr>
+    <td>event_id</td>
+    <td>title</td>
+    <td>body</td>
+    <td>datetime</td>
+    <td>created_by</td>
+    <td>color</td>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>Quiz x</td>
+    <td>Quiz for course xyz</td>
+    <td>14/12/2021 13:30</td>
+    <td>1</td>
+    <td>red</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>Quiz y</td>
+    <td>null</td>
+    <td>null</td>
+    <td>2</td>
+    <td>green</td>
     </tr>
 </table>
 
