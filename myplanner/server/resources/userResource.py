@@ -5,6 +5,7 @@ from werkzeug.security import safe_str_cmp
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flasgger import swag_from
 from datetime import datetime
+from datetime import timedelta
 
 # /user/register
 class UserRegister(Resource):
@@ -65,7 +66,7 @@ class UserLogin(Resource):
                 "username": user.username,
             }
 
-            time_till_token_expires = datetime.timedelta(hours=1)
+            time_till_token_expires = timedelta(hours=1)
 
             access_token = create_access_token(
                 identity=identifying_values,
