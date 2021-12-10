@@ -9,4 +9,4 @@ COPY ./src ./requirements.txt ./entrypoint.sh /usr/src/
 RUN pip install --upgrade pip && pip install -r requirements.txt --no-cache-dir
 
 RUN apt-get update && apt-get install -y netcat && chmod +x ./entrypoint.sh
-CMD ["/usr/src/entrypoint.sh"]
+CMD ["sh", "/usr/src/entrypoint.sh"]
