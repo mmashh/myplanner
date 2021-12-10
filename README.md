@@ -4,6 +4,23 @@
 
 This project was created as a final project for CMPT 470 Fall 2021 by the following Group 12 members: sza11, deva, mmashur, jacebedo
 
+# Table of contents
+
+- [MyPlanner: An organizational tool to simplify calendars and notes](#myplanner-an-organizational-tool-to-simplify-calendars-and-notes)
+  - [Note](#note)
+- [Table of contents](#table-of-contents)
+  - [Instructions to Run (docker)](#instructions-to-run-docker)
+  - [Completed Features](#completed-features)
+  - [Goals for the Final Implementation](#goals-for-the-final-implementation)
+  - [Testing Information](#testing-information)
+  - [Database Information & Sample Users](#database-information--sample-users)
+    - [The following sample data is available for users](#the-following-sample-data-is-available-for-users)
+    - [The following sample data is available for list items](#the-following-sample-data-is-available-for-list-items)
+    - [The following sample data is available for calendar events](#the-following-sample-data-is-available-for-calendar-events)
+  - [Special Thanks To](#special-thanks-to)
+    - [Server](#server)
+    - [Client](#client)
+
 ## Instructions to Run (docker)
 
 **For windows users, please note that `myplanner/server/entrypoint.sh` has LF ending.**
@@ -51,6 +68,9 @@ The features that have been completed for the checkpoint are as follows:
 The tester must register for an account using the UI. Navigate to <http://localhost:8080/register> to register for an account (once the application is running)
 
 ## Database Information & Sample Users
+
+To access contents of the database, execute the following command to enter postgres after spinning up the database container.  
+`docker exec -it myplanner_db_1 psql myplanner_data -U flask`
 
 ### The following sample data is available for users
 
