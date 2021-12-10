@@ -4,22 +4,7 @@
 
 This project was created as a final project for CMPT 470 Fall 2021 by the following Group 12 members: sza11, deva, mmashur, jacebedo
 
-# Table of contents
-
-- [MyPlanner: An organizational tool to simplify calendars and notes](#myplanner-an-organizational-tool-to-simplify-calendars-and-notes)
-  - [Note](#note)
-- [Table of contents](#table-of-contents)
-  - [Instructions to Run (docker)](#instructions-to-run-docker)
-  - [Completed Features](#completed-features)
-  - [Goals for the Final Implementation](#goals-for-the-final-implementation)
-  - [Testing Information](#testing-information)
-  - [Database Information & Sample Users](#database-information--sample-users)
-    - [The following sample data is available for users](#the-following-sample-data-is-available-for-users)
-    - [The following sample data is available for list items](#the-following-sample-data-is-available-for-list-items)
-    - [The following sample data is available for calendar events](#the-following-sample-data-is-available-for-calendar-events)
-  - [Special Thanks To](#special-thanks-to)
-    - [Server](#server)
-    - [Client](#client)
+---
 
 ## Instructions to Run (docker)
 
