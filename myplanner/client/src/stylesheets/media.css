@@ -1,0 +1,29 @@
+/* 
+ * This stylesheet contains the media-queried styles for the application. 
+ * To see the standard desktop aspect ratios, please view the other stylehseets. 
+ */
+
+
+ @media screen and (max-width: 768px) {
+  #app-container {
+    overflow-y: auto;
+  }
+
+  #itemcreate {
+    padding-bottom: 2em;
+    border: 5px solid var(--ternary);
+  }
+
+  .navbar-toggler {
+    margin-right: 1em;
+  }
+
+  #itemlist {
+    margin-top:2em;
+  }
+  
+  .itemlist-item-desc {
+    display: none;
+  }
+
+}
