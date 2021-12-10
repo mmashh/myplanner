@@ -5,7 +5,7 @@ from flasgger import Swagger
 from flask_cors import CORS
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
-from jobs.purge_blocked_token_backlog import test_scheduler
+from jobs.purge_blocked_token_backlog import purge_expired_jwts_from_blocklist
 
 from db import db
 from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete, UserLogout, AllBlockedTokens
@@ -61,7 +61,7 @@ def add_routes(app):
 
 def start_jobs(app):
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=lambda: test_scheduler(app), trigger="interval", seconds=5)
+    scheduler.add_job(func=lambda: purge_expired_jwts_from_blocklist(app), trigger="interval", seconds=600)
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown())
 
@@ -87,6 +87,6 @@ if __name__ == "__main__":
     
     start_jobs(app)
 
-    app.run(host="0.0.0.0", port="5000", debug=True)
+    app.run(host="0.0.0.0", port="5000", debug=True, use_reloader=False)
 
     
