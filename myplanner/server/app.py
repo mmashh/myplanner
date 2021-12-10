@@ -3,6 +3,9 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 from flask_cors import CORS
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
+from jobs.purge_blocked_token_backlog import test_scheduler
 
 from db import db
 from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete, UserLogout, AllBlockedTokens
@@ -56,6 +59,13 @@ def add_routes(app):
     return app
 
 
+def start_jobs():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func=test_scheduler, trigger="interval", seconds=5)
+    scheduler.start()
+    atexit.register(lambda: scheduler.shutdown())
+
+
 if __name__ == "__main__":
 
     app, jwt = init_app()
@@ -74,5 +84,8 @@ if __name__ == "__main__":
         token = TokenBlocklistModel.get_blocked_jwt(jti)
         return token is not None
 
+    start_jobs()
 
     app.run(host="0.0.0.0", port="5000", debug=True)
+
+    
