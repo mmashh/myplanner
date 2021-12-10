@@ -5,7 +5,7 @@ from flasgger import Swagger
 from flask_cors import CORS
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
-from jobs.purge_blocked_token_backlog import purge_expired_jwts_from_blocklist
+from jobs.blocklist_jobs import purge_expired_jwts_from_blocklist
 
 from db import db
 from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete, UserLogout, AllBlockedTokens

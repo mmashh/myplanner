@@ -1,0 +1,14 @@
+Logout a user
+---
+tags:
+  - User
+
+responses:
+  200:
+    description: User has been logged out and JWT has been revoked
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: JWT revoked

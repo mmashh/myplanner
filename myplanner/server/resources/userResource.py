@@ -78,16 +78,14 @@ class UserLogin(Resource):
                 "access_token": access_token,
             }, 200
 
-        return {"message": "invalid credentials"}, 401
+        return {"message": "invalid credentials"}, 404
 
 
 # /user/logout
 class UserLogout(Resource):
-
-    def get(self):
-        return {"message" : "hit this endpoint"}, 200
     
     @jwt_required()
+    @swag_from("../swagger_documentation/user-logout.yml")
     def post(self):
         jti = get_jwt()["jti"]
         expiry = get_jwt()["exp"]
