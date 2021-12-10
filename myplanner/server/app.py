@@ -59,9 +59,9 @@ def add_routes(app):
     return app
 
 
-def start_jobs():
+def start_jobs(app):
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=test_scheduler, trigger="interval", seconds=5)
+    scheduler.add_job(func=lambda: test_scheduler(app), trigger="interval", seconds=5)
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown())
 
@@ -84,7 +84,8 @@ if __name__ == "__main__":
         token = TokenBlocklistModel.get_blocked_jwt(jti)
         return token is not None
 
-    start_jobs()
+    
+    start_jobs(app)
 
     app.run(host="0.0.0.0", port="5000", debug=True)
 

@@ -1,4 +1,5 @@
 from db import db
+from datetime import datetime
 
 class TokenBlocklistModel(db.Model):
 
@@ -39,5 +40,13 @@ class TokenBlocklistModel(db.Model):
     def get_blocked_jwt(cls, jti_to_check):
         existing_blocked_jwt = cls.query.filter_by(jti=jti_to_check).first()
         return existing_blocked_jwt
+    
+    @classmethod
+    def purge_blocked_expired_jwts(cls):
+        current_timestamp = datetime.now().timestamp()
+        all_expired_jwts = cls.query.filter_by(expiry = current_timestamp).all()
+        return all_expired_jwts
+
+    
 
     
