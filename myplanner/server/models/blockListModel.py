@@ -42,10 +42,12 @@ class TokenBlocklistModel(db.Model):
         return existing_blocked_jwt
     
     @classmethod
-    def purge_blocked_expired_jwts(cls):
+    def purge_expired_jwts(cls):
         current_timestamp = datetime.now().timestamp()
-        all_expired_jwts = cls.query.filter_by(expiry = current_timestamp).all()
-        return all_expired_jwts
+        all_expired_jwts = cls.query.filter(cls.expiry <= current_timestamp).all()
+        for jwt in all_expired_jwts:
+            jwt.delete_from_db()
+        
 
     
 
