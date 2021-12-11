@@ -20,6 +20,12 @@ const assignedLists = async () => {
   return response.data?.assigned_events;
 };
 
+const getUpcomingEvents = async (numWeeks) => {
+  const response = await apiHelpers.httpGet(`/event/upcoming/${numWeeks}`);
+  console.log(response);
+  return (response.data) ? response.data["upcoming events"] : [];
+}
+
 const eventEdit = async (props) => {
   const response = await apiHelpers.httpPut(`/event/${props.event_id}`, {
     ...props,
@@ -35,6 +41,7 @@ const eventDelete = async (props) => {
 const eventApi = {
   eventUnassignedList: unassignedLists,
   eventAssignedList: assignedLists,
+  getUpcomingEvents: getUpcomingEvents,
   newEvent: eventCreate,
   eventEdit: eventEdit,
   eventDelete: eventDelete,

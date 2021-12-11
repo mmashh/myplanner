@@ -6,11 +6,12 @@
 
  @media screen and (max-width: 768px) {
   #app-container {
-    overflow-y: auto;
+    overflow-y: auto !important;
   }
 
   #itemcreate {
     padding-bottom: 2em;
+    margin-top: 2em;
     border: 5px solid var(--ternary);
   }
 
@@ -26,4 +27,8 @@
     display: none;
   }
 
+  .app-navbar-button {
+    width: 95%;
+    margin: 5px 0 5px 2.5%;
+  }
 }

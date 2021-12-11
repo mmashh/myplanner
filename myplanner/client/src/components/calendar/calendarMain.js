@@ -5,12 +5,15 @@ import {
   Col
 } from 'react-bootstrap';
 import { Calendar } from "./calendar";
-import { useLocation } from "react-router-dom";
+import UpcomingEvents from "./upcomingEvents";
+import UpcomingEventsToast from "./upcomingEventsToast";
 import { CreateEvent } from "./createEvent";
 import { EventLists } from "./eventLists";
-import eventApi from "../../utils/eventsApi";
 import ApplicationAlert from "../ApplicationAlert";
 import LoadingScreen from "../LoadingScreen";
+import eventApi from "../../utils/eventsApi";
+import { useLocation } from "react-router-dom";
+
 const EventCalendar = () => {
   let initial = {
     event_id: "",
@@ -24,6 +27,11 @@ const EventCalendar = () => {
   const [unassignedLists, setUnassignedLists] = useState([]);
   const [assignedLists, setAssignedLists] = useState([]);
   const [dragEvent, setDragEvent] = useState({});
+  const [upcomingEvents,setUpcomingEvents] = useState({
+    numWeeks: 1,
+    events: []
+  });
+  const [showToast,setShowToast] = useState(false);
   const [loading,setLoading] = useState(true);
   const routerState = useLocation().state;
   const [appAlertInfo, setAppAlertInfo] = useState({
@@ -81,16 +89,47 @@ const EventCalendar = () => {
     setAssignedLists(response);
   };
 
+  const getUpcomingEvents = async (numWeeks) => {
+    if (isNaN(numWeeks)){
+      alert("You must select a valid option for the \"Upcoming Events\" dropdown.");
+    } else {
+      const response = await eventApi.getUpcomingEvents(numWeeks);
+      setUpcomingEvents((prevState)=> {
+        return {
+          ...prevState,
+          events: response
+        }
+      });
+    }
+  }
+
+  const setNumWeeks = (n)=> {
+    setUpcomingEvents((prevState) => {
+      return {
+        ...prevState,
+        numWeeks: n
+      }
+    });
+  }
+
   useLayoutEffect(() => {
-    async function getAllEvents() {
+    const initializeEvents = async ()=>{
       setLoading(true);
       await getUnassignedEvents();
       await getAssignedEvents();
+      await getUpcomingEvents(1);
       setLoading(false);
+      setShowToast(true);
     }
-    
-    getAllEvents();
+    initializeEvents();
   }, []);
+
+  useEffect(()=>{
+    const upcomingEventsForWeek = async (numWeeks)=>{
+      await getUpcomingEvents(numWeeks);
+    };
+    upcomingEventsForWeek(upcomingEvents.numWeeks);
+  },[upcomingEvents.numWeeks]);
 
   const onDragStart = (props) => {
     setDragEvent({ ...props });
@@ -126,7 +165,8 @@ const EventCalendar = () => {
     addEvent: handleCreateEvent,
     changeEvent: handleChange,
     updateEvent: handleUpdate,
-    deleteEvent:handleDelete
+    deleteEvent:handleDelete,
+    closeCard: ()=>{setOpenForm(false)}
   };
   return (
     <>
@@ -140,6 +180,7 @@ const EventCalendar = () => {
               dragEvent={dragEvent}
               updateCalendar={getAssignedEvents}
               updateUnassignedList={getUnassignedEvents}
+              initialEvent={initial}
             />
           </Col>
           <Col md={4} className={openForm ? "mb-4" : "d-none"}>
@@ -147,17 +188,21 @@ const EventCalendar = () => {
           </Col>
         </Row>          
         <Row md={12}>
-          <Col md={8}>
+          <Col md={8} className="mt-4">
             <EventLists
               unassignedLists={unassignedLists}
               handleDrag={onDragStart}
             />
           </Col>
-          <Col md={4} className="upcoming-events">
-            <div className="">Upcoming Events WIP</div>
+          <Col md={4} className="mt-4">
+            <UpcomingEvents 
+              upcomingEvents={upcomingEvents.events} 
+              setNumWeeks={setNumWeeks}
+            />
           </Col>
         </Row>
       </Container>
+      <UpcomingEventsToast upcomingEvents={upcomingEvents.events} show={showToast} handleClose={()=>{setShowToast(false)}}/>
       <ApplicationAlert 
           show={appAlertInfo.show}
           type={appAlertInfo.type}
