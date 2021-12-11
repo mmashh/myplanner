@@ -192,7 +192,7 @@ const EventCalendar = () => {
               handleDrag={onDragStart}
             />
           </Col>
-          <Col md={4} className="mt-4">
+          <Col md={4}>
             <UpcomingEvents 
               upcomingEvents={upcomingEvents.events} 
               setNumWeeks={setNumWeeks}
