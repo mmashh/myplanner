@@ -48,11 +48,7 @@ function Register() {
       setLoading(true);
       let result = await usersApi.register(user);
       setLoading(false);
-      if (result.error){
-        setError(result.error);
-        setValidated(false);
-        return;
-      } else {
+      if (result.info !==  undefined){
         navigate('/login', {
           state: {
             applicationMessage: {
@@ -61,6 +57,11 @@ function Register() {
             }
           }
         });
+      } else {
+        setError("This user already exists. Please try again.");
+        setValidated(false);
+        return;
+        
       }
     }
     setValidated(true);
