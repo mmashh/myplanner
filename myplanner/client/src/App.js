@@ -37,10 +37,12 @@ function App() {
       e.preventDefault();
       logoutUser();
     }
-    window.addEventListener("beforeunload",logoutOnWindowUnload);
+    window.addEventListener("beforeunload",(e)=>{e.preventDefault()});
+    window.addEventListener("unload",logoutOnWindowUnload);
 
     return ()=>{
-      window.removeEventListener("beforeunload",logoutOnWindowUnload);
+      window.removeEventListener("beforeunload",(e)=>{e.preventDefault()});
+      window.removeEventListener("unload",logoutOnWindowUnload);
     }
 
   },[])
