@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Items from './components/Items.js';
 import Login from './components/Login.js';
 import Register from './components/Register.js';
@@ -27,14 +27,23 @@ function App() {
   const navigate = useNavigate();
 
   
-  const logoutUser = ()=> {
+  const logoutUser = (e)=> {
     cookies.remove("Authorization");
     // call logout (when working on login stuff)
   }
 
-  window.addEventListener("beforeunload",function(e){
-    logoutUser();
-  });
+  useEffect(()=>{
+    const logoutOnWindowUnload = (e)=>{
+      e.preventDefault();
+      logoutUser();
+    }
+    window.addEventListener("beforeunload",logoutOnWindowUnload);
+
+    return ()=>{
+      window.removeEventListener("beforeunload",logoutOnWindowUnload);
+    }
+
+  },[])
 
 
   const isLoggedIn = function () {
