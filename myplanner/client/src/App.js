@@ -26,6 +26,17 @@ function App() {
   const cookies = new Cookies();
   const navigate = useNavigate();
 
+  
+  const logoutUser = ()=> {
+    cookies.remove("Authorization");
+    // call logout (when working on login stuff)
+  }
+
+  window.addEventListener("beforeunload",function(e){
+    logoutUser();
+  });
+
+
   const isLoggedIn = function () {
     return cookies.get("Authorization") !== undefined;
   };
@@ -63,7 +74,7 @@ function App() {
   };
 
   const logout = function () {
-    cookies.remove("Authorization");
+    logoutUser();
     navigate("/");
   };
 
