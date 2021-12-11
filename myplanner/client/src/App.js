@@ -65,7 +65,7 @@ function App() {
           <Nav.Item>
             <Link to="/items">
             <Button className="app-navbar-button" variant={pathname === '/items' ? 'primary':'secondary'} >
-                Items
+                To-do List
               </Button>
             </Link>
           </Nav.Item>

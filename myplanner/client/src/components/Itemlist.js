@@ -47,7 +47,7 @@ function Itemlist({items,populateAlert, updateStateCallback}) {
     <Container id="itemlist" className="vh-100" fluid>
       <Col md={12}>
         <Row id="itemlist-header" md={3}>
-            <h2>Items</h2>
+            <h2>To-Do List Items</h2>
         </Row>
         {(items.length > 0) 
         ? items.map(function(item){
