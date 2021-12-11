@@ -6,7 +6,7 @@ const eventCreate = async (props) => {
     body: props.body,
     color: props.color,
   };
-  const response = await apiHelpers.httpPost("/event/", eventInfo);
+  const response = await apiHelpers.httpPost("/event", eventInfo);
   return response;
 };
 
@@ -20,12 +20,10 @@ const assignedLists = async () => {
   return response.data?.assigned_events;
 };
 
-const upcomingLists = async (numWeeks) => {
+const getUpcomingEvents = async (numWeeks) => {
   const response = await apiHelpers.httpGet(`/event/upcoming/${numWeeks}`);
-  // TODO: FIX API CALL
-  if (response.data){
-    return response.data["upcoming events"];
-  }
+  console.log(response);
+  return (response.data) ? response.data["upcoming events"] : [];
 }
 
 const eventEdit = async (props) => {
@@ -43,7 +41,7 @@ const eventDelete = async (props) => {
 const eventApi = {
   eventUnassignedList: unassignedLists,
   eventAssignedList: assignedLists,
-  getUpcomingEvents: upcomingLists,
+  getUpcomingEvents: getUpcomingEvents,
   newEvent: eventCreate,
   eventEdit: eventEdit,
   eventDelete: eventDelete,

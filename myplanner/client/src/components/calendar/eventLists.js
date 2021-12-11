@@ -3,7 +3,7 @@ import React from "react";
 export const EventLists = ({unassignedLists,handleDrag}) => {
   return (
     <>
-      <div className="eventlists h-100">
+      <div className="eventlists">
         <h3>Unassigned Events</h3>
         <div className="unassigned">
           {unassignedLists.map((event,key) => (
