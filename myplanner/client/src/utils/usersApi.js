@@ -18,6 +18,17 @@ const login = async function(user){
   
 }
 
+const logout = async function() {
+  try {
+    var response = await apiHelpers.httpPost('/user/logout',{});
+    return {
+      info: "User successfully logged out"
+    }
+  } catch (err) {
+    return handlePromiseError(err);
+  }
+}
+
 const register = async function(user){
   try {
     var response = await apiHelpers.httpPost('/user/register',user);
