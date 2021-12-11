@@ -11,6 +11,7 @@
 
   #itemcreate {
     padding-bottom: 2em;
+    margin-top: 2em;
     border: 5px solid var(--ternary);
   }
 

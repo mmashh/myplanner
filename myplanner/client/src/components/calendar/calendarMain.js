@@ -188,13 +188,13 @@ const EventCalendar = () => {
           </Col>
         </Row>          
         <Row md={12}>
-          <Col md={8}>
+          <Col md={8} className="mt-4">
             <EventLists
               unassignedLists={unassignedLists}
               handleDrag={onDragStart}
             />
           </Col>
-          <Col md={4}>
+          <Col md={4} className="mt-4">
             <UpcomingEvents 
               upcomingEvents={upcomingEvents.events} 
               setNumWeeks={setNumWeeks}

@@ -74,7 +74,7 @@ export const CreateEvent = ({
   };
   return (
     <>
-      <div className="card">
+      <div className="card h-100">
         <div classname="card-header">
           <h5 className="card-title text-center">
               {eventInfo.event_id !== "" ? "Update Event" : "Create An Event"}

@@ -1,6 +1,5 @@
 :root {
   --main: #1c1c1d;
-  /* --main: #101111; */
   --secondary: #242526;
   --ternary: #3a3b3c;
   --primary-font: #ffffff;
@@ -118,15 +117,6 @@
   margin-bottom: 10px;
   background-color: var(--secondary);
 }
-
-/* 
-.upcoming-events {
-  color: var(--primary-font);
-  padding: 15px;
-  border: 2px solid var(--ternary);
-  border-radius: 5px;
-  background-color: var(--secondary);
-} */
 
 .upcoming-event-item {
   margin:0;
