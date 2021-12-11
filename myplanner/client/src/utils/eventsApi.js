@@ -22,7 +22,6 @@ const assignedLists = async () => {
 
 const getUpcomingEvents = async (numWeeks) => {
   const response = await apiHelpers.httpGet(`/event/upcoming/${numWeeks}`);
-  console.log(response);
   return (response.data) ? response.data["upcoming events"] : [];
 }
 
