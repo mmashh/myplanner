@@ -59,7 +59,24 @@ function Items() {
     populateAlert('success',`"${item.title}" has been successfully created`);
   }
 
+  const handleMarkSuccess = async function(item,isChecked) {
+    await itemsApi.markComplete(item,isChecked);
+    await updateItems();
+    populateAlert("success",`The item "${item.title}" has been marked as ${isChecked ? "complete" : "incomplete"}.`);
+  }
   
+  const handleEdit = async function(item){
+    await itemsApi.editItem(item.item_id,item);
+    await updateItems();
+    populateAlert("success", `"${item.title}" has been successfully modified.`)
+  }
+
+  const handleDelete = async function(item){
+    await itemsApi.deleteItem(item.item_id);
+    await updateItems();
+    populateAlert("success", `Successfully deleted "${item.title}".`)
+  }
+
   useEffect(() => updateItems(),[]);
 
   return (
@@ -70,7 +87,11 @@ function Items() {
               <Itemcreate handleCreateItem={handleCreateItem}/>
             </Col>
             <Col md={8}>
-              <Itemlist items={items} populateAlert={populateAlert} updateStateCallback={updateItems} />
+              <Itemlist 
+                items={items} 
+                handleMarkSuccess={handleMarkSuccess}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete} />
             </Col>
           </Row>
         </Container>

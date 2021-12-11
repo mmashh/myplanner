@@ -6,9 +6,8 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import itemsApi from "../utils/itemsApi";
 
-function Itemlist({items,populateAlert, updateStateCallback}) {
+function Itemlist({items,handleMarkSuccess,handleEdit,handleDelete}) {
   let [activeItem, setActiveItem] = useState({
     title: "",
     body: "",
@@ -17,16 +16,6 @@ function Itemlist({items,populateAlert, updateStateCallback}) {
   let [showItemModal, setShowItemModal] = useState(false);
   let [modalType, setModalType] = useState("view");
 
-  const markCompleteHandler = async function(e,item) {
-    await itemsApi.markComplete(item,e.target.checked);
-    await updateStateCallback();
-    populateAlert("success",`The item "${item.title}" has been marked as ${e.target.checked ? "complete" : "incomplete"}.`);
-  }
-
-  const editItemSuccessCallback = function(){
-    populateAlert("success",`The item has been successfully modified`);
-  }
-
   const itemModalHandler = function(item,type){
     var itemToView = {...item};
     setActiveItem(itemToView);
@@ -34,14 +23,15 @@ function Itemlist({items,populateAlert, updateStateCallback}) {
     setShowItemModal(true);
   }
 
-  const handleDeleteItem = async function (item) { 
-    if (window.confirm(`Are you sure you want to delete this ${item.item_type.toLowerCase()}?`)) {
-      await itemsApi.deleteItem(item.item_id);
-      await updateStateCallback();
-      populateAlert("success", `Successfully deleted "${item.title}".`)
-    }
+  const markCompleteHandler = async function(e,item) {
+    await handleMarkSuccess(item,e.target.checked);
   }
 
+  const handleDeleteItem = async function (item) { 
+    if (window.confirm(`Are you sure you want to delete this ${item.item_type.toLowerCase()}?`)) {
+      await handleDelete(item);
+    }
+  }
 
   return (
     <Container id="itemlist" className="vh-100" fluid>
@@ -69,8 +59,7 @@ function Itemlist({items,populateAlert, updateStateCallback}) {
               show={showItemModal}
               modalType={modalType}
               toggle={setShowItemModal}
-              editItemSuccessCallback={editItemSuccessCallback}
-              updateStateCallback={updateStateCallback}/>
+              handleEdit={handleEdit}/>
       </Col>
     </Container>
   )

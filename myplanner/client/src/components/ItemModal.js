@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import itemsApi from '../utils/itemsApi';
 import {
   Modal,
   Row,
@@ -10,7 +9,7 @@ import {
 } from 'react-bootstrap'
 
 
-function ItemModal({activeItem,modalType,show,toggle,editItemSuccessCallback,updateStateCallback}){
+function ItemModal({activeItem,modalType,show,toggle,handleEdit}){
   
   let [itemToEdit, setItemToEdit] = useState();
 
@@ -31,11 +30,9 @@ function ItemModal({activeItem,modalType,show,toggle,editItemSuccessCallback,upd
     });
   }
 
-  const handleEditForm = async function(e) {
+  const handleSubmit = async function(e) {
     e.preventDefault();
-    await itemsApi.editItem(itemToEdit.item_id,itemToEdit);
-    updateStateCallback()
-    editItemSuccessCallback();
+    handleEdit(itemToEdit);
     toggle(false);
   }
 
@@ -59,7 +56,7 @@ function ItemModal({activeItem,modalType,show,toggle,editItemSuccessCallback,upd
   
   const ModalBodyEdit = function(){
     return (
-      <Form onSubmit={handleEditForm}>
+      <Form onSubmit={handleSubmit}>
         <Row>
           <Col md={9}>
             <Form.Group  className="mb-3">
