@@ -1,5 +1,6 @@
 :root {
   --main: #1c1c1d;
+  /* --main: #101111; */
   --secondary: #242526;
   --ternary: #3a3b3c;
   --primary-font: #ffffff;
@@ -9,31 +10,28 @@
   --component-height: 55%;
 }
 
-.maincontainer {
-  width: 100%;
+#app-container {
+  height: 100vh;
+  max-width: inherit;
+  overflow: hidden !important;
   background-color: var(--main) !important;
-  color: var(--primary-font);
-  display: flex;
-  justify-content: center;
-
+  color:  var(--primary-font);
 }
 
-
-#app-container {
-  height: auto;
-  max-width: inherit;
-  overflow:hidden;
-  left: 0;
-  margin: 1rem;
-  background-color: var(--secondary) !important;
+#register-container {
+  background-color: var(--secondary);
+  border: 0.25em solid var(--ternary);
+  border-radius:1rem;
 }
 
 .app-content {
   height: 80vh;
 }
 
+
 #app-navbar-header {
   font-size: 38px;
+  padding-left: 1em;
   color: var(--test);
   font-weight:bold;
 }
@@ -48,7 +46,44 @@
   color: var(--secondary-font);
 }
 
-.calendar, .card{
+
+.loading-screen {
+  position: fixed;
+  left: 0;
+  top:0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  justify-content: center;
+  display:flex;
+}
+
+.loading-container {
+  margin-top: 40vh;
+  margin-bottom: 60vh;
+}
+
+.loading-icon{
+  opacity: 100%;
+  color: white;
+  width: 3em;
+  height: 3em;
+  float:left;
+  clear:both;
+  margin-left: 0.5em;
+}
+
+.loading-text {
+  padding-top: 1em !important;
+  float:right;
+  clear:both;
+}
+
+#event-calendar {
+  color: black;
+}
+
+.calendar, .card {
   background-color: white;
   color: black;
   padding: 15px;
@@ -58,6 +93,8 @@
 .eventcolor{
   height: 60px;
 }
+
+
 
 .updateEvent {
   display: flex;
@@ -72,11 +109,22 @@
 
 .eventlists, .upcoming-events{
   width: 100%;
+  color: var(--primary-font);
   padding: 15px;
+  border: 2px solid var(--ternary);
   border-radius: 5px;
-  background-color: var(--ternary);
   margin-bottom: 10px;
+  background-color: var(--secondary);
 }
+
+/* 
+.upcoming-events {
+  color: var(--primary-font);
+  padding: 15px;
+  border: 2px solid var(--ternary);
+  border-radius: 5px;
+  background-color: var(--secondary);
+} */
 
 .upcoming-event-item {
   margin:0;
@@ -94,3 +142,5 @@
 .test2 {
   background-color: var(--test2);
 }
+
+

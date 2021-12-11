@@ -1,15 +1,24 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
+import {
+  Container,
+  Row,
+  Col
+} from 'react-bootstrap';
 import { Calendar } from "./calendar";
 import UpcomingEvents from "./upcomingEvents";
+import UpcomingEventsToast from "./upcomingEventsToast";
 import { CreateEvent } from "./createEvent";
 import { EventLists } from "./eventLists";
+import ApplicationAlert from "../ApplicationAlert";
+import LoadingScreen from "../LoadingScreen";
 import eventApi from "../../utils/eventsApi";
 import {
   Container,
   Row,
   Col
 } from 'react-bootstrap'
-import UpcomingEventsToast from "./upcomingEventsToast";
+import { useLocation } from "react-router-dom";
+
 const EventCalendar = () => {
   let initial = {
     event_id: "",
@@ -28,6 +37,35 @@ const EventCalendar = () => {
     events: []
   });
   const [showToast,setShowToast] = useState(false);
+  const [loading,setLoading] = useState(true);
+  const routerState = useLocation().state;
+  const [appAlertInfo, setAppAlertInfo] = useState({
+    show: false,
+    message: '',
+    type: 'default'
+  });
+  
+  useEffect(function(){
+    if (routerState?.applicationMessage) {
+      setAppAlertInfo({
+        show:true,
+        message: routerState.applicationMessage.message,
+        type: routerState.applicationMessage.type
+      });
+    }
+
+    return ()=> {
+      setAppAlertInfo({});
+    }
+  },[routerState]);
+
+  const populateAlert = function (type,message) {
+    setAppAlertInfo({
+    show:true,
+    type:type,
+    message: message
+    });
+  }
 
   const handleChange = ({ target: { value, name } }) => {
     let oldValues = { ...eventInfo };
@@ -36,12 +74,14 @@ const EventCalendar = () => {
   };
 
   const handleCreateEvent = async (props) => {
+    setLoading(true);
     const { status, data } = await eventApi.newEvent(props);
-    if (status === 201) {
-      alert(data.message);
+    if (status == 201) {
       setEventInfo(initial);
       getUnassignedEvents();
+      populateAlert('success','The event has been successfully created');
     }
+    setLoading(false);
   };
 
   const getUnassignedEvents = async () => {
@@ -79,9 +119,11 @@ const EventCalendar = () => {
 
   useLayoutEffect(() => {
     const initializeEvents = async ()=>{
+      setLoading(true);
       await getUnassignedEvents();
       await getAssignedEvents();
       await getUpcomingEvents(1);
+      setLoading(false);
       setShowToast(true);
     }
     initializeEvents();
@@ -104,16 +146,20 @@ const EventCalendar = () => {
     let finalDate = `${date[2]}/${date[1]}/${date[0]} 0:0`;
 
     info['datetime'] = finalDate;
-    await eventApi.eventEdit(info);
-    alert('Event has updated')
+    setLoading(true);
+    const response = await eventApi.eventEdit(info);
+    getAssignedEvents();
+    setLoading(false);
+    populateAlert('success','The event has been successfully updated');    
     setEventInfo(initial);
     setOpenForm(false)
-    getAssignedEvents();
   };
 
   const handleDelete = async(props)=>{
-    eventApi.eventDelete(props);
-    alert('Event has deleted')
+    setLoading(true);
+    const response = await eventApi.eventDelete(props);
+    setLoading(false);
+    populateAlert('success','The event has been successfully deleted');
     setEventInfo(initial);
     setOpenForm(false)
     getAssignedEvents();
@@ -128,8 +174,8 @@ const EventCalendar = () => {
   };
   return (
     <>
-      <Container className="mt-2" fluid>
-        <Row>
+      <Container id="event-calendar" className="mt-2" fluid>
+        <Row md={12}>
           <Col md={8} className="mb-2">
             <Calendar
               setEventInfo={setEventInfo}
@@ -140,12 +186,12 @@ const EventCalendar = () => {
               updateUnassignedList={getUnassignedEvents}
             />
           </Col>
-          <Col md={4} className={openForm ? "" : "d-none"}>
+          <Col md={4} className={openForm ? "mb-4" : "d-none"}>
             <CreateEvent {...eventCreateContext} />
           </Col>
-        </Row>
-        <Row>
-          <Col md={8} className="mt-4">
+        </Row>          
+        <Row md={12}>
+          <Col md={8}>
             <EventLists
               unassignedLists={unassignedLists}
               handleDrag={onDragStart}
@@ -160,6 +206,12 @@ const EventCalendar = () => {
         </Row>
       </Container>
       <UpcomingEventsToast upcomingEvents={upcomingEvents.events} show={showToast} handleClose={()=>{setShowToast(false)}}/>
+      <ApplicationAlert 
+          show={appAlertInfo.show}
+          type={appAlertInfo.type}
+          message={appAlertInfo.message}
+          handleClose={(prevState)=>{setAppAlertInfo({...prevState, show:false})}}/>
+      <LoadingScreen show={loading}/>
     </>
   );
 };

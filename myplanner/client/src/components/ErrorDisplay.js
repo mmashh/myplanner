@@ -1,13 +1,16 @@
 import React from 'react';
 
 function ErrorDisplay({error}) {
-  if (error && error !== "") {
-    return (
-      <span id="error-message" className="mb-4 text-danger">Error: {error}</span>
-    ); 
-  } else {
-    return null;  // render nothing
-  }
+  var content = (error && error !== "")
+    ? <span id="error-message" className="text-danger">Error: {error}</span>
+    : <div className="spacer">&nbsp;</div>;
+
+  return (
+    <div id="error-display" className="my-2">
+      {content}
+    </div>
+  )
+
 }
 
 

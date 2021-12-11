@@ -4,6 +4,7 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheets/style.css'
 import './stylesheets/items.css'
+import './stylesheets/media.css'
 import {
   BrowserRouter as Router 
 } from 'react-router-dom';

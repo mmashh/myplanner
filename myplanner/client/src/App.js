@@ -1,7 +1,7 @@
 import React from 'react';
-import Items from './Items.js';
-import Login from './Login.js';
-import Register from './Register.js';
+import Items from './components/Items.js';
+import Login from './components/Login.js';
+import Register from './components/Register.js';
 import {
   Route,
   Routes,
@@ -19,12 +19,10 @@ import {
   Nav,
 } from 'react-bootstrap';
 import Cookies from 'universal-cookie';
-
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import EventCalendar from "./components/calendar/calendarMain";
-import { NavBar } from "./components/navBar.js";
 
-function App(props) {
+function App() {
   const cookies = new Cookies();
   const navigate = useNavigate();
 
@@ -86,40 +84,36 @@ function App(props) {
   };
 
   return (
-    <div className="maincontainer">
-      <Container id="app-container">
-        <Row md={3} id="app-navbar">
-          <Col md={12}>
-            <NavBar options={NavbarOptions} signout={NavbarSignOutButton}/>
-          </Col>
-        </Row>
-        <Row md={9}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isLoggedIn() ? (
-                  <Navigate to="/calendar" />
-                ) : (
-                  <Navigate to="/login" />
-                )
-              }
-            />
-            <Route
-              path="/login"
-              element={isLoggedIn() ? <Navigate to="/calendar" /> : <Login />}
-            />
-            <Route path="/register" element={<Register />} />
-            <Route path="/items" element={redirectIfNoUser(<Items />)} />
-            <Route
-              path="/calendar"
-              element={redirectIfNoUser(<EventCalendar />)}
-            />
-            <Route path="/*" element={redirectIfNoUser(<div>calendar</div>)} />
-          </Routes>
-        </Row>
-      </Container>
-    </div>
+    <Container id="app-container" fluid>
+      <Row md={3} id="app-navbar">
+        <Col md={12}>
+          <Navbar bg="dark" variant="dark" expand="md">
+            <Navbar.Brand>
+              <span id="app-navbar-header">MyPlanner</span>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="app-navbar-toggle" />
+            <Navbar.Collapse id="app-navbar-toggle">
+              <Nav className="me-auto">
+                {NavbarOptions()}
+              </Nav>
+              <Nav>
+                {NavbarSignOutButton()}
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </Col>
+      </Row>
+      <Row md={9}>
+        <Routes>
+          <Route path="/" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Navigate to="/login"/>}/>
+          <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
+          <Route path="/calendar" element={redirectIfNoUser(<EventCalendar/>)}/>
+          <Route path="/*" element={<Navigate to="/calendar"/>}/>
+        </Routes>
+      </Row>
+    </Container>
   );
 }
 
