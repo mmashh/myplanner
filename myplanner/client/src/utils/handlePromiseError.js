@@ -1,5 +1,6 @@
 const handlePromiseError = function(err){
   if (err.response){
+    console.log(err.response);
     switch (err.response.status) {
       case (500):
         return {
@@ -8,13 +9,13 @@ const handlePromiseError = function(err){
         };
       case (401):
         return {
-          error_type: "INVALIDUSER",
-          error: "The credentials that you have entered are invalid. Please try again."
+          error_type: "UNAUTHORIZED",
+          error: (err.response.data?.error !== undefined) ? err.response.data?.error : "The request being actioned is unauthorized. Please try again."
         };
       case (422):
         return {
           error_type: "UNPROCESSABLEENTITY",
-          error: (err.response.data?.message !== undefined) ? err.response.data?.message : "This request cannot be processed by the server. Please try again."
+          error: (err.response.data?.error !== undefined) ? err.response.data?.error : "This request cannot be processed by the server. Please try again."
         }
     }
   } else if (err.request) {
