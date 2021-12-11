@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Items from './components/Items.js';
 import Login from './components/Login.js';
 import Register from './components/Register.js';
+import logoutUser from './utils/logoutUser.js';
 import {
   Route,
   Routes,
@@ -25,12 +26,6 @@ import EventCalendar from "./components/calendar/calendarMain";
 function App() {
   const cookies = new Cookies();
   const navigate = useNavigate();
-
-  
-  const logoutUser = (e)=> {
-    cookies.remove("Authorization");
-    // call logout (when working on login stuff)
-  }
 
   useEffect(()=>{
     const logoutOnWindowUnload = (e)=>{

@@ -6,9 +6,8 @@ import {
   Form,
   Button
 } from 'react-bootstrap';
-import itemsApi from '../utils/itemsApi';
 
-function  Itemcreate({populateAlert,updateStateCallback}){
+function  Itemcreate({handleCreateItem}){
   let [newItem, setNewItem] = useState({
     title: "",
     body: "",
@@ -26,14 +25,12 @@ function  Itemcreate({populateAlert,updateStateCallback}){
     });
   }
 
-  async function createItem(e){
+  async function handleSubmit(e){
     e.preventDefault()
     const form = e.target;
     setValidated(true);
     if (form.checkValidity()){
-      await itemsApi.newItem(newItem);
-      await updateStateCallback(); // update parent state
-      populateAlert('success',`"${newItem.title}" has been successfully created`);
+      await handleCreateItem(newItem);
       clearNewItem();
       setValidated(false);
     }
@@ -60,7 +57,7 @@ function  Itemcreate({populateAlert,updateStateCallback}){
           <h2>Create Item</h2>
         </Row>
         <Row md={10}>
-          <Form onSubmit={createItem} validated={validated} noValidate>
+          <Form onSubmit={handleSubmit} validated={validated} noValidate>
             <Row md className="mb-4">
               <Col md={8}>
                 <Form.Group controlId="item-title">

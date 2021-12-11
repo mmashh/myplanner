@@ -12,7 +12,8 @@ import {
   Container
 } from 'react-bootstrap';
 import itemsApi from '../utils/itemsApi';
-
+import logoutUser from '../utils/logoutUser';
+import {useNavigate} from 'react-router-dom';
 function Items() {
   let [items, setItems] = useState([]);
   let [isLoading, setIsLoading] = useState(false);
@@ -21,13 +22,25 @@ function Items() {
     type:'info',
     message:''
   });
+  let navigate = useNavigate();
+  
+  const handleError = async function(error) {
+    if (error.error_type === 'EXPIREDTOKEN') {
+      await logoutUser();
+      navigate('/')
+    } else {
+      populateAlert('danger',`Error: ${error.error}`);
+    }
+  }
 
   // Reference: https://stackoverflow.com/a/54621059
   const updateItems = async function(){
     setIsLoading(true);
-    var items = await itemsApi.getAllItems();
-    if (Array.isArray(items)){
-      setItems([...items]);
+    var response = await itemsApi.getAllItems();
+    if (Array.isArray(response)){
+      setItems([...response]);
+    } else {
+      handleError(response); 
     }
     setIsLoading(false);
   }
@@ -40,6 +53,13 @@ function Items() {
     });
   }
 
+  const handleCreateItem = async function(item){
+    await itemsApi.newItem(item);
+    await updateItems(); // update parent state
+    populateAlert('success',`"${item.title}" has been successfully created`);
+  }
+
+  
   useEffect(() => updateItems(),[]);
 
   return (
@@ -47,7 +67,7 @@ function Items() {
         <Container fluid>
           <Row md={12}>
             <Col md={4}>
-              <Itemcreate populateAlert={populateAlert} updateStateCallback={updateItems}/>
+              <Itemcreate handleCreateItem={handleCreateItem}/>
             </Col>
             <Col md={8}>
               <Itemlist items={items} populateAlert={populateAlert} updateStateCallback={updateItems} />
