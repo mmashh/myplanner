@@ -93,11 +93,14 @@
   height: 60px;
 }
 
+.cancelButtonContainer {
+  float:left;
+}
 
-
-.updateEvent {
+.eventButtonContainer {
   display: flex;
-    justify-content: space-between;
+  float:right;
+  gap:5px;
 }
 
 .unassigned{

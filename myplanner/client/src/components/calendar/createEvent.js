@@ -6,6 +6,7 @@ export const CreateEvent = ({
   changeEvent,
   updateEvent,
   deleteEvent,
+  closeCard
 }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,48 +22,65 @@ export const CreateEvent = ({
 
   const handleDelete = (event) => {
     event.preventDefault();
-    deleteEvent(eventInfo);
+    if (window.confirm("Are you sure you want to delete this event?")) {
+      deleteEvent(eventInfo);
+    }
   };
+
+  const handleClose = (event) => {
+    event.preventDefault();
+    closeCard();
+  }
 
   const generateButtons = () => {
     return (
       <>
-        {eventInfo.event_id !== "" ? (
-          <div className="updateEvent">
+        <div className="cancelButtonContainer">
+          <button
+            onClick={handleClose}
+            className="btn btn-secondary">
+            Cancel
+          </button>
+        </div>
+        <div className="eventButtonContainer">
+          {eventInfo.event_id !== "" ? (
+            <>              <button
+                onClick={handleDelete}
+                type="submit"
+                className="btn btn-danger"
+              >
+                Delete
+              </button>
+              <button
+                onClick={handleUpdate}
+                type="submit"
+                className="btn btn-primary"
+              >
+                Update
+              </button>
+            </>
+          ) : (
             <button
-              onClick={handleUpdate}
+              onClick={handleSubmit}
               type="submit"
               className="btn btn-primary"
             >
-              Update
+              Create
             </button>
-            <button
-              onClick={handleDelete}
-              type="submit"
-              className="btn btn-danger"
-            >
-              Delete
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={handleSubmit}
-            type="submit"
-            className="btn btn-primary"
-          >
-            Create
-          </button>
-        )}
+          )}
+        </div>
       </>
     );
   };
   return (
     <>
       <div className="card">
-        <div className="card-body">
+        <div classname="card-header">
           <h5 className="card-title text-center">
-            {eventInfo.event_id !== "" ? "Update Event" : "Create An Event"}
+              {eventInfo.event_id !== "" ? "Update Event" : "Create An Event"}
           </h5>
+        </div>
+        <div className="card-body">
           <form>
             <div className="form-group mb-2">
               <label htmlFor="title mb-2">Title</label>

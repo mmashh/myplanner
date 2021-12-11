@@ -165,7 +165,8 @@ const EventCalendar = () => {
     addEvent: handleCreateEvent,
     changeEvent: handleChange,
     updateEvent: handleUpdate,
-    deleteEvent:handleDelete
+    deleteEvent:handleDelete,
+    closeCard: ()=>{setOpenForm(false)}
   };
   return (
     <>
@@ -179,6 +180,7 @@ const EventCalendar = () => {
               dragEvent={dragEvent}
               updateCalendar={getAssignedEvents}
               updateUnassignedList={getUnassignedEvents}
+              initialEvent={initial}
             />
           </Col>
           <Col md={4} className={openForm ? "mb-4" : "d-none"}>

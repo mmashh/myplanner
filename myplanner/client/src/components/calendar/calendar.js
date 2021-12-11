@@ -13,7 +13,8 @@ export const Calendar = ({
   updateUnassignedList,
   events,
   updateCalendar,
-  setEventInfo
+  setEventInfo,
+  initialEvent
 }) => {
   const CustomToolbar = (props) => {
     let {
@@ -29,6 +30,11 @@ export const Calendar = ({
       TODAY: "TODAY",
       DATE: "DATE",
     };
+
+    const handleOpenCreateEventForm = () => {
+      setEventInfo(initialEvent);
+      setForm(true);
+    }
 
     return (
       <div className="rbc-toolbar">
@@ -49,7 +55,7 @@ export const Calendar = ({
           </button>
         </span>
         <span className="rbc-btn-group">
-          <button onClick={() => setForm(true)}>
+          <button onClick={handleOpenCreateEventForm}>
             <FontAwesomeIcon icon={faCalendarPlus} />
           </button>
         </span>
