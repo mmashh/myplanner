@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.userModel import UserModel
 from werkzeug.security import safe_str_cmp
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token
 from flasgger import swag_from
 
 # /user/register
@@ -11,7 +11,7 @@ class UserRegister(Resource):
     parser.add_argument("username", type=str, required=True)
     parser.add_argument("password", type=str, required=True)
 
-    @swag_from("../swagger_documentation/user-register.yml")
+    @swag_from("../swagger_documentation/user/user-register.yml")
     def post(self):
 
         new_user_details = self.parser.parse_args()
@@ -31,7 +31,7 @@ class UserRegister(Resource):
 
 # user/delete/<int: id>
 class UserDelete(Resource):
-    @swag_from("../swagger_documentation/user-delete.yml")
+    @swag_from("../swagger_documentation/user/user-delete.yml")
     def delete(self, id_of_user_to_delete):
         user_to_delete = UserModel.find_by_id(id_of_user_to_delete)
 
@@ -50,7 +50,7 @@ class UserLogin(Resource):
     parser.add_argument("username", type=str, required=True)
     parser.add_argument("password", type=str, required=True)
 
-    @swag_from("../swagger_documentation/user-login.yml")
+    @swag_from("../swagger_documentation/user/user-login.yml")
     def post(self):
 
         login_information = self.parser.parse_args()
@@ -74,7 +74,7 @@ class UserLogin(Resource):
 
 # /user/all
 class UserAll(Resource):
-    @swag_from("../swagger_documentation/user-all.yml")
+    @swag_from("../swagger_documentation/user/user-all.yml")
     def get(self):
         all_users = UserModel.examine_table_contents()
         all_users_list = []
