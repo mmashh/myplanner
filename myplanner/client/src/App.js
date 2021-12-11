@@ -19,29 +19,9 @@ import {
   Navbar,
   Nav,
 } from 'react-bootstrap';
-import Cookies from 'universal-cookie';
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import EventCalendar from "./components/calendar/calendarMain";
 
 function App() {
-  const cookies = new Cookies();
-  const navigate = useNavigate();
-
-  useEffect(()=>{
-    const logoutOnWindowUnload = (e)=>{
-      e.preventDefault();
-      logoutUser();
-    }
-    window.addEventListener("beforeunload",(e)=>{e.preventDefault()});
-    window.addEventListener("unload",logoutOnWindowUnload);
-
-    return ()=>{
-      window.removeEventListener("beforeunload",(e)=>{e.preventDefault()});
-      window.removeEventListener("unload",logoutOnWindowUnload);
-    }
-
-  },[])
-
 
   const isLoggedIn = function () {
     return cookies.get("Authorization") !== undefined;
@@ -81,7 +61,14 @@ function App() {
 
   const logout = function () {
     logoutUser();
-    navigate("/");
+    navigate("/",{
+      state: {
+        applicationMessage: {
+          type: 'success',
+          message: 'You have successfully logged out of the application'
+        }
+      }
+    });
   };
 
   const redirectIfNoUser = function (element) {
