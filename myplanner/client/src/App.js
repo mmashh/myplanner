@@ -36,15 +36,15 @@ function App() {
       return (
         <>
           <Nav.Item>
-            <Link to="/calendar" className="app-navbar-link">
-              <Button variant={pathname === '/calendar' ? 'primary':'secondary'} >
+            <Link to="/calendar" >
+              <Button className="app-navbar-button" variant={pathname === '/calendar' ? 'primary':'secondary'} >
                 Calendar
               </Button>
             </Link>
           </Nav.Item>
           <Nav.Item>
-            <Link to="/items" className="app-navbar-link">
-            <Button variant={pathname === '/items' ? 'primary':'secondary'} >
+            <Link to="/items">
+            <Button className="app-navbar-button" variant={pathname === '/items' ? 'primary':'secondary'} >
                 Items
               </Button>
             </Link>
@@ -54,8 +54,8 @@ function App() {
     } else {
       return (
         <Nav.Item>
-          <Link to="/login" className="app-navbar-link">
-            Log In
+          <Link to="/login">
+            <Button className="app-navbar-button" variant="primary">Log In</Button>
           </Link>
         </Nav.Item>
       );
@@ -74,8 +74,8 @@ function App() {
   const NavbarSignOutButton = function () {
     if (isLoggedIn()) {
       return (
-        <Nav.Item className="me-4">
-          <Button variant="danger" onClick={logout}>
+        <Nav.Item>
+          <Button variant="danger" className="app-navbar-button" onClick={logout}>
             Log Out
           </Button>
         </Nav.Item>
@@ -87,12 +87,12 @@ function App() {
     <Container id="app-container" fluid>
       <Row md={3} id="app-navbar">
         <Col md={12}>
-          <Navbar bg="dark" variant="dark" expand="md">
+          <Navbar bg="dark" variant="dark" expand="md" sticky="top">
             <Navbar.Brand>
               <span id="app-navbar-header">MyPlanner</span>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="app-navbar-toggle" />
-            <Navbar.Collapse id="app-navbar-toggle">
+            <Navbar.Collapse id="app-navbar-toggle" className="justify-content-start">
               <Nav className="me-auto">
                 {NavbarOptions()}
               </Nav>
