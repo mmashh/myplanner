@@ -74,6 +74,7 @@ export const CreateEvent = ({
                 onChange={changeEvent}
                 value={eventInfo.title}
                 aria-describedby="emailHelp"
+                maxLength={80}
                 required
               />
             </div>
@@ -86,6 +87,7 @@ export const CreateEvent = ({
                 name="body"
                 onChange={changeEvent}
                 value={eventInfo.body}
+                maxLength={280}
               ></textarea>
             </div>
             {eventInfo.event_id !== "" && (

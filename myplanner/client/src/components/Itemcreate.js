@@ -65,7 +65,7 @@ function  Itemcreate({populateAlert,updateStateCallback}){
               <Col md={8}>
                 <Form.Group controlId="item-title">
                   <Form.Label>Title</Form.Label>
-                  <Form.Control name="title" type="text" placeholder="Enter item title..."  value={newItem.title} onChange={handleFormChange} required/>
+                  <Form.Control name="title" type="text" placeholder="Enter item title..."  value={newItem.title} onChange={handleFormChange} maxLength={80} required/>
                   <Form.Control.Feedback type="invalid">An item title must be provided</Form.Control.Feedback>
                 </Form.Group>
               </Col>
@@ -82,7 +82,7 @@ function  Itemcreate({populateAlert,updateStateCallback}){
             <Row md>
               <Form.Group controlId="item-body" className="mb-3">
                 <Form.Label>Content</Form.Label>
-                <Form.Control name="body" as="textarea" value={newItem.body} onChange={handleFormChange}/>
+                <Form.Control name="body" as="textarea" value={newItem.body} onChange={handleFormChange} maxLength={512}/>
               </Form.Group>
             </Row>
             <Form.Group id="item-actions">
