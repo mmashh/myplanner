@@ -56,7 +56,7 @@ export const Calendar = ({
         </span>
         <span className="rbc-btn-group">
           <button onClick={handleOpenCreateEventForm}>
-            <FontAwesomeIcon icon={faCalendarPlus} />
+            <FontAwesomeIcon className="me-1" icon={faCalendarPlus} /><span>Create Event</span>
           </button>
         </span>
       </div>
