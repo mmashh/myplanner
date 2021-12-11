@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Items from './components/Items.js';
 import Login from './components/Login.js';
 import Register from './components/Register.js';
@@ -25,6 +25,26 @@ import EventCalendar from "./components/calendar/calendarMain";
 function App() {
   const cookies = new Cookies();
   const navigate = useNavigate();
+
+  
+  const logoutUser = (e)=> {
+    cookies.remove("Authorization");
+    // call logout (when working on login stuff)
+  }
+
+  useEffect(()=>{
+    const logoutOnWindowUnload = (e)=>{
+      e.preventDefault();
+      logoutUser();
+    }
+    window.addEventListener("beforeunload",logoutOnWindowUnload);
+
+    return ()=>{
+      window.removeEventListener("beforeunload",logoutOnWindowUnload);
+    }
+
+  },[])
+
 
   const isLoggedIn = function () {
     return cookies.get("Authorization") !== undefined;
@@ -63,7 +83,7 @@ function App() {
   };
 
   const logout = function () {
-    cookies.remove("Authorization");
+    logoutUser();
     navigate("/");
   };
 
