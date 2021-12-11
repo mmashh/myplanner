@@ -15,15 +15,17 @@ import itemsApi from '../utils/itemsApi';
 import logoutUser from '../utils/logoutUser';
 import {useNavigate} from 'react-router-dom';
 function Items() {
-  let [items, setItems] = useState([]);
-  let [isLoading, setIsLoading] = useState(false);
-  let [appAlertInfo, setAppAlertInfo] = useState({
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [appAlertInfo, setAppAlertInfo] = useState({
     show:false,
     type:'info',
     message:''
   });
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   
+  useEffect(() => updateItems(),[]);
+
   const handleError = async function(error) {
     if (error.error_type === 'EXPIREDTOKEN') {
       await logoutUser();
@@ -31,6 +33,14 @@ function Items() {
     } else {
       populateAlert('danger',`Error: ${error.error}`);
     }
+  }
+
+  const populateAlert = function(type,message) {
+    setAppAlertInfo({
+    show:true,
+    type:type,
+    message: message
+    });
   }
 
   // Reference: https://stackoverflow.com/a/54621059
@@ -45,39 +55,54 @@ function Items() {
     setIsLoading(false);
   }
 
-  const populateAlert = function(type,message) {
-    setAppAlertInfo({
-    show:true,
-    type:type,
-    message: message
-    });
-  }
-
   const handleCreateItem = async function(item){
-    await itemsApi.newItem(item);
-    await updateItems(); // update parent state
-    populateAlert('success',`"${item.title}" has been successfully created`);
+    setIsLoading(true);
+    var response = await itemsApi.newItem(item);
+    if (response.error === undefined) {
+      populateAlert('success',`"${item.title}" has been successfully created`);
+      await updateItems();
+    } else {
+      handleError(response);
+    }
+    setIsLoading(false);
   }
 
   const handleMarkSuccess = async function(item,isChecked) {
-    await itemsApi.markComplete(item,isChecked);
-    await updateItems();
-    populateAlert("success",`The item "${item.title}" has been marked as ${isChecked ? "complete" : "incomplete"}.`);
+    setIsLoading(true);
+    var response = await itemsApi.markComplete(item,isChecked);
+    if (response.error === undefined) {
+      await updateItems();
+      populateAlert("success",`The item "${item.title}" has been marked as ${isChecked ? "complete" : "incomplete"}.`);
+    } else {
+      handleError(response);
+    }
+    setIsLoading(false);
   }
   
   const handleEdit = async function(item){
-    await itemsApi.editItem(item.item_id,item);
-    await updateItems();
-    populateAlert("success", `"${item.title}" has been successfully modified.`)
+    setIsLoading(true);
+    var response = await itemsApi.editItem(item.item_id,item);
+    if (response.error === undefined) {
+      await updateItems();
+      populateAlert("success", `"${item.title}" has been successfully modified.`)
+    } else {
+      handleError(response);
+    }
+    setIsLoading(false);
   }
 
   const handleDelete = async function(item){
-    await itemsApi.deleteItem(item.item_id);
-    await updateItems();
-    populateAlert("success", `Successfully deleted "${item.title}".`)
+    setIsLoading(true);
+    var response = await itemsApi.deleteItem(item.item_id);
+    if (response.error === undefined) {
+      await updateItems();
+      populateAlert("success", `Successfully deleted "${item.title}".`)
+    } else {
+      handleError(response);
+    }
+    setIsLoading(false);
   }
 
-  useEffect(() => updateItems(),[]);
 
   return (
       <>
