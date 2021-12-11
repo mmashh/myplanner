@@ -12,11 +12,6 @@ import { EventLists } from "./eventLists";
 import ApplicationAlert from "../ApplicationAlert";
 import LoadingScreen from "../LoadingScreen";
 import eventApi from "../../utils/eventsApi";
-import {
-  Container,
-  Row,
-  Col
-} from 'react-bootstrap'
 import { useLocation } from "react-router-dom";
 
 const EventCalendar = () => {
