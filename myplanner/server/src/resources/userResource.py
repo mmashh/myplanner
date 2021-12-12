@@ -1,8 +1,16 @@
 from flask_restful import Resource, reqparse
 from models.userModel import UserModel
+from models.blockListModel import TokenBlocklistModel
 from werkzeug.security import safe_str_cmp
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import (
+    create_access_token,
+    jwt_required,
+    get_jwt_identity,
+    get_jwt,
+)
 from flasgger import swag_from
+from datetime import datetime
+from datetime import timedelta
 
 # /user/register
 class UserRegister(Resource):
@@ -63,13 +71,45 @@ class UserLogin(Resource):
                 "username": user.username,
             }
 
-            access_token = create_access_token(identity=identifying_values, fresh=True)
+            time_till_token_expires = timedelta(hours=1)
+
+            access_token = create_access_token(
+                identity=identifying_values,
+                fresh=True,
+                expires_delta=time_till_token_expires,
+            )
 
             return {
                 "access_token": access_token,
             }, 200
 
-        return {"message": "invalid credentials"}, 401
+        return {"message": "invalid credentials"}, 422
+
+
+# /user/logout
+class UserLogout(Resource):
+    @jwt_required()
+    @swag_from("../swagger_documentation/user/user-logout.yml")
+    def post(self):
+        jti = get_jwt()["jti"]
+        expiry = get_jwt()["exp"]
+        now = datetime.now().timestamp()
+        newly_blocked_token = TokenBlocklistModel(jti, now, expiry)
+        newly_blocked_token.save_to_db()
+        return {"message": "JWT revoked"}, 200
+
+
+# /user/blocked_tokens/all/admin
+class AllBlockedTokens(Resource):
+    @swag_from("../swagger_documentation/user/user-blockedtokens-get-all-admin.yml")
+    def get(self):
+        all_blocked_tokens = TokenBlocklistModel.get_all_blocked()
+        all_blocked_tokens_list = []
+
+        for token in all_blocked_tokens:
+            all_blocked_tokens_list.append(token.to_dict())
+
+        return {"blocked_tokens": all_blocked_tokens_list}, 200
 
 
 # /user/all

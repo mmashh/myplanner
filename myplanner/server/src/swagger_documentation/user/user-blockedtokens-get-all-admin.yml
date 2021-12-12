@@ -1,0 +1,29 @@
+Get a list of all jwts stored in the blocklist
+---
+tags:
+  - User
+
+responses:
+  200:
+    description:  Requested information 
+    schema:
+      type: object
+      properties:
+        blocked_tokens:
+          type: array
+          items:
+            type: object
+            properties:
+              jwt_id:
+                type: int
+                example: 1
+              jti:  
+                type: string 
+                example: c8724e4f-c688-4c04-8e29-654c943cd1f6
+              created_at:
+                type: float
+                example: 1639106930.105444
+              expiry:
+                type: int
+                example: 1639110527
+              

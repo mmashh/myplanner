@@ -5,9 +5,19 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 from flask_cors import CORS
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
+from jobs.blocklist_jobs import purge_expired_jwts_from_blocklist
 
 from db import db
-from resources.userResource import UserRegister, UserAll, UserLogin, UserDelete
+from resources.userResource import (
+    UserRegister,
+    UserAll,
+    UserLogin,
+    UserDelete,
+    UserLogout,
+    AllBlockedTokens,
+)
 from resources.itemResource import ItemAdd, ItemAll, Item, ItemAllSpecificUser
 from resources.eventResource import (
     EventAdd,
@@ -18,6 +28,8 @@ from resources.eventResource import (
 )
 from load_sample import load
 
+from models.blockListModel import TokenBlocklistModel
+
 
 def init_app():
 
@@ -26,12 +38,11 @@ def init_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite://")
     app.config["PROPAGATE_EXCEPTIONS"] = True
-    
     Swagger(app)
-    JWTManager(app)
+    jwt = JWTManager(app)
     CORS(app)
 
-    return app
+    return app, jwt
 
 
 def add_routes(app):
@@ -40,6 +51,8 @@ def add_routes(app):
     api.add_resource(UserRegister, "/user/register")
     api.add_resource(UserAll, "/user/all")
     api.add_resource(UserLogin, "/user/login")
+    api.add_resource(UserLogout, "/user/logout")
+    api.add_resource(AllBlockedTokens, "/user/blocked_tokens/all/admin")
     api.add_resource(UserDelete, "/user/delete/<int:id>")
 
     api.add_resource(ItemAllSpecificUser, "/item/all")
@@ -56,11 +69,32 @@ def add_routes(app):
     return app
 
 
-app = init_app()
+def start_jobs(app):
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(
+        func=lambda: purge_expired_jwts_from_blocklist(app),
+        trigger="interval",
+        seconds=600,
+    )
+    scheduler.start()
+    atexit.register(lambda: scheduler.shutdown())
+
+
+
+app, jwt = init_app()
 app = add_routes(app)
 db.init_app(app)
 
 
+@jwt.token_in_blocklist_loader
+def check_if_token_revoked(jwt_header, jwt_payload):
+    jti = jwt_payload["jti"]
+    token = TokenBlocklistModel.get_blocked_jwt(jti)
+    return token is not None
+
+start_jobs(app)
+
+   
 @app.before_first_request
 def create_tables():
     db.drop_all()

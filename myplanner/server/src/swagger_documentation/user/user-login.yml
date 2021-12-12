@@ -28,7 +28,7 @@ responses:
           example: eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjM2ODYzOTAyLCJqdGkiOiJlODE5ZGNjZS02MzVjLTRhMGMtYWNjNi02YmU3NmE2Y2UyMmQiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFkbWluMTIzNCJ9LCJuYmYiOjE2MzY4NjM5MDIsImV4cCI6MTYzNjg2NDgwMn0.Hqhr0joh7DQSmBsDqk_9wVB9FqH4DCKSP3D_vF9-3Sc
 
   
-  401:
+  422:
     description: Username and password are invalid
     schema:
       type: object
