@@ -12,7 +12,8 @@ import { EventLists } from "./eventLists";
 import ApplicationAlert from "../ApplicationAlert";
 import LoadingScreen from "../LoadingScreen";
 import eventApi from "../../utils/eventsApi";
-import { useLocation } from "react-router-dom";
+import logoutUser from "../../utils/logoutUser";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const EventCalendar = () => {
   let initial = {
@@ -34,6 +35,7 @@ const EventCalendar = () => {
   const [showToast,setShowToast] = useState(false);
   const [loading,setLoading] = useState(true);
   const routerState = useLocation().state;
+  const navigate = useNavigate();
   const [appAlertInfo, setAppAlertInfo] = useState({
     show: false,
     message: '',
@@ -54,6 +56,22 @@ const EventCalendar = () => {
     }
   },[routerState]);
 
+  const handleError = async function(error) {
+    if (error.error_type === 'UNAUTHORIZED') {
+      navigate('/login', {
+        state: {
+          applicationMessage: {
+            type: 'danger',
+            message: 'You have been logged out for security purposes. Please log in again to continue using the application.'
+          }
+        }
+      });
+      // await logoutUser();
+    } else {
+      populateAlert('danger',`Error: ${error.error}`);
+    }
+  }
+
   const populateAlert = function (type,message) {
     setAppAlertInfo({
     show:true,
@@ -70,37 +88,60 @@ const EventCalendar = () => {
 
   const handleCreateEvent = async (props) => {
     setLoading(true);
-    const { status, data } = await eventApi.newEvent(props);
-    if (status == 201) {
+    const response = await eventApi.newEvent(props);
+    if (response.error === undefined) {
       setEventInfo(initial);
       getUnassignedEvents();
       populateAlert('success','The event has been successfully created');
+    } else {
+      handleError(response);
     }
     setLoading(false);
   };
 
   const getUnassignedEvents = async () => {
-    const response = await eventApi.eventUnassignedList();
-    setUnassignedLists(response);
+    setLoading(true);
+    let response = await eventApi.eventUnassignedList();
+    if (response.error === undefined) {
+      setUnassignedLists(Array.isArray(response) ? response : []);
+    } else {
+      handleError(response);
+      setUnassignedLists([]);
+    }
+    setLoading(false);
+
   };
 
   const getAssignedEvents = async () => {
-    const response = await eventApi.eventAssignedList();
-    setAssignedLists(response);
+    setLoading(true);
+    let response = await eventApi.eventAssignedList();
+    if (response.error === undefined) {
+      setAssignedLists(Array.isArray(response) ? response : []);
+    } else {{
+      handleError(response);
+      setUnassignedLists([]);
+    }}
+    setLoading(false);
   };
 
   const getUpcomingEvents = async (numWeeks) => {
+    setLoading(true);
     if (isNaN(numWeeks)){
       alert("You must select a valid option for the \"Upcoming Events\" dropdown.");
     } else {
-      const response = await eventApi.getUpcomingEvents(numWeeks);
-      setUpcomingEvents((prevState)=> {
-        return {
-          ...prevState,
-          events: response
-        }
-      });
+      let response = await eventApi.getUpcomingEvents(numWeeks);
+      if (response.error === undefined) {
+        setUpcomingEvents((prevState)=> {
+          return {
+            ...prevState,
+            events: response
+          }
+        });
+      } else {
+        handleError(response);
+      }
     }
+    setLoading(false);
   }
 
   const setNumWeeks = (n)=> {
@@ -114,11 +155,9 @@ const EventCalendar = () => {
 
   useLayoutEffect(() => {
     const initializeEvents = async ()=>{
-      setLoading(true);
       await getUnassignedEvents();
       await getAssignedEvents();
       await getUpcomingEvents(1);
-      setLoading(false);
       setShowToast(true);
     }
     initializeEvents();
@@ -143,21 +182,29 @@ const EventCalendar = () => {
     info['datetime'] = finalDate;
     setLoading(true);
     const response = await eventApi.eventEdit(info);
-    getAssignedEvents();
+    if (response.error === undefined) {
+      getAssignedEvents();
+      populateAlert('success','The event has been successfully updated');    
+      setEventInfo(initial);
+      setOpenForm(false)
+    } else {
+      handleError(response);
+    }
     setLoading(false);
-    populateAlert('success','The event has been successfully updated');    
-    setEventInfo(initial);
-    setOpenForm(false)
   };
 
   const handleDelete = async(props)=>{
     setLoading(true);
     const response = await eventApi.eventDelete(props);
+    if (response.error === undefined) {
+      getAssignedEvents();
+      populateAlert('success','The event has been successfully deleted');
+      setEventInfo(initial);
+      setOpenForm(false)  
+    } else {
+      handleError(response);
+    }
     setLoading(false);
-    populateAlert('success','The event has been successfully deleted');
-    setEventInfo(initial);
-    setOpenForm(false)
-    getAssignedEvents();
   }
 
   const eventCreateContext = {

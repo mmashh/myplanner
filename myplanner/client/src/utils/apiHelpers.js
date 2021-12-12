@@ -26,7 +26,7 @@ const httpPut = async function(url,data){
   var response = await axios.put(getUrl(url),data,{
     headers: cookies.getAll()
   });
-  return response.data;
+  return response;
 }
 
 const httpDelete = async function(url){

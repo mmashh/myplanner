@@ -28,8 +28,6 @@ function Items() {
 
   const handleError = async function(error) {
     if (error.error_type === 'UNAUTHORIZED') {
-      await logoutUser();
-      console.log("hello");
       navigate('/', {
         state: {
           applicationMessage: {
@@ -38,6 +36,7 @@ function Items() {
           }
         }
       });
+      await logoutUser();
     } else {
       populateAlert('danger',`Error: ${error.error}`);
     }
