@@ -66,7 +66,7 @@ const EventCalendar = () => {
           }
         }
       });
-      // await logoutUser();
+      logoutUser();
     } else {
       populateAlert('danger',`Error: ${error.error}`);
     }

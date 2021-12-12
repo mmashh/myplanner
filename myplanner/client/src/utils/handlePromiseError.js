@@ -1,6 +1,5 @@
 const handlePromiseError = function(err){
   if (err.response){
-    console.log(err.response);
     switch (err.response.status) {
       case (500):
         return {
@@ -31,5 +30,4 @@ const handlePromiseError = function(err){
   }
 }
 
-
-export default handlePromiseError
+export default handlePromiseError;

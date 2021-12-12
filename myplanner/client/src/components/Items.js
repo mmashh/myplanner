@@ -36,7 +36,7 @@ function Items() {
           }
         }
       });
-      await logoutUser();
+      logoutUser();
     } else {
       populateAlert('danger',`Error: ${error.error}`);
     }

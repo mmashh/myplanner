@@ -20,7 +20,7 @@ const login = async function(user){
 
 const logout = async function() {
   try {
-    var response = await apiHelpers.httpPost('/user/logout',{});
+    var response = await apiHelpers.httpPost('/user/logout');
     return {
       info: "User successfully logged out"
     }
@@ -43,6 +43,7 @@ const register = async function(user){
 
 const usersApi = {
   login: login,
+  logout: logout,
   register: register
 };
 
