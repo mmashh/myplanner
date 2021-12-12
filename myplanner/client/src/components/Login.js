@@ -66,7 +66,7 @@ function Login() {
       var result = await usersApi.login(user);
       setLoading(false);
       if (result.error) {
-        setError(result.error);
+        setError("The following user is invalid. Please verify your credentials and try a gain.");
         setValidated(false);
         return;
       } else {

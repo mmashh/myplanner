@@ -64,8 +64,7 @@ function App() {
   };
 
   const logout = function () {
-    logoutUser();
-    navigate("/",{
+    navigate("/login",{
       state: {
         applicationMessage: {
           type: 'success',
@@ -73,6 +72,7 @@ function App() {
         }
       }
     });
+    logoutUser();
   };
 
   const redirectIfNoUser = function (element) {
