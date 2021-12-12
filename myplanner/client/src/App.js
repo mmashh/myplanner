@@ -3,6 +3,7 @@ import Items from './components/Items.js';
 import Login from './components/Login.js';
 import Register from './components/Register.js';
 import logoutUser from './utils/logoutUser.js';
+import EventCalendar from './components/calendar/calendarMain';
 import {
   Route,
   Routes,
@@ -20,8 +21,11 @@ import {
   Nav,
 } from 'react-bootstrap';
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import Cookies from 'universal-cookie';
 
 function App() {
+  const cookies = new Cookies();
+  const navigate = useNavigate();
 
   const isLoggedIn = function () {
     return cookies.get("Authorization") !== undefined;
@@ -110,7 +114,7 @@ function App() {
       <Row md={9}>
         <Routes>
           <Route path="/" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Navigate to="/login"/>}/>
-          <Route path="/login" element={isLoggedIn() ? <Navigate to="/calendar"/> : <Login/>}/>
+          <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/items" element={redirectIfNoUser(<Items/>)}/>
           <Route path="/calendar" element={redirectIfNoUser(<EventCalendar/>)}/>

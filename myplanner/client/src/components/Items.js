@@ -27,9 +27,17 @@ function Items() {
   useEffect(() => updateItems(),[]);
 
   const handleError = async function(error) {
-    if (error.error_type === 'EXPIREDTOKEN') {
+    if (error.error_type === 'UNAUTHORIZED') {
       await logoutUser();
-      navigate('/')
+      console.log("hello");
+      navigate('/', {
+        state: {
+          applicationMessage: {
+            type: 'danger',
+            message: 'You have been logged out for security purposes. Please log in again to continue using the application.'
+          }
+        }
+      });
     } else {
       populateAlert('danger',`Error: ${error.error}`);
     }
