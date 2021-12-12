@@ -85,7 +85,8 @@ function Register() {
                 placeholder="Username"
                 value={user.username}
                 onChange={handleFormChange} 
-                required/>
+                required
+                maxLength={80}/>
               <Form.Control.Feedback type="invalid">The username field cannot be empty.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-5">
@@ -97,6 +98,7 @@ function Register() {
                 placeholder="Password"
                 value={user.password}
                 onChange={handleFormChange}
+                maxLength={80}
                 required/>
               <Form.Control.Feedback type="invalid">The password field cannot be empty.</Form.Control.Feedback>                
             </Form.Group>

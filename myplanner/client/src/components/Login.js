@@ -102,7 +102,8 @@ function Login() {
                   type="text" 
                   placeholder="Username"
                   value={user.username}
-                  onChange={handleFormChange} 
+                  onChange={handleFormChange}
+                  maxLength={80} 
                   required/>
                 <Form.Control.Feedback type="invalid">The username field cannot be empty.</Form.Control.Feedback>
               </Form.Group>
@@ -115,6 +116,7 @@ function Login() {
                   placeholder="Password"
                   value={user.password}
                   onChange={handleFormChange} 
+                  maxLength={80} 
                   required/>
                 <Form.Control.Feedback type="invalid">The password field cannot be empty.</Form.Control.Feedback>                
               </Form.Group>           

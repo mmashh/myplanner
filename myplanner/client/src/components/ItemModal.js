@@ -61,7 +61,7 @@ function ItemModal({activeItem,modalType,show,toggle,handleEdit}){
           <Col md={9}>
             <Form.Group  className="mb-3">
               <Form.Label>Title</Form.Label>
-              <Form.Control id="modal-item-title" name="title" type="text" value={itemToEdit.title} onChange={handleFormChange}/>
+              <Form.Control id="modal-item-title" name="title" type="text" value={itemToEdit.title} onChange={handleFormChange} maxLength={80}/>
             </Form.Group>
           </Col>
           <Col md={3}>
@@ -77,7 +77,7 @@ function ItemModal({activeItem,modalType,show,toggle,handleEdit}){
         <Row md={12}>
           <Form.Group controlId="modal-item-body" className="mb-3">
             <Form.Label>Content</Form.Label>
-            <Form.Control name="body" type="text" as="textarea" value={itemToEdit.body} onChange={handleFormChange}/>
+            <Form.Control name="body" type="text" as="textarea" value={itemToEdit.body} onChange={handleFormChange} maxLength={512}/>
           </Form.Group>
         </Row>
         <Row>
