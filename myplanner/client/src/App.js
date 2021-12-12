@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Items from './components/Items.js';
 import Login from './components/Login.js';
 import Register from './components/Register.js';

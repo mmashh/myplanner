@@ -15,6 +15,11 @@ const handlePromiseError = function(err){
         return {
           error_type: "UNPROCESSABLEENTITY",
           error: (err.response.data?.error !== undefined) ? err.response.data?.error : "This request cannot be processed by the server. Please try again."
+        };
+      default:
+        return  {
+          error_type: "UNKNOWN",
+          error: "An unknown issue with the server has occured. Please log out and try again."        
         }
     }
   } else if (err.request) {

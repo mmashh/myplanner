@@ -117,10 +117,10 @@ const EventCalendar = () => {
     let response = await eventApi.eventAssignedList();
     if (response.error === undefined) {
       setAssignedLists(Array.isArray(response) ? response : []);
-    } else {{
+    } else {
       handleError(response);
       setUnassignedLists([]);
-    }}
+    }
     setLoading(false);
   };
 

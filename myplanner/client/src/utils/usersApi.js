@@ -8,7 +8,10 @@ const cookies = new Cookies();
 const login = async function(user){
   try {
     var response = await apiHelpers.httpPost('/user/login',user);
-    cookies.set("Authorization",`Bearer ${response.data?.access_token}`);
+    cookies.set("Authorization",`Bearer ${response.data?.access_token}`, {
+      secure: true,
+      sameSite: 'strict'
+    });
     return {
       info: "User successfully logged in"
     }
@@ -20,7 +23,7 @@ const login = async function(user){
 
 const logout = async function() {
   try {
-    var response = await apiHelpers.httpPost('/user/logout');
+    await apiHelpers.httpPost('/user/logout');
     return {
       info: "User successfully logged out"
     }
