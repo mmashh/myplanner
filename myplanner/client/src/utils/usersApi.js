@@ -9,7 +9,7 @@ const login = async function(user){
   try {
     var response = await apiHelpers.httpPost('/user/login',user);
     cookies.set("Authorization",`Bearer ${response.data?.access_token}`, {
-      secure: true,
+      httpOnly: true,
       sameSite: 'strict'
     });
     return {
