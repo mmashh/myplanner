@@ -19,7 +19,7 @@ class UserRegister(Resource):
     parser.add_argument("username", type=str, required=True)
     parser.add_argument("password", type=str, required=True)
 
-    @swag_from("../swagger_documentation/user-register.yml")
+    @swag_from("../swagger_documentation/user/user-register.yml")
     def post(self):
 
         new_user_details = self.parser.parse_args()
@@ -39,7 +39,7 @@ class UserRegister(Resource):
 
 # user/delete/<int: id>
 class UserDelete(Resource):
-    @swag_from("../swagger_documentation/user-delete.yml")
+    @swag_from("../swagger_documentation/user/user-delete.yml")
     def delete(self, id_of_user_to_delete):
         user_to_delete = UserModel.find_by_id(id_of_user_to_delete)
 
@@ -58,7 +58,7 @@ class UserLogin(Resource):
     parser.add_argument("username", type=str, required=True)
     parser.add_argument("password", type=str, required=True)
 
-    @swag_from("../swagger_documentation/user-login.yml")
+    @swag_from("../swagger_documentation/user/user-login.yml")
     def post(self):
 
         login_information = self.parser.parse_args()
@@ -89,7 +89,7 @@ class UserLogin(Resource):
 # /user/logout
 class UserLogout(Resource):
     @jwt_required()
-    @swag_from("../swagger_documentation/user-logout.yml")
+    @swag_from("../swagger_documentation/user/user-logout.yml")
     def post(self):
         jti = get_jwt()["jti"]
         expiry = get_jwt()["exp"]
@@ -101,7 +101,7 @@ class UserLogout(Resource):
 
 # /user/blocked_tokens/all/admin
 class AllBlockedTokens(Resource):
-    @swag_from("../swagger_documentation/user-blockedtokens-get-all-admin.yml")
+    @swag_from("../swagger_documentation/user/user-blockedtokens-get-all-admin.yml")
     def get(self):
         all_blocked_tokens = TokenBlocklistModel.get_all_blocked()
         all_blocked_tokens_list = []
@@ -114,7 +114,7 @@ class AllBlockedTokens(Resource):
 
 # /user/all
 class UserAll(Resource):
-    @swag_from("../swagger_documentation/user-all.yml")
+    @swag_from("../swagger_documentation/user/user-all.yml")
     def get(self):
         all_users = UserModel.examine_table_contents()
         all_users_list = []

@@ -2,7 +2,7 @@ from datetime import datetime
 from abc import abstractmethod
 
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required, verify_jwt_in_request
+from flask_jwt_extended import jwt_required
 from flasgger import swag_from
 
 from models.eventModel import EventModel
@@ -18,7 +18,7 @@ class EventAdd(Resource):
     parser.add_argument("body", type=str, required=False)
 
     @jwt_required()
-    @swag_from("../swagger_documentation/event-post.yml")
+    @swag_from("../swagger_documentation/event/event-post.yml")
     def post(self):
         owner_id = userModule.get_user_id()
         new_event_attributes = self.parser.parse_args()
@@ -79,7 +79,7 @@ class EventEdit(Resource):
         return error_thrown, datetime_obj
 
     @jwt_required()
-    @swag_from("../swagger_documentation/event-put.yml")
+    @swag_from("../swagger_documentation/event/event-put.yml")
     @validate_event_exits
     def put(self, event_to_update):
 
@@ -115,7 +115,7 @@ class EventEdit(Resource):
         return {"message": "Event successfully updated"}, 200
 
     @jwt_required()
-    @swag_from("../swagger_documentation/event-delete.yml")
+    @swag_from("../swagger_documentation/event/event-delete.yml")
     @validate_event_exits
     def delete(self, event_to_delete):
         event_to_delete.delete_from_db()
@@ -130,7 +130,7 @@ class EventGet(Resource):
 
         if only_events_created_by_this_user:
             owner_id = userModule.get_user_id()
-            default_condition = EventModel.created_by.is_(owner_id)
+            default_condition = EventModel.created_by == owner_id
             filter_conditions = (given_conditions, default_condition)
         else:
             filter_conditions = (given_conditions,)
@@ -148,7 +148,7 @@ class EventGet(Resource):
 # GET /event/all/unassigned
 class EventGetUnassigned(EventGet):
     @jwt_required()
-    @swag_from("../swagger_documentation/event-get-unassigned.yml")
+    @swag_from("../swagger_documentation/event/event-get-unassigned.yml")
     def get(self):
         unassigned_events = self.select_where(
             EventModel.datetime.is_(None), only_events_created_by_this_user=True
@@ -160,7 +160,7 @@ class EventGetUnassigned(EventGet):
 # GET /event/all/assigned
 class EventGetAssigned(EventGet):
     @jwt_required()
-    @swag_from("../swagger_documentation/event-get-assigned.yml")
+    @swag_from("../swagger_documentation/event/event-get-assigned.yml")
     def get(self):
         assigned_events = self.select_where(
             EventModel.datetime.is_not(None), only_events_created_by_this_user=True
@@ -192,7 +192,7 @@ class EventGetUpcoming(EventGet):
             return False
 
     @jwt_required()
-    @swag_from("../swagger_documentation/event-get-upcoming.yml")
+    @swag_from("../swagger_documentation/event/event-get-upcoming.yml")
     def get(self, no_weeks_to_look_ahead):
 
         all_assigned_events = self.select_where(

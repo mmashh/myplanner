@@ -1,6 +1,7 @@
-from sqlalchemy.orm import column_property
-from db import db
 import enum
+
+from db import db
+from modules.constants import DATETIME_FORMAT
 
 
 class colorEnum(enum.Enum):
@@ -19,9 +20,10 @@ class EventModel(db.Model):
     created_by = db.Column(db.Integer, nullable=False)
     color = db.Column(db.String(80), nullable=False)
 
-    def __init__(self, title, body, owner, color):
+    def __init__(self, title, body, owner, color, datetime=None):
         self.title = title
         self.body = body
+        self.datetime = datetime
         self.created_by = owner
         self.color = color
 
@@ -45,7 +47,7 @@ class EventModel(db.Model):
         }
 
         if self.datetime:
-            res["datetime"] = self.datetime.strftime("%d/%m/%Y %H:%M")
+            res["datetime"] = self.datetime.strftime(DATETIME_FORMAT)
 
         return res
 

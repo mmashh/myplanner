@@ -8,13 +8,13 @@ import {
 } from 'react-bootstrap';
 import itemsApi from '../utils/itemsApi';
 
-function  Itemcreate({updateStateCallback}){
+function  Itemcreate({populateAlert,updateStateCallback}){
   let [newItem, setNewItem] = useState({
     title: "",
     body: "",
     item_type: 'TASK'
   });
-
+  let [validated, setValidated] = useState(false);
   //Ref: https://stackoverflow.com/a/61243124
   function handleFormChange(e){
     const {name,value} = e.target
@@ -28,9 +28,15 @@ function  Itemcreate({updateStateCallback}){
 
   async function createItem(e){
     e.preventDefault()
-    await itemsApi.newItem(newItem);
-    updateStateCallback(); // update parent state
-    clearNewItem();
+    const form = e.target;
+    setValidated(true);
+    if (form.checkValidity()){
+      await itemsApi.newItem(newItem);
+      await updateStateCallback(); // update parent state
+      populateAlert('success',`"${newItem.title}" has been successfully created`);
+      clearNewItem();
+      setValidated(false);
+    }
   }
 
   function clearNewItem(){
@@ -48,18 +54,19 @@ function  Itemcreate({updateStateCallback}){
   }
 
   return (
-    <Container id="itemcreate" className="vh-100">
+    <Container id="itemcreate" className="vh-100" fluid>
       <Col md={12}>
         <Row md={2} id="itemcreate-header">
           <h2>Create Item</h2>
         </Row>
         <Row md={10}>
-          <Form onSubmit={createItem}>
-            <Row md className="mb-3">
+          <Form onSubmit={createItem} validated={validated} noValidate>
+            <Row md className="mb-4">
               <Col md={8}>
                 <Form.Group controlId="item-title">
                   <Form.Label>Title</Form.Label>
-                  <Form.Control name="title" type="text" placeholder="Enter item title..."  value={newItem.title} onChange={handleFormChange}/>
+                  <Form.Control name="title" type="text" placeholder="Enter item title..."  value={newItem.title} onChange={handleFormChange} required/>
+                  <Form.Control.Feedback type="invalid">An item title must be provided</Form.Control.Feedback>
                 </Form.Group>
               </Col>
               <Col md={4}>
